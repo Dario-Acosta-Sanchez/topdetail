@@ -309,6 +309,19 @@ h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-s
 .loader p { justify-content: flex-end; }
 .hud.empty { opacity: 0; pointer-events: none; }
 .logo img { mix-blend-mode: normal; height: 40px; }
+
+/* Los cuatro servicios en una fila abajo (en el inicio no hay ficha, así que el sitio es suyo) */
+.side.l {
+  top: auto; left: max(16px, env(safe-area-inset-left, 0px)); right: max(16px, env(safe-area-inset-right, 0px));
+  bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px;
+}
+.side.l button { width: auto; height: 74px; border-radius: 18px; }
+.loading .side.l button, .in-cat .side.l button { transform: translateY(calc(100% + 60px)); }
+.side.l button:nth-child(2) { transition-delay: 0s, 0s, .05s, 0s; }
+.side.l button:nth-child(3) { transition-delay: 0s, 0s, .1s, 0s; }
+.side.l button:nth-child(4) { transition-delay: 0s, 0s, .15s, 0s; }
+@media (max-height: 760px) { .side.l { top: auto; gap: 6px; } .side.l button { width: auto; height: 66px; } }
 </style>
 </head>
 <body>
