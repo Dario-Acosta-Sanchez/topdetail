@@ -288,6 +288,19 @@ h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-s
 .desc { font-size: 15px; color: rgba(255,255,255,.7); }
 .loader b { font-family: var(--display); font-weight: 600; font-size: 21px; text-transform: none; letter-spacing: .02em; }
 @media (max-width: 350px) { h1 { font-size: 22px; } }
+
+/* Todos los botones a la izquierda, en una columna */
+.side.l { top: 15%; gap: 8px; }
+.side.l button { width: 66px; height: 66px; }
+.xside.l {
+  max-height: calc(100cqh - 11cqh - 64px - var(--hud-h, 190px) - 24px);
+  overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none; touch-action: pan-y;
+  padding-bottom: 6px; justify-items: start;
+}
+.xside.l::-webkit-scrollbar { display: none; }
+.xside.l p { margin-top: 6px; }
+.xside.l p:first-child { margin-top: 0; }
+@media (max-height: 760px) { .side.l button { width: 60px; height: 60px; } .side.l { top: 13%; gap: 6px; } }
 </style>
 </head>
 <body>
@@ -308,8 +321,6 @@ h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-s
     <nav class="side l" aria-label="Servicios">
       <button data-cat="limpieza"><svg viewBox="0 0 24 24"><path d="M12 3c3 4 6 7.2 6 10.5A6 6 0 0 1 6 13.5C6 10.2 9 7 12 3z"/><path d="M9.5 14.5a2.5 2.5 0 0 0 2.5 2.5"/></svg>Limpieza</button>
       <button data-cat="tintado"><svg viewBox="0 0 24 24"><path d="M3 16l3-7h9l5 7z"/><path d="M8 16l2-5M12 16l1.5-5" opacity=".55"/></svg>Tintado</button>
-    </nav>
-    <nav class="side r" aria-label="Más servicios">
       <button data-cat="pintura"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>Pintura</button>
       <button data-cat="extras"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="6.5" height="6.5"/><rect x="13.5" y="4" width="6.5" height="6.5"/><rect x="4" y="13.5" width="6.5" height="6.5"/><path d="M16.75 14v5.5M14 16.75h5.5"/></svg>Extras</button>
     </nav>
@@ -528,13 +539,13 @@ h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-s
 
   // ── Pantalla ──
   function buildOpts() {
-    const C = CATS[cat], heads = C.groups || [null, C.head];
-    [$('opt-l'), $('opt-r')].forEach((nav, g) => {
-      nav.innerHTML = '';
-      const items = C.opts.map((x, i) => [x, i]).filter(([x]) => (x.group ?? 1) === g);
-      nav.hidden = !items.length;
+    const C = CATS[cat], nav = $('opt-l');
+    nav.innerHTML = ''; $('opt-r').innerHTML = ''; $('opt-r').hidden = true;
+    const heads = C.groups || [C.head];
+    heads.forEach((h, g) => {
+      const items = C.opts.map((x, i) => [x, i]).filter(([x]) => (x.group ?? 0) === g);
       if (!items.length) return;
-      const p = document.createElement('p'); p.textContent = heads[g]; nav.append(p);
+      const p = document.createElement('p'); p.textContent = h; nav.append(p);
       items.forEach(([x, i]) => {
         const b = document.createElement('button');
         b.textContent = x.short; b.dataset.i = i; b.setAttribute('aria-label', x.name);
@@ -542,6 +553,7 @@ h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-s
         nav.append(b);
       });
     });
+    nav.scrollTop = 0;
   }
 
   function chrome() {
@@ -649,7 +661,7 @@ h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-s
   let sy = 0, wheelT;
   phone.addEventListener('touchstart', e => { sy = e.touches[0].clientY; }, { passive: true });
   phone.addEventListener('touchmove', e => {
-    if (e.target === cmp) return;
+    if (e.target === cmp || e.target.closest('.xside')) return;
     e.preventDefault();
     const dy = sy - e.touches[0].clientY;   // > 0 al subir el dedo
     if (!drag && Math.abs(dy) > 12) scrubStart(dy > 0 ? 1 : -1);
@@ -658,6 +670,7 @@ h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-s
   phone.addEventListener('touchend', scrubEnd);
   phone.addEventListener('touchcancel', scrubEnd);
   addEventListener('wheel', e => {
+    if (e.target.closest && e.target.closest('.xside')) return;
     e.preventDefault();
     if (!drag && (Math.abs(e.deltaY) < 2 || !scrubStart(e.deltaY > 0 ? 1 : -1))) return;
     scrubMove(drag.p + e.deltaY / 700);
