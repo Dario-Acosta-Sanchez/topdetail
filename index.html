@@ -27,8 +27,8 @@
   --ink: #f4f1ee;           /* texto principal */
   --mute: #b4aaa7;          /* texto secundario, gris tirando a rojo */
   --red: #e8192c;           /* rojo de marca */
-  --glass: rgba(14, 10, 11, .62);
-  --line: rgba(255, 255, 255, .16);
+  --glass: rgba(6, 5, 6, .72);
+  --line: rgba(255, 255, 255, .12);
   --ui: 'Rajdhani', 'Arial Narrow', 'Roboto Condensed', system-ui, sans-serif;
   color-scheme: dark;
 }
@@ -41,17 +41,22 @@ body {
 .app { height: 100%; display: grid; place-items: center; }
 .phone {
   position: relative; height: 100%; width: min(100%, 480px, calc(100dvh * .5));
-  overflow: hidden; background: #000; touch-action: none; user-select: none;
+  overflow: hidden; background: #000; touch-action: none; user-select: none; container-type: size;
 }
 
-/* Fotos: subidas un 7 % para que el coche quede por encima de la ficha */
-.layer {
-  position: absolute; left: 0; top: -7%; width: 100%; height: 107%;
-  object-fit: cover; object-position: 50% 50%; display: block; max-width: none;
+/* Fotos a todo el ancho sobre negro (sin recortar los lados), algo por encima del centro,
+   y fundidas por abajo con el negro de la página */
+.layer, .seq {
+  --img-h: calc(100cqw * 1.7917);
+  position: absolute; left: 0; width: 100%; height: var(--img-h);
+  top: max(0px, calc((100cqh - var(--img-h)) * .3));
+  -webkit-mask-image: linear-gradient(to bottom, #000 80%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 80%, transparent 100%);
 }
+.layer { object-fit: cover; object-position: 50% 50%; display: block; max-width: none; }
 #front { opacity: 0; will-change: opacity, transform, clip-path; }
 /* Acercamiento en vídeo: fotogramas pintados en un canvas encima de las fotos */
-.seq { position: absolute; left: 0; top: -7%; width: 100%; height: 107%; opacity: 0; pointer-events: none; }
+.seq { opacity: 0; pointer-events: none; }
 .shade {
   position: absolute; inset: 0; pointer-events: none;
   background:
@@ -122,8 +127,10 @@ body {
 .count { font-size: 13px; font-weight: 600; color: var(--mute); font-variant-numeric: tabular-nums; letter-spacing: .08em; }
 h1 {
   margin: 0; font-size: 34px; line-height: 1; font-weight: 700; text-transform: uppercase; letter-spacing: .02em;
-  text-wrap: balance; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  text-wrap: balance; display: flex; align-items: center; gap: 0 10px; flex-wrap: wrap;
 }
+/* Palabras clave en rojo, como en la imagen corporativa */
+.k { color: var(--red); text-shadow: 0 0 18px rgba(232, 25, 44, .35); }
 .tag { font-size: 12px; letter-spacing: .16em; padding: 4px 7px 3px; border: 1px solid var(--line); color: var(--mute); border-radius: 2px; }
 .tag.on { border-color: var(--red); color: var(--ink); background: rgba(232,25,44,.22); }
 .desc { margin: 2px 0 0; font-size: 16px; line-height: 1.3; font-weight: 500; color: #d9d2cf; max-width: 34ch; min-height: 2.6em; }
@@ -217,7 +224,7 @@ h1 {
 }
 .loader p { margin: 0; display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
 .loader b { font-size: 26px; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; }
-.loader span { font-size: 15px; font-weight: 600; color: var(--mute); font-variant-numeric: tabular-nums; letter-spacing: .08em; }
+.loader #pct { font-size: 15px; font-weight: 600; color: var(--mute); font-variant-numeric: tabular-nums; letter-spacing: .08em; }
 .bar { height: 3px; background: var(--line); overflow: hidden; }
 .bar i { display: block; height: 100%; width: 100%; background: var(--red); transform-origin: 0 50%; transform: scaleX(0); }
 .loading .hud, .loading .cita { opacity: 0; pointer-events: none; }
@@ -274,7 +281,7 @@ h1 {
     <nav class="xside r" id="opt-r" aria-label="Opciones" inert></nav>
 
     <div class="loader" id="loader" role="status">
-      <p><b>Preparando tu coche</b><span id="pct">0 %</span></p>
+      <p><b>Bienvenido a <span class="k">Top Detail</span></b><span id="pct">0 %</span></p>
       <div class="bar"><i id="bar"></i></div>
     </div>
   </div>
@@ -285,6 +292,8 @@ h1 {
   const img = n => `img/${n}.webp`;
   const W = 'https://wa.me/34643182964?text=';
   const SUCIO = '01-intro_a7_sucio', LIMPIO = '00-base_a7_limpio';
+  // Fotos antiguas del taller, para las secciones que aún no se han rehecho en el estilo oscuro
+  const SUCIO_T = '01-intro_a7_sucio_taller', LIMPIO_T = '00-base_a7_limpio_taller';
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const HOLD = 1000;   // lo que se ve el «antes» antes de pasar solo al «después»
 
@@ -292,9 +301,9 @@ h1 {
   const o = (name, short, desc, a, b, frame, extra = {}) => ({ name, short, desc, a, b, frame, ...extra });
   const CATS = {
     limpieza: { label: 'Limpieza', head: 'Nivel', evo: true, opts: [
-      o('Básico', 'Básico', 'Lavado a mano y aspirado. Fuera el barro y el polvo.', SUCIO, '06-limpieza_basico', 'car'),
-      o('Premium', 'Premium', 'Además, llantas y neumáticos a fondo y brillo en la carrocería.', SUCIO, '06-limpieza_premium', 'car'),
-      o('Integral', 'Integral', 'Interior y exterior completos, faros y parrilla renovados, brillo espejo.', SUCIO, '06-limpieza_integral', 'car'),
+      o('Básico', 'Básico', 'Lavado a mano y aspirado. Fuera el barro y el polvo.', SUCIO_T, '06-limpieza_basico', 'taller'),
+      o('Premium', 'Premium', 'Además, llantas y neumáticos a fondo y brillo en la carrocería.', SUCIO_T, '06-limpieza_premium', 'taller'),
+      o('Integral', 'Integral', 'Interior y exterior completos, faros y parrilla renovados, brillo espejo.', SUCIO_T, '06-limpieza_integral', 'taller'),
     ]},
     tintado: { label: 'Tintado · lunas traseras', head: 'Tinte', evo: true, opts: [
       o('50 %', '50 %', 'Tinte suave. Menos calor y reflejos, sin perder visibilidad.', '02-tintado_lunas_sin', '02-tintado_lunas_50', 'side', { la: 'Sin tintar', lb: 'Tintado' }),
@@ -305,7 +314,7 @@ h1 {
       o('Pulido 1 paso', '1 paso', 'Quita la mayoría de los swirls y recupera el brillo.', '03-correccion_pintura_swirls', '03-correccion_pintura_1paso', 'macro'),
       o('Pulido 2 pasos', '2 pasos', 'Corte y abrillantado: la pintura queda como un espejo.', '03-correccion_pintura_swirls', '03-correccion_pintura_2pasos', 'macro'),
       o('Cerámico', 'Cerámico', 'Recubrimiento que repele el agua, la suciedad y los rayos UV.', '03-correccion_pintura_2pasos', '04-ceramica_perlado', 'macro', { la: 'Sin proteger', lb: 'Con cerámico' }),
-      o('Mantenimiento', 'Manteni­miento', 'Lavado con espuma activa para que el cerámico dure años.', '04-ceramica_mantenimiento', LIMPIO, 'car', { la: 'Lavado', lb: 'Resultado' }),
+      o('Mantenimiento', 'Manteni­miento', 'Lavado con espuma activa para que el cerámico dure años.', '04-ceramica_mantenimiento', LIMPIO_T, 'taller', { la: 'Lavado', lb: 'Resultado' }),
     ]},
     extras: { label: 'Extras', groups: ['Interior', 'Exterior'], opts: [] },
   };
@@ -510,18 +519,29 @@ h1 {
     if (t) { t.textContent = state === 'a' ? (O.la || 'Antes') : (O.lb || 'Después'); t.classList.toggle('on', state === 'b'); }
   }
 
+  // Título: texto en blanco y las palabras clave en rojo
+  const PREF = { limpieza: 'Limpieza', tintado: 'Tintado' };
+  const esc = t => t.replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+  function titleHTML(C, O) {
+    if (!O) return 'Así sale de <span class="k">Top Detail</span>';
+    const p = PREF[cat];
+    if (p) return `${p} <span class="k">${esc(O.name)}</span>`;
+    const w = O.name.split(' ');
+    return w.length > 1 ? `${esc(w[0])} <span class="k">${esc(w.slice(1).join(' '))}</span>` : `<span class="k">${esc(O.name)}</span>`;
+  }
+
   function paintInfo() {
     const C = cat && CATS[cat], O = C && C.opts[opt];
     $('eyebrow').textContent = !C ? 'Top Detail Garage · Fernán Núñez' : O.zone ? `${C.label} · ${O.zone}` : C.label;
     $('count').textContent = C ? `${String(opt + 1).padStart(2, '0')} / ${String(C.opts.length).padStart(2, '0')}` : '';
-    $('name').textContent = O ? O.name : 'Así sale';
+    $('name').innerHTML = titleHTML(C, O);
     if (O) { const t = document.createElement('span'); t.className = 'tag'; $('name').append(t); }
     $('desc').textContent = O ? O.desc : 'Toca un servicio a los lados, o desliza hacia arriba para acercarte a la pintura.';
     const what = !C ? 'vuestros servicios' : `${C.label.split(' ·')[0]} (${O.name})`;
     $('cita').href = W + encodeURIComponent(`Hola! Me interesa ${what}. ¿Me dais información?`);
     back.alt = O ? `${O.name}. ${O.desc}` : 'Audi A7 rojo limpio en el taller de Top Detail Garage';
     paintAB();
-    if (!reduce) $('hud').animate([{ opacity: 0, transform: 'translateY(10px)' }, { opacity: 1, transform: 'none' }], { duration: 420, easing: 'cubic-bezier(.2,.7,.2,1)' });
+    if (!reduce && !loading) $('hud').animate([{ opacity: 0, transform: 'translateY(10px)' }, { opacity: 1, transform: 'none' }], { duration: 420, easing: 'cubic-bezier(.2,.7,.2,1)' });
   }
 
   // Al tocar una opción: se ve el antes, a 1 s pasa solo al después y aparece el botón Antes / Después
@@ -635,5 +655,6 @@ h1 {
   });
 })();
 </script>
+
 </body>
 </html>
