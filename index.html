@@ -384,9 +384,9 @@ h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-s
   const o = (name, short, desc, a, b, frame, extra = {}) => ({ name, short, desc, a, b, frame, ...extra });
   const CATS = {
     limpieza: { label: 'Limpieza', head: 'Nivel', evo: true, opts: [
-      o('Básico', 'Básico', 'Lavado a mano y aspirado. Fuera el *barro* y el *polvo*.', SUCIO_T, '06-limpieza_basico', 'taller'),
-      o('Premium', 'Premium', 'Además, *llantas y neumáticos* a fondo y *brillo* en la carrocería.', SUCIO_T, '06-limpieza_premium', 'taller'),
-      o('Integral', 'Integral', 'Interior y exterior completos, faros y parrilla renovados, *brillo espejo*.', SUCIO_T, '06-limpieza_integral', 'taller'),
+      o('Básico', 'Básico', 'Lavado a mano y aspirado. Fuera el *barro* y el *polvo*.', SUCIO, '06-limpieza_basico', 'car'),
+      o('Premium', 'Premium', 'Además, *llantas y neumáticos* a fondo y *brillo* en la carrocería.', SUCIO, '06-limpieza_premium', 'car'),
+      o('Integral', 'Integral', 'Interior y exterior completos, faros y parrilla renovados, *brillo espejo*.', SUCIO, '06-limpieza_integral', 'car'),
     ]},
     tintado: { label: 'Tintado · lunas traseras', head: 'Tinte', evo: true, opts: [
       o('50 %', '50 %', 'Tinte suave. *Menos calor* y reflejos, sin perder visibilidad.', '02-tintado_lunas_sin', '02-tintado_lunas_50', 'side', { la: 'Sin tintar', lb: 'Tintado' }),
@@ -397,7 +397,7 @@ h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-s
       o('Pulido 1 paso', '1 paso', 'Quita la mayoría de los *swirls* y recupera el *brillo*.', '03-correccion_pintura_swirls', '03-correccion_pintura_1paso', 'macro'),
       o('Pulido 2 pasos', '2 pasos', 'Corte y abrillantado: la pintura queda como un *espejo*.', '03-correccion_pintura_swirls', '03-correccion_pintura_2pasos', 'macro'),
       o('Cerámico', 'Cerámico', 'Recubrimiento que *repele* el agua, la suciedad y los rayos UV.', '03-correccion_pintura_2pasos', '04-ceramica_perlado', 'macro', { la: 'Sin proteger', lb: 'Con cerámico' }),
-      o('Mantenimiento', 'Manteni­miento', 'Lavado con espuma activa para que el cerámico *dure años*.', '04-ceramica_mantenimiento', LIMPIO_T, 'taller', { la: 'Lavado', lb: 'Resultado' }),
+      o('Mantenimiento', 'Manteni­miento', 'Lavado con espuma activa para que el cerámico *dure años*.', '04-ceramica_mantenimiento', LIMPIO, 'car', { la: 'Lavado', lb: 'Resultado' }),
     ]},
     extras: { label: 'Extras', groups: ['Interior', 'Exterior'], opts: [] },
   };
