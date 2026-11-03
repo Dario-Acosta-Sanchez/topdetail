@@ -19,7 +19,7 @@
 <title>Top Detail Garage</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
 /* Layout: un teléfono a pantalla completa; la foto ocupa todo, los servicios cuelgan de los dos bordes y la ficha va abajo, sobre el suelo. */
 :root {
@@ -239,6 +239,55 @@ h1 {
   .invite .side button::after { animation: none; }
   .side button, .back, .xside, .xside button, .hud, .loader, .cita, .ab, .ab button, .glass { transition: none; }
 }
+
+/* ── Capa final: botones de cristal (glassmorphism) y tipografía de la marca ──
+   Cinzel es la serif del rótulo y de la web original; Rajdhani queda para el texto corrido. */
+:root { --display: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif; }
+.side.l { left: calc(10px + env(safe-area-inset-left, 0px)); padding-left: 0; }
+.side.r { right: calc(10px + env(safe-area-inset-right, 0px)); padding-right: 0; }
+.xside.l { left: calc(10px + env(safe-area-inset-left, 0px)); padding-left: 0; }
+.xside.r { right: calc(10px + env(safe-area-inset-right, 0px)); padding-right: 0; }
+.side.l button, .side.r button, .back, .xside.l button, .xside.r button, .ab button {
+  background: linear-gradient(140deg, rgba(255,255,255,.17), rgba(255,255,255,.04) 62%);
+  border: 1px solid rgba(255,255,255,.22);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.3), 0 10px 28px rgba(0,0,0,.45);
+  -webkit-backdrop-filter: blur(14px) saturate(170%); backdrop-filter: blur(14px) saturate(170%);
+}
+.side.l button, .side.r button { width: 72px; height: 72px; border-radius: 18px; }
+.xside.l button, .xside.r button { border-radius: 12px; }
+.back { left: calc(10px + env(safe-area-inset-left, 0px)); padding: 0 16px 0 12px; border-radius: 999px; height: 46px; }
+.ab button { border-radius: 999px; }
+.side button[aria-current="true"], .xside button[aria-current="true"], .ab button[aria-pressed="true"] {
+  background: linear-gradient(140deg, rgba(232,25,44,.8), rgba(232,25,44,.38) 70%);
+  border-color: rgba(255,130,140,.55);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 10px 26px rgba(232,25,44,.22);
+}
+/* Ocultos: que salgan del todo por el borde aunque ahora estén separados de él */
+.loading .side.l button, .in-cat .side.l button { transform: translateX(calc(-100% - 24px)); }
+.loading .side.r button, .in-cat .side.r button { transform: translateX(calc(100% + 24px)); }
+.back { transform: translateX(calc(-100% - 24px)); }
+.in-cat .back { transform: none; }
+.xside.l { transform: translateX(calc(-100% - 24px)); }
+.xside.r { transform: translateX(calc(100% + 24px)); }
+.in-cat .xside { transform: none; }
+.cita {
+  border-radius: 999px; padding: 10px 16px;
+  background: linear-gradient(140deg, rgba(232,25,44,.92), rgba(232,25,44,.62));
+  border: 1px solid rgba(255,140,150,.5);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 8px 22px rgba(232,25,44,.3);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+}
+.tag { border-radius: 999px; padding: 4px 9px 3px; background: rgba(255,255,255,.07); border-color: rgba(255,255,255,.2); }
+.tag.on { background: rgba(232,25,44,.3); border-color: rgba(255,130,140,.5); }
+
+/* Ficha de abajo, más sobria: sin rombo ni brillo, título en la serif de la marca */
+.eyebrow::before { display: none; }
+.eyebrow { font-size: 11px; letter-spacing: .22em; color: rgba(255,255,255,.5); }
+h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-size: 25px; line-height: 1.2; letter-spacing: .02em; }
+.k { text-shadow: none; }
+.desc { font-size: 15px; color: rgba(255,255,255,.7); }
+.loader b { font-family: var(--display); font-weight: 600; font-size: 21px; text-transform: none; letter-spacing: .02em; }
+@media (max-width: 350px) { h1 { font-size: 22px; } }
 </style>
 </head>
 <body>
@@ -526,7 +575,7 @@ h1 {
   const rich = t => esc(t).replace(/\*(.+?)\*/g, '<strong class="k">$1</strong>');
   const plain = t => t.replace(/\*/g, '');
   function titleHTML(C, O) {
-    if (!O) return 'Así sale de <span class="k">Top Detail</span>';
+    if (!O) return 'Más que detailing, una experiencia de <span class="k">renovación</span>';
     const p = PREF[cat];
     if (p) return `${p} <span class="k">${esc(O.name)}</span>`;
     const w = O.name.split(' ');
@@ -535,11 +584,11 @@ h1 {
 
   function paintInfo() {
     const C = cat && CATS[cat], O = C && C.opts[opt];
-    $('eyebrow').textContent = !C ? 'Top Detail Garage · Fernán Núñez' : O.zone ? `${C.label} · ${O.zone}` : C.label;
+    $('eyebrow').textContent = !C ? 'Top Detail · Fernán Núñez' : O.zone ? `${C.label} · ${O.zone}` : C.label;
     $('count').textContent = C ? `${String(opt + 1).padStart(2, '0')} / ${String(C.opts.length).padStart(2, '0')}` : '';
     $('name').innerHTML = titleHTML(C, O);
     if (O) { const t = document.createElement('span'); t.className = 'tag'; $('name').append(t); }
-    $('desc').innerHTML = rich(O ? O.desc : 'Elige un *servicio* a los lados o desliza hacia arriba para ver la *pintura* de cerca.');
+    $('desc').innerHTML = rich(O ? O.desc : 'Toca un servicio para verlo en acción, o desliza hacia arriba para ver la pintura de cerca.');
     const what = !C ? 'vuestros servicios' : `${C.label.split(' ·')[0]} (${O.name})`;
     $('cita').href = W + encodeURIComponent(`Hola! Me interesa ${what}. ¿Me dais información?`);
     back.alt = O ? `${O.name}. ${plain(O.desc)}` : 'Audi A7 rojo limpio en el taller de Top Detail Garage';
