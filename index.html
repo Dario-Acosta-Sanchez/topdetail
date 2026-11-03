@@ -27,7 +27,7 @@
   --ink: #f4f1ee;           /* texto principal */
   --mute: #b4aaa7;          /* texto secundario, gris tirando a rojo */
   --red: #e8192c;           /* rojo de marca */
-  --glass: rgba(6, 5, 6, .72);
+  --glass: rgba(0, 0, 0, .8);
   --line: rgba(255, 255, 255, .12);
   --ui: 'Rajdhani', 'Arial Narrow', 'Roboto Condensed', system-ui, sans-serif;
   color-scheme: dark;
@@ -130,10 +130,11 @@ h1 {
   text-wrap: balance; display: flex; align-items: center; gap: 0 10px; flex-wrap: wrap;
 }
 /* Palabras clave en rojo, como en la imagen corporativa */
+.desc .k { font-weight: 700; text-shadow: none; }
 .k { color: var(--red); text-shadow: 0 0 18px rgba(232, 25, 44, .35); }
 .tag { font-size: 12px; letter-spacing: .16em; padding: 4px 7px 3px; border: 1px solid var(--line); color: var(--mute); border-radius: 2px; }
 .tag.on { border-color: var(--red); color: var(--ink); background: rgba(232,25,44,.22); }
-.desc { margin: 2px 0 0; font-size: 16px; line-height: 1.3; font-weight: 500; color: #d9d2cf; max-width: 34ch; min-height: 2.6em; }
+.desc { margin: 2px 0 0; font-size: 16px; line-height: 1.3; font-weight: 500; color: #cbc4c1; max-width: 34ch; min-height: 2.6em; }
 /* Antes / Después: aparece cuando termina el paso automático */
 .ab { display: flex; gap: 6px; margin-top: 10px; transition: opacity .35s; }
 .ab.wait { opacity: 0; pointer-events: none; }
@@ -301,39 +302,39 @@ h1 {
   const o = (name, short, desc, a, b, frame, extra = {}) => ({ name, short, desc, a, b, frame, ...extra });
   const CATS = {
     limpieza: { label: 'Limpieza', head: 'Nivel', evo: true, opts: [
-      o('Básico', 'Básico', 'Lavado a mano y aspirado. Fuera el barro y el polvo.', SUCIO_T, '06-limpieza_basico', 'taller'),
-      o('Premium', 'Premium', 'Además, llantas y neumáticos a fondo y brillo en la carrocería.', SUCIO_T, '06-limpieza_premium', 'taller'),
-      o('Integral', 'Integral', 'Interior y exterior completos, faros y parrilla renovados, brillo espejo.', SUCIO_T, '06-limpieza_integral', 'taller'),
+      o('Básico', 'Básico', 'Lavado a mano y aspirado. Fuera el *barro* y el *polvo*.', SUCIO_T, '06-limpieza_basico', 'taller'),
+      o('Premium', 'Premium', 'Además, *llantas y neumáticos* a fondo y *brillo* en la carrocería.', SUCIO_T, '06-limpieza_premium', 'taller'),
+      o('Integral', 'Integral', 'Interior y exterior completos, faros y parrilla renovados, *brillo espejo*.', SUCIO_T, '06-limpieza_integral', 'taller'),
     ]},
     tintado: { label: 'Tintado · lunas traseras', head: 'Tinte', evo: true, opts: [
-      o('50 %', '50 %', 'Tinte suave. Menos calor y reflejos, sin perder visibilidad.', '02-tintado_lunas_sin', '02-tintado_lunas_50', 'side', { la: 'Sin tintar', lb: 'Tintado' }),
-      o('30 %', '30 %', 'Más privacidad: desde fuera apenas se ven siluetas.', '02-tintado_lunas_sin', '02-tintado_lunas_30', 'side', { la: 'Sin tintar', lb: 'Tintado' }),
-      o('5 %', '5 %', 'Tinte limusina. Privacidad total en las plazas traseras.', '02-tintado_lunas_sin', '02-tintado_lunas_5', 'side', { la: 'Sin tintar', lb: 'Tintado' }),
+      o('50 %', '50 %', 'Tinte suave. *Menos calor* y reflejos, sin perder visibilidad.', '02-tintado_lunas_sin', '02-tintado_lunas_50', 'side', { la: 'Sin tintar', lb: 'Tintado' }),
+      o('30 %', '30 %', 'Más *privacidad*: desde fuera apenas se ven siluetas.', '02-tintado_lunas_sin', '02-tintado_lunas_30', 'side', { la: 'Sin tintar', lb: 'Tintado' }),
+      o('5 %', '5 %', 'Tinte limusina. *Privacidad total* en las plazas traseras.', '02-tintado_lunas_sin', '02-tintado_lunas_5', 'side', { la: 'Sin tintar', lb: 'Tintado' }),
     ]},
     pintura: { label: 'Pintura', head: 'Trabajo', evo: true, opts: [
-      o('Pulido 1 paso', '1 paso', 'Quita la mayoría de los swirls y recupera el brillo.', '03-correccion_pintura_swirls', '03-correccion_pintura_1paso', 'macro'),
-      o('Pulido 2 pasos', '2 pasos', 'Corte y abrillantado: la pintura queda como un espejo.', '03-correccion_pintura_swirls', '03-correccion_pintura_2pasos', 'macro'),
-      o('Cerámico', 'Cerámico', 'Recubrimiento que repele el agua, la suciedad y los rayos UV.', '03-correccion_pintura_2pasos', '04-ceramica_perlado', 'macro', { la: 'Sin proteger', lb: 'Con cerámico' }),
-      o('Mantenimiento', 'Manteni­miento', 'Lavado con espuma activa para que el cerámico dure años.', '04-ceramica_mantenimiento', LIMPIO_T, 'taller', { la: 'Lavado', lb: 'Resultado' }),
+      o('Pulido 1 paso', '1 paso', 'Quita la mayoría de los *swirls* y recupera el *brillo*.', '03-correccion_pintura_swirls', '03-correccion_pintura_1paso', 'macro'),
+      o('Pulido 2 pasos', '2 pasos', 'Corte y abrillantado: la pintura queda como un *espejo*.', '03-correccion_pintura_swirls', '03-correccion_pintura_2pasos', 'macro'),
+      o('Cerámico', 'Cerámico', 'Recubrimiento que *repele* el agua, la suciedad y los rayos UV.', '03-correccion_pintura_2pasos', '04-ceramica_perlado', 'macro', { la: 'Sin proteger', lb: 'Con cerámico' }),
+      o('Mantenimiento', 'Manteni­miento', 'Lavado con espuma activa para que el cerámico *dure años*.', '04-ceramica_mantenimiento', LIMPIO_T, 'taller', { la: 'Lavado', lb: 'Resultado' }),
     ]},
     extras: { label: 'Extras', groups: ['Interior', 'Exterior'], opts: [] },
   };
   const ZONA = { interior: 'Interior', cristales: 'Cristales', motor: 'Motor', ruedas: 'Ruedas', carroceria: 'Carrocería' };
   [
-    ['interior', 'suciedad-extrema', 'Suciedad extrema', 'Obra', 'Polvo de obra, yeso y barro. Interior recuperado a fondo.'],
-    ['interior', 'pelo-de-perro', 'Pelo de mascota', 'Mascota', 'Sacamos el pelo incrustado en la tapicería.'],
-    ['interior', 'cuero', 'Limpieza de cuero', 'Cuero', 'Sin grasa ni brillos sucios: el cuero vuelve a su tacto mate.'],
-    ['interior', 'coating-cuero', 'Coating de cuero', 'Coating cuero', 'Una protección que impide que los líquidos penetren y manchen.'],
-    ['interior', 'cinturones', 'Cinturones', 'Cinturones', 'Cintas limpias y con su color original.'],
-    ['interior', 'plasticos', 'Plásticos interiores', 'Plásticos', 'Salpicadero y puertas sin polvo ni huellas, en negro satinado.'],
-    ['interior', 'negro-piano', 'Negro piano', 'Negro piano', 'Pulimos los micro-arañazos y las huellas de la consola.'],
-    ['cristales', 'pulido-cristales', 'Pulido de cristales', 'Cristales', 'Fuera la cal, los arcos del limpia y la grasa.'],
-    ['motor', 'vano-motor', 'Vano motor', 'Motor', 'Limpieza y protección del motor, sin riesgos.'],
-    ['ruedas', 'neumaticos', 'Neumáticos', 'Neumáticos', 'Del marrón apagado a un negro satinado.'],
-    ['ruedas', 'pasos-de-rueda', 'Pasos de rueda', 'Pasos de rueda', 'Barro incrustado fuera, pasos limpios.'],
-    ['carroceria', 'hidratacion-gomas', 'Hidratación de gomas', 'Gomas', 'Juntas resecas que vuelven a estar negras y flexibles.'],
-    ['carroceria', 'plateados', 'Plateados', 'Plateados', 'Molduras sin oxidación ni cal, con brillo de espejo.'],
-    ['carroceria', 'cera-rapida', 'Cera rápida', 'Cera', 'Brillo húmedo y reflejos nítidos en minutos.', { slider: true }],
+    ['interior', 'suciedad-extrema', 'Suciedad extrema', 'Obra', 'Polvo de obra, yeso y barro. Interior *recuperado a fondo*.'],
+    ['interior', 'pelo-de-perro', 'Pelo de mascota', 'Mascota', 'Sacamos el *pelo incrustado* en la tapicería.'],
+    ['interior', 'cuero', 'Limpieza de cuero', 'Cuero', 'Sin grasa ni brillos sucios: el cuero vuelve a su *tacto mate*.'],
+    ['interior', 'coating-cuero', 'Coating de cuero', 'Coating cuero', 'Una protección que impide que los líquidos *penetren y manchen*.'],
+    ['interior', 'cinturones', 'Cinturones', 'Cinturones', 'Cintas limpias y con su *color original*.'],
+    ['interior', 'plasticos', 'Plásticos interiores', 'Plásticos', 'Salpicadero y puertas sin polvo ni huellas, en *negro satinado*.'],
+    ['interior', 'negro-piano', 'Negro piano', 'Negro piano', 'Pulimos los *micro-arañazos* y las huellas de la consola.'],
+    ['cristales', 'pulido-cristales', 'Pulido de cristales', 'Cristales', 'Fuera la *cal*, los arcos del limpia y la *grasa*.'],
+    ['motor', 'vano-motor', 'Vano motor', 'Motor', 'Limpieza y protección del motor, *sin riesgos*.'],
+    ['ruedas', 'neumaticos', 'Neumáticos', 'Neumáticos', 'Del marrón apagado a un *negro satinado*.'],
+    ['ruedas', 'pasos-de-rueda', 'Pasos de rueda', 'Pasos de rueda', 'Barro incrustado fuera, *pasos limpios*.'],
+    ['carroceria', 'hidratacion-gomas', 'Hidratación de gomas', 'Gomas', 'Juntas resecas que vuelven a estar *negras y flexibles*.'],
+    ['carroceria', 'plateados', 'Plateados', 'Plateados', 'Molduras sin oxidación ni cal, con *brillo de espejo*.'],
+    ['carroceria', 'cera-rapida', 'Cera rápida', 'Cera', 'Brillo húmedo y *reflejos nítidos* en minutos.', { slider: true }],
   ].forEach(([z, n, name, short, desc, more = {}]) => CATS.extras.opts.push(
     o(name, short, desc, `05-extras_${z}_${n}_antes`, `05-extras_${z}_${n}_despues`, n, { zone: ZONA[z], group: z === 'interior' ? 0 : 1, ...more })));
 
@@ -522,6 +523,8 @@ h1 {
   // Título: texto en blanco y las palabras clave en rojo
   const PREF = { limpieza: 'Limpieza', tintado: 'Tintado' };
   const esc = t => t.replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+  const rich = t => esc(t).replace(/\*(.+?)\*/g, '<strong class="k">$1</strong>');
+  const plain = t => t.replace(/\*/g, '');
   function titleHTML(C, O) {
     if (!O) return 'Así sale de <span class="k">Top Detail</span>';
     const p = PREF[cat];
@@ -536,10 +539,10 @@ h1 {
     $('count').textContent = C ? `${String(opt + 1).padStart(2, '0')} / ${String(C.opts.length).padStart(2, '0')}` : '';
     $('name').innerHTML = titleHTML(C, O);
     if (O) { const t = document.createElement('span'); t.className = 'tag'; $('name').append(t); }
-    $('desc').textContent = O ? O.desc : 'Toca un servicio a los lados, o desliza hacia arriba para acercarte a la pintura.';
+    $('desc').innerHTML = rich(O ? O.desc : 'Elige un *servicio* a los lados o desliza hacia arriba para ver la *pintura* de cerca.');
     const what = !C ? 'vuestros servicios' : `${C.label.split(' ·')[0]} (${O.name})`;
     $('cita').href = W + encodeURIComponent(`Hola! Me interesa ${what}. ¿Me dais información?`);
-    back.alt = O ? `${O.name}. ${O.desc}` : 'Audi A7 rojo limpio en el taller de Top Detail Garage';
+    back.alt = O ? `${O.name}. ${plain(O.desc)}` : 'Audi A7 rojo limpio en el taller de Top Detail Garage';
     paintAB();
     if (!reduce && !loading) $('hud').animate([{ opacity: 0, transform: 'translateY(10px)' }, { opacity: 1, transform: 'none' }], { duration: 420, easing: 'cubic-bezier(.2,.7,.2,1)' });
   }
