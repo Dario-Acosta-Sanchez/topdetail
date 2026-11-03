@@ -8,9 +8,9 @@
 <meta name="robots" content="noindex">
 <meta property="og:title" content="Top Detail Garage">
 <meta property="og:description" content="Detailing en Fernán Núñez. Míralo en acción: del coche sucio al limpio.">
-<meta property="og:image" content="https://topdetail.puntozerosl.es/img/00-base_a7_limpio.webp">
+<meta property="og:image" content="https://topdetail.puntozerosl.es/img/00-base_porsche_limpio.webp">
 <meta property="og:url" content="https://topdetail.puntozerosl.es/">
-<link rel="icon" href="img/logo.webp">
+<link rel="icon" href="img/logo-topdetail.svg">
 <style>
   :root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); box-sizing: border-box; }
   *, *::before, *::after { box-sizing: inherit; }
@@ -301,20 +301,28 @@ h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-s
 .xside.l p { margin-top: 6px; }
 .xside.l p:first-child { margin-top: 0; }
 @media (max-height: 760px) { .side.l button { width: 60px; height: 60px; } .side.l { top: 13%; gap: 6px; } }
+
+/* Bienvenida en la pantalla de carga con el logo real; en el inicio solo el coche */
+.welcome { display: grid; justify-items: center; gap: 4px; margin-bottom: 4px; }
+.hello { font-family: var(--display); font-size: 14px; letter-spacing: .32em; text-transform: uppercase; color: rgba(255,255,255,.72); }
+.brand { width: min(80%, 340px); height: auto; display: block; }
+.loader p { justify-content: flex-end; }
+.hud.empty { opacity: 0; pointer-events: none; }
+.logo img { mix-blend-mode: normal; height: 40px; }
 </style>
 </head>
 <body>
 
 <div class="app">
   <div class="phone loading invite" id="phone">
-    <img class="layer" id="back" alt="Audi A7 rojo sucio en el taller de Top Detail Garage">
+    <img class="layer" id="back" alt="Porsche Cayenne negro, sucio, en el taller de Top Detail Garage">
     <img class="layer" id="front" alt="" aria-hidden="true">
     <canvas class="seq" id="seq" aria-hidden="true"></canvas>
     <div class="sweep" id="sweep"></div>
     <div class="shade"></div>
 
     <header class="top">
-      <button class="logo" id="logo" aria-label="Volver al inicio"><img src="img/logo.webp" alt="Top Detail Garage"></button>
+      <button class="logo" id="logo" aria-label="Volver al inicio"><img src="img/logo-topdetail.svg" alt="Top Detail Garage"></button>
       <a class="cita" id="cita" href="https://wa.me/34643182964" target="_blank" rel="noopener">Pedir cita</a>
     </header>
 
@@ -342,7 +350,8 @@ h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-s
     <nav class="xside r" id="opt-r" aria-label="Opciones" inert></nav>
 
     <div class="loader" id="loader" role="status">
-      <p><b>Bienvenido a <span class="k">Top Detail</span></b><span id="pct">0 %</span></p>
+      <div class="welcome"><span class="hello">Bienvenido a</span><img class="brand" src="img/logo-topdetail.svg" alt="Top Detail Garage"></div>
+      <p><span id="pct">0 %</span></p>
       <div class="bar"><i id="bar"></i></div>
     </div>
   </div>
@@ -352,7 +361,7 @@ h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-s
 (() => {
   const img = n => `img/${n}.webp`;
   const W = 'https://wa.me/34643182964?text=';
-  const SUCIO = '01-intro_a7_sucio', LIMPIO = '00-base_a7_limpio';
+  const SUCIO = '01-intro_porsche_sucio', LIMPIO = '00-base_porsche_limpio';
   // Fotos antiguas del taller, para las secciones que aún no se han rehecho en el estilo oscuro
   const SUCIO_T = '01-intro_a7_sucio_taller', LIMPIO_T = '00-base_a7_limpio_taller';
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -442,6 +451,8 @@ h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-s
   const show = (src, frame, dir, my) => q(() => doShow(src, frame, dir, my));
 
   // ── Acercamiento en vídeo (Veo): del coche entero al macro de la pintura ──
+  // El vídeo de acercamiento sale del A7; apagado hasta rehacerlo con el Porsche
+  const VIDEO = false;
   const VN = 120, frames = [], SWIRLS = '03-correccion_pintura_swirls';
   const seq = $('seq'), sctx = seq.getContext('2d');
   let lastDrawn = -1, scrubP = null, drag = null;
@@ -480,6 +491,7 @@ h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-s
   // Scroll magnético: en el inicio, deslizar hacia arriba acerca la cámara; en pintura, hacia abajo la aleja.
   // Al soltar, si has pasado el umbral termina sola; si no, vuelve a su sitio.
   function scrubStart(dir) {
+    if (!VIDEO) return false;
     if (loading || pending || sliding) return false;
     if (dir > 0 && cat !== null) return false;
     if (dir < 0 && !(cat === 'pintura' && shownFrame === 'macro')) return false;
@@ -595,6 +607,7 @@ h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-s
   }
 
   function paintInfo() {
+    $('hud').classList.toggle('empty', !cat);
     const C = cat && CATS[cat], O = C && C.opts[opt];
     $('eyebrow').textContent = !C ? 'Top Detail · Fernán Núñez' : O.zone ? `${C.label} · ${O.zone}` : C.label;
     $('count').textContent = C ? `${String(opt + 1).padStart(2, '0')} / ${String(C.opts.length).padStart(2, '0')}` : '';
@@ -603,7 +616,7 @@ h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-s
     $('desc').innerHTML = rich(O ? O.desc : 'Toca un servicio para verlo en acción, o desliza hacia arriba para ver la pintura de cerca.');
     const what = !C ? 'vuestros servicios' : `${C.label.split(' ·')[0]} (${O.name})`;
     $('cita').href = W + encodeURIComponent(`Hola! Me interesa ${what}. ¿Me dais información?`);
-    back.alt = O ? `${O.name}. ${plain(O.desc)}` : 'Audi A7 rojo limpio en el taller de Top Detail Garage';
+    back.alt = O ? `${O.name}. ${plain(O.desc)}` : 'Porsche Cayenne negro, limpio, en el taller de Top Detail Garage';
     paintAB();
     if (!reduce && !loading) $('hud').animate([{ opacity: 0, transform: 'translateY(10px)' }, { opacity: 1, transform: 'none' }], { duration: 420, easing: 'cubic-bezier(.2,.7,.2,1)' });
   }
@@ -621,7 +634,7 @@ h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-s
     opt = i; state = direct ? 'b' : 'a'; abReady = false;
     chrome(); paintInfo();
     q(exitSlider);
-    if (c === 'pintura' && wasHome) { const p0 = scrubP ?? 0; scrubP = null; q(() => bridge(p0, 1)); }
+    if (VIDEO && c === 'pintura' && wasHome) { const p0 = scrubP ?? 0; scrubP = null; q(() => bridge(p0, 1)); }
     if (direct) {
       await show(O.b, O.frame, i > prevI ? 1 : -1, my); if (my !== token) return;
       abReady = true; paintAB();
@@ -648,7 +661,7 @@ h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-s
     chrome(); paintInfo();
     q(exitSlider);
     // Desde los macros de pintura, la cámara se aleja con el vídeo al revés
-    q(() => wasPintura && shownFrame === 'macro' ? bridge(p0, 0) : doShow(LIMPIO, 'car', -1, my));
+    q(() => VIDEO && wasPintura && shownFrame === 'macro' ? bridge(p0, 0) : doShow(LIMPIO, 'car', -1, my));
   }
 
   document.querySelectorAll('.side button').forEach(b => b.onclick = () => play(b.dataset.cat, 0));
@@ -681,20 +694,22 @@ h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-s
   // Se descargan todas las fotos; el barrido de sucio a limpio avanza con la carga real
   // y dura como mínimo MIN ms, para que se vea aunque todo esté ya en caché.
   const MIN = reduce ? 0 : 2600;
+  // Si el navegador tarda en decodificar las fotos grandes, la carga sigue igualmente
+  const ready = im => Promise.race([im.decode().catch(() => {}), wait(1500)]);
   const all = [...new Set([SUCIO, LIMPIO, ...Object.values(CATS).flatMap(c => c.opts.flatMap(x => [x.a, x.b]))])];
   let loaded = 0;
   const t0 = performance.now();
   back.src = img(SUCIO);
   paintInfo();
-  back.decode().catch(() => {}).then(() => {
+  ready(back).then(() => {
     all.forEach(n => { const i = new Image(); i.onload = i.onerror = () => loaded++; i.src = img(n); });
-    for (let k = 0; k < VN; k++) { const i = new Image(); i.onload = i.onerror = () => loaded++; i.src = `vid/p_${String(k).padStart(3, '0')}.webp`; frames[k] = i; }
+    for (let k = 0; VIDEO && k < VN; k++) { const i = new Image(); i.onload = i.onerror = () => loaded++; i.src = `vid/p_${String(k).padStart(3, '0')}.webp`; frames[k] = i; }
     front.src = img(LIMPIO);
-    front.decode().catch(() => {}).then(() => {
+    ready(front).then(() => {
       front.style.opacity = 1; sweep.style.opacity = 1;
       let shown = 0;
       const tick = now => {
-        const real = loaded / (all.length + VN);
+        const real = loaded / (all.length + (VIDEO ? VN : 0));
         const time = MIN ? Math.min(1, (now - t0) / MIN) : 1;
         const target = Math.min(real, time);
         shown += (target - shown) * (reduce ? 1 : .09);
@@ -706,7 +721,7 @@ h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-s
         $('pct').textContent = Math.round(shown * 100) + ' %';
         if (shown < 1) return requestAnimationFrame(tick);
         back.src = img(LIMPIO);
-        back.decode().catch(() => {}).then(() => {
+        ready(back).then(() => {
           front.style.cssText = ''; sweep.style.cssText = '';
           shownSrc = LIMPIO; shownFrame = 'car';
           $('loader').classList.add('done');
