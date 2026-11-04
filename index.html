@@ -464,8 +464,8 @@ h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-s
   const show = (src, frame, dir, my) => q(() => doShow(src, frame, dir, my));
 
   // ── Acercamiento en vídeo (Veo): del coche entero al macro de la pintura ──
-  // El vídeo de acercamiento sale del A7; apagado hasta rehacerlo con el Porsche
-  const VIDEO = false;
+  // Vídeo Veo del Porsche (fotogramas 64–185 de 240): empieza en la base y acaba cerca del macro de remolinos
+  const VIDEO = true;
   const VN = 120, frames = [], SWIRLS = '03-correccion_pintura_swirls';
   const seq = $('seq'), sctx = seq.getContext('2d');
   let lastDrawn = -1, scrubP = null, drag = null;
