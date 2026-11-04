@@ -464,9 +464,17 @@ h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-s
   const show = (src, frame, dir, my) => q(() => doShow(src, frame, dir, my));
 
   // ── Acercamiento en vídeo (Veo): del coche entero al macro de la pintura ──
-  // Vídeo Veo del Porsche (fotogramas 64–185 de 240): empieza en la base y acaba cerca del macro de remolinos
+  // Clips Veo del Porsche, 120 fotogramas cada uno (p = 0 en la base limpia, p = 1 en la foto final):
+  //  · pintura: fotogramas 64–185 de 240, la cámara se acerca hasta el macro de remolinos
+  //  · tintado: fotogramas 0–170 de 240, el coche gira hasta quedar de perfil con las lunas sin tintar
   const VIDEO = true;
-  const VN = 120, frames = [], SWIRLS = '03-correccion_pintura_swirls';
+  const VN = 120, SWIRLS = '03-correccion_pintura_swirls';
+  const CLIPS = {
+    pintura: { pre: 'p_', end: SWIRLS, frame: 'macro', frames: [] },
+    tintado: { pre: 't_', end: '02-tintado_lunas_sin', frame: 'side', frames: [] },
+  };
+  let clip = CLIPS.pintura, frames = clip.frames;
+  const useClip = c => { if (clip !== CLIPS[c]) { clip = CLIPS[c]; frames = clip.frames; lastDrawn = -1; } };
   const seq = $('seq'), sctx = seq.getContext('2d');
   let lastDrawn = -1, scrubP = null, drag = null;
   function sizeSeq() {
@@ -491,14 +499,14 @@ h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-s
     });
   }
   const fade = (to, ms) => tween(+getComputedStyle(seq).opacity, to, ms, v => seq.style.opacity = v, t => t);
-  // Recorre el vídeo de from a to (0 = coche entero, 1 = macro) y deja debajo la foto que toca
-  async function bridge(from, to) {
-    sizeSeq(); drawP(from);
+  // Recorre el clip c de from a to (0 = coche entero, 1 = foto final) y deja debajo la foto que toca
+  async function bridge(from, to, c = 'pintura') {
+    useClip(c); sizeSeq(); drawP(from);
     await fade(1, 260);
     await tween(from, to, 3200 * Math.abs(to - from) + 150, drawP);
-    const src = to === 1 ? SWIRLS : LIMPIO;
+    const src = to === 1 ? clip.end : LIMPIO;
     back.src = img(src); try { await back.decode(); } catch (e) {}
-    shownSrc = src; shownFrame = to === 1 ? 'macro' : 'car';
+    shownSrc = src; shownFrame = to === 1 ? clip.frame : 'car';
     await fade(0, 380);
   }
   // Scroll magnético: en el inicio, deslizar hacia arriba acerca la cámara; en pintura, hacia abajo la aleja.
@@ -508,7 +516,7 @@ h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-s
     if (loading || pending || sliding) return false;
     if (dir > 0 && cat !== null) return false;
     if (dir < 0 && !(cat === 'pintura' && shownFrame === 'macro')) return false;
-    sizeSeq(); drag = { dir, p: dir > 0 ? 0 : 1 };
+    useClip('pintura'); sizeSeq(); drag = { dir, p: dir > 0 ? 0 : 1 };
     return true;
   }
   function scrubMove(p) {
@@ -647,7 +655,7 @@ h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-s
     opt = i; state = direct ? 'b' : 'a'; abReady = false;
     chrome(); paintInfo();
     q(exitSlider);
-    if (VIDEO && c === 'pintura' && wasHome) { const p0 = scrubP ?? 0; scrubP = null; q(() => bridge(p0, 1)); }
+    if (VIDEO && CLIPS[c] && wasHome) { const p0 = c === 'pintura' ? scrubP ?? 0 : 0; scrubP = null; q(() => bridge(p0, 1, c)); }
     if (direct) {
       await show(O.b, O.frame, i > prevI ? 1 : -1, my); if (my !== token) return;
       abReady = true; paintAB();
@@ -669,12 +677,12 @@ h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-s
   function home() {
     if (loading || cat === null) return;
     const my = ++token;
-    const wasPintura = cat === 'pintura', p0 = scrubP ?? 1; scrubP = null;
+    const was = cat, p0 = scrubP ?? 1; scrubP = null;
     cat = null; opt = -1; abReady = false;
     chrome(); paintInfo();
     q(exitSlider);
-    // Desde los macros de pintura, la cámara se aleja con el vídeo al revés
-    q(() => VIDEO && wasPintura && shownFrame === 'macro' ? bridge(p0, 0) : doShow(LIMPIO, 'car', -1, my));
+    // Desde el macro de pintura o el perfil del tintado, el clip se reproduce al revés hasta la base
+    q(() => VIDEO && CLIPS[was] && shownFrame === CLIPS[was].frame ? bridge(was === 'pintura' ? p0 : 1, 0, was) : doShow(LIMPIO, 'car', -1, my));
   }
 
   document.querySelectorAll('.side button').forEach(b => b.onclick = () => play(b.dataset.cat, 0));
@@ -716,13 +724,14 @@ h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-s
   paintInfo();
   ready(back).then(() => {
     all.forEach(n => { const i = new Image(); i.onload = i.onerror = () => loaded++; i.src = img(n); });
-    for (let k = 0; VIDEO && k < VN; k++) { const i = new Image(); i.onload = i.onerror = () => loaded++; i.src = `vid/p_${String(k).padStart(3, '0')}.webp`; frames[k] = i; }
+    for (const C of VIDEO ? Object.values(CLIPS) : [])
+      for (let k = 0; k < VN; k++) { const i = new Image(); i.onload = i.onerror = () => loaded++; i.src = `vid/${C.pre}${String(k).padStart(3, '0')}.webp`; C.frames[k] = i; }
     front.src = img(LIMPIO);
     ready(front).then(() => {
       front.style.opacity = 1; sweep.style.opacity = 1;
       let shown = 0;
       const tick = now => {
-        const real = loaded / (all.length + (VIDEO ? VN : 0));
+        const real = loaded / (all.length + (VIDEO ? VN * Object.keys(CLIPS).length : 0));
         const time = MIN ? Math.min(1, (now - t0) / MIN) : 1;
         const target = Math.min(real, time);
         shown += (target - shown) * (reduce ? 1 : .09);
