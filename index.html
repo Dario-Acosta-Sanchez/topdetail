@@ -497,7 +497,7 @@ h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-s
     return null;
   }
   // En los extremos del clip la foto nítida se funde encima del vídeo, para que no se note el salto de calidad
-  const EDGE = .18;
+  const EDGE = .05;   // corto: los fotogramas ya calcan las fotos; uno largo dejaba la foto quieta encima del movimiento (enganche)
   function drawP(p) {
     p = Math.max(0, Math.min(1, p));
     const i = Math.round(p * (VN - 1));
