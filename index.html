@@ -469,9 +469,10 @@ h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-s
   //  · tintado: fotogramas 0–170 de 240, el coche gira hasta quedar de perfil con las lunas sin tintar
   const VIDEO = true;
   const VN = 120, SWIRLS = '03-correccion_pintura_swirls';
+  // v: súbelo cada vez que cambien los fotogramas de un clip, para que el navegador no mezcle los viejos (caché) con los nuevos
   const CLIPS = {
-    pintura: { pre: 'p_', end: SWIRLS, frame: 'macro', frames: [] },
-    tintado: { pre: 't_', end: '02-tintado_lunas_sin', frame: 'side', frames: [] },
+    pintura: { pre: 'p_', v: 2, end: SWIRLS, frame: 'macro', frames: [] },
+    tintado: { pre: 't_', v: 2, end: '02-tintado_lunas_sin', frame: 'side', frames: [] },
   };
   let clip = CLIPS.pintura, frames = clip.frames;
   const photos = {};   // fotos ya cargadas, por nombre (para fundirlas con el vídeo)
@@ -755,7 +756,7 @@ h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-s
       const t = todo.shift(); if (!t) return;
       const [C, k] = t, i = new Image();
       i.onload = i.onerror = next;
-      i.src = `vid/${C.pre}${String(k).padStart(3, '0')}.webp`; C.frames[k] = i;
+      i.src = `vid/${C.pre}${String(k).padStart(3, '0')}.webp?v=${C.v}`; C.frames[k] = i;
     };
     for (let n = 0; n < 6; n++) next();
   }
