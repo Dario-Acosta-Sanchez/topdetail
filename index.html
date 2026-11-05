@@ -474,21 +474,45 @@ h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-s
     tintado: { pre: 't_', end: '02-tintado_lunas_sin', frame: 'side', frames: [] },
   };
   let clip = CLIPS.pintura, frames = clip.frames;
+  const photos = {};   // fotos ya cargadas, por nombre (para fundirlas con el vídeo)
   const useClip = c => { if (clip !== CLIPS[c]) { clip = CLIPS[c]; frames = clip.frames; lastDrawn = -1; } };
   const seq = $('seq'), sctx = seq.getContext('2d');
   let lastDrawn = -1, scrubP = null, drag = null;
   function sizeSeq() {
     const d = Math.min(devicePixelRatio || 1, 2);
     seq.width = Math.round(phone.clientWidth * d); seq.height = Math.round(seq.offsetHeight * d); lastDrawn = -1;
+    sctx.imageSmoothingEnabled = true; sctx.imageSmoothingQuality = 'high';
   }
-  function drawP(p) {
-    const i = Math.round(Math.max(0, Math.min(1, p)) * (VN - 1));
-    const im = frames[i];
-    if (i === lastDrawn || !im || !im.complete || !im.naturalWidth) return;
+  // Pinta im en el canvas como object-fit: cover
+  function cover(im, alpha = 1) {
     const cw = seq.width, ch = seq.height, k = Math.max(cw / im.naturalWidth, ch / im.naturalHeight);
     const w = im.naturalWidth * k, h = im.naturalHeight * k;
-    sctx.drawImage(im, (cw - w) / 2, (ch - h) / 2, w, h); lastDrawn = i;
+    sctx.globalAlpha = alpha; sctx.drawImage(im, (cw - w) / 2, (ch - h) / 2, w, h); sctx.globalAlpha = 1;
   }
+  const ok = im => im && im.complete && im.naturalWidth;
+  // Si un fotograma aún no ha llegado, se usa el más cercano que ya esté cargado
+  function nearest(i) {
+    for (let d = 0; d < VN; d++) { if (ok(frames[i - d])) return frames[i - d]; if (ok(frames[i + d])) return frames[i + d]; }
+    return null;
+  }
+  // En los extremos del clip la foto nítida se funde encima del vídeo, para que no se note el salto de calidad
+  const EDGE = .18;
+  function drawP(p) {
+    p = Math.max(0, Math.min(1, p));
+    const i = Math.round(p * (VN - 1));
+    const a0 = p < EDGE ? 1 - p / EDGE : 0, a1 = p > 1 - EDGE ? (p - 1 + EDGE) / EDGE : 0;
+    const e = t => t * t * (3 - 2 * t);
+    const key = i + '|' + Math.round(a0 * 40) + '|' + Math.round(a1 * 40);
+    if (key === lastDrawn) return;
+    const im = nearest(i), P0 = photos[LIMPIO], P1 = photos[shownFrame === clip.frame ? shownSrc : clip.end];
+    if (!im && !(a0 && ok(P0)) && !(a1 && ok(P1))) return;
+    if (im) cover(im);
+    if (a0 && ok(P0)) cover(P0, im ? e(a0) : 1);
+    if (a1 && ok(P1)) cover(P1, im ? e(a1) : 1);
+    lastDrawn = key;
+  }
+  // Un clip se usa en cuanto tiene al menos la mitad de sus fotogramas (repartidos por todo el clip)
+  const clipReady = c => CLIPS[c].frames.filter(ok).length >= VN / 2;
   const easeIO = t => t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
   function tween(a, b, ms, fn, e = easeIO) {
     return new Promise(res => {
@@ -512,7 +536,7 @@ h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-s
   // Scroll magnético: en el inicio, deslizar hacia arriba acerca la cámara; en pintura, hacia abajo la aleja.
   // Al soltar, si has pasado el umbral termina sola; si no, vuelve a su sitio.
   function scrubStart(dir) {
-    if (!VIDEO) return false;
+    if (!VIDEO || !clipReady('pintura')) return false;
     if (loading || pending || sliding) return false;
     if (dir > 0 && cat !== null) return false;
     if (dir < 0 && !(cat === 'pintura' && shownFrame === 'macro')) return false;
@@ -655,7 +679,7 @@ h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-s
     opt = i; state = direct ? 'b' : 'a'; abReady = false;
     chrome(); paintInfo();
     q(exitSlider);
-    if (VIDEO && CLIPS[c] && wasHome) { const p0 = c === 'pintura' ? scrubP ?? 0 : 0; scrubP = null; q(() => bridge(p0, 1, c)); }
+    if (VIDEO && CLIPS[c] && wasHome && clipReady(c)) { const p0 = c === 'pintura' ? scrubP ?? 0 : 0; scrubP = null; q(() => bridge(p0, 1, c)); }
     if (direct) {
       await show(O.b, O.frame, i > prevI ? 1 : -1, my); if (my !== token) return;
       abReady = true; paintAB();
@@ -682,7 +706,7 @@ h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-s
     chrome(); paintInfo();
     q(exitSlider);
     // Desde el macro de pintura o el perfil del tintado, el clip se reproduce al revés hasta la base
-    q(() => VIDEO && CLIPS[was] && shownFrame === CLIPS[was].frame ? bridge(was === 'pintura' ? p0 : 1, 0, was) : doShow(LIMPIO, 'car', -1, my));
+    q(() => VIDEO && CLIPS[was] && shownFrame === CLIPS[was].frame && clipReady(was) ? bridge(was === 'pintura' ? p0 : 1, 0, was) : doShow(LIMPIO, 'car', -1, my));
   }
 
   document.querySelectorAll('.side button').forEach(b => b.onclick = () => play(b.dataset.cat, 0));
@@ -719,19 +743,33 @@ h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-s
   const ready = im => Promise.race([im.decode().catch(() => {}), wait(1500)]);
   const all = [...new Set([SUCIO, LIMPIO, ...Object.values(CATS).flatMap(c => c.opts.flatMap(x => [x.a, x.b]))])];
   let loaded = 0;
+  // Los fotogramas de los clips se bajan después de las fotos, sin retrasar la bienvenida:
+  // primero uno de cada 8 de cada clip, luego los intermedios, de 6 en 6
+  function loadClips() {
+    if (!VIDEO) return;
+    const todo = [], seen = new Set();
+    for (const step of [8, 4, 2, 1])
+      for (const C of Object.values(CLIPS))
+        for (let k = 0; k < VN; k += step) { const id = C.pre + k; if (!seen.has(id)) { seen.add(id); todo.push([C, k]); } }
+    const next = () => {
+      const t = todo.shift(); if (!t) return;
+      const [C, k] = t, i = new Image();
+      i.onload = i.onerror = next;
+      i.src = `vid/${C.pre}${String(k).padStart(3, '0')}.webp`; C.frames[k] = i;
+    };
+    for (let n = 0; n < 6; n++) next();
+  }
   const t0 = performance.now();
   back.src = img(SUCIO);
   paintInfo();
   ready(back).then(() => {
-    all.forEach(n => { const i = new Image(); i.onload = i.onerror = () => loaded++; i.src = img(n); });
-    for (const C of VIDEO ? Object.values(CLIPS) : [])
-      for (let k = 0; k < VN; k++) { const i = new Image(); i.onload = i.onerror = () => loaded++; i.src = `vid/${C.pre}${String(k).padStart(3, '0')}.webp`; C.frames[k] = i; }
+    all.forEach(n => { const i = new Image(); i.onload = i.onerror = () => { if (++loaded === all.length) loadClips(); }; i.src = img(n); photos[n] = i; });
     front.src = img(LIMPIO);
     ready(front).then(() => {
       front.style.opacity = 1; sweep.style.opacity = 1;
       let shown = 0;
       const tick = now => {
-        const real = loaded / (all.length + (VIDEO ? VN * Object.keys(CLIPS).length : 0));
+        const real = loaded / all.length;
         const time = MIN ? Math.min(1, (now - t0) / MIN) : 1;
         const target = Math.min(real, time);
         shown += (target - shown) * (reduce ? 1 : .09);
