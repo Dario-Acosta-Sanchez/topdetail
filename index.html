@@ -19,14 +19,15 @@
 <title>Top Detail Garage</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
 /* Layout: un teléfono a pantalla completa; la foto ocupa todo, los servicios cuelgan de los dos bordes y la ficha va abajo, sobre el suelo. */
 :root {
   --void: #060708;          /* fuera del teléfono */
   --ink: #f4f1ee;           /* texto principal */
   --mute: #b4aaa7;          /* texto secundario, gris tirando a rojo */
-  --red: #e8192c;           /* rojo de marca */
+  --red: #a01d33;           /* granate de marca */
+  --red-ink: #e0607a;       /* granate claro para texto sobre negro (contraste) */
   --glass: rgba(0, 0, 0, .8);
   --line: rgba(255, 255, 255, .12);
   --ui: 'Rajdhani', 'Arial Narrow', 'Roboto Condensed', system-ui, sans-serif;
@@ -66,7 +67,7 @@ body {
 .sweep {
   position: absolute; top: 0; bottom: 0; left: 0; width: 3px; opacity: 0; pointer-events: none;
   background: var(--red);
-  box-shadow: 0 0 14px 3px rgba(232, 25, 44, .75), 0 0 2px 1px #fff;
+  box-shadow: 0 0 14px 3px rgba(160,29,51, .75), 0 0 2px 1px #fff;
 }
 
 /* Cabecera */
@@ -81,7 +82,7 @@ body {
 .cita {
   font: 700 13px/1 var(--ui); letter-spacing: .12em; text-transform: uppercase; text-decoration: none;
   color: var(--ink); background: var(--red); padding: 10px 14px; border-radius: 2px;
-  box-shadow: 0 4px 18px rgba(232, 25, 44, .35); transition: opacity .5s;
+  box-shadow: 0 4px 18px rgba(160,29,51, .35); transition: opacity .5s;
 }
 
 /* Servicios en los laterales: pestañas que salen de cada borde */
@@ -131,9 +132,9 @@ h1 {
 }
 /* Palabras clave en rojo, como en la imagen corporativa */
 .desc .k { font-weight: 700; text-shadow: none; }
-.k { color: var(--red); text-shadow: 0 0 18px rgba(232, 25, 44, .35); }
+.k { color: var(--red); text-shadow: 0 0 18px rgba(160,29,51, .35); }
 .tag { font-size: 12px; letter-spacing: .16em; padding: 4px 7px 3px; border: 1px solid var(--line); color: var(--mute); border-radius: 2px; }
-.tag.on { border-color: var(--red); color: var(--ink); background: rgba(232,25,44,.22); }
+.tag.on { border-color: var(--red); color: var(--ink); background: rgba(160,29,51,.22); }
 .desc { margin: 2px 0 0; font-size: 16px; line-height: 1.3; font-weight: 500; color: #cbc4c1; max-width: 34ch; min-height: 2.6em; }
 /* Antes / Después: aparece cuando termina el paso automático */
 .ab { display: flex; gap: 6px; margin-top: 10px; transition: opacity .35s; }
@@ -167,11 +168,11 @@ h1 {
 #cmp::-webkit-slider-thumb {
   -webkit-appearance: none; width: 28px; height: 28px; margin-top: -11px; border-radius: 50%;
   background: radial-gradient(circle at 35% 30%, rgba(255,255,255,.95), rgba(255,255,255,.55) 45%, rgba(255,255,255,.25));
-  border: 2px solid var(--red); box-shadow: 0 2px 10px rgba(0,0,0,.5), 0 0 0 4px rgba(232,25,44,.25);
+  border: 2px solid var(--red); box-shadow: 0 2px 10px rgba(0,0,0,.5), 0 0 0 4px rgba(160,29,51,.25);
 }
 #cmp::-moz-range-thumb {
   width: 24px; height: 24px; border-radius: 50%; background: rgba(255,255,255,.8);
-  border: 2px solid var(--red); box-shadow: 0 2px 10px rgba(0,0,0,.5), 0 0 0 4px rgba(232,25,44,.25);
+  border: 2px solid var(--red); box-shadow: 0 2px 10px rgba(0,0,0,.5), 0 0 0 4px rgba(160,29,51,.25);
 }
 #cmp:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; border-radius: 4px; }
 
@@ -261,9 +262,9 @@ h1 {
 .back { left: calc(10px + env(safe-area-inset-left, 0px)); padding: 0 16px 0 12px; border-radius: 999px; height: 46px; }
 .ab button { border-radius: 999px; }
 .side button[aria-current="true"], .xside button[aria-current="true"], .ab button[aria-pressed="true"] {
-  background: linear-gradient(140deg, rgba(232,25,44,.8), rgba(232,25,44,.38) 70%);
-  border-color: rgba(255,130,140,.55);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 10px 26px rgba(232,25,44,.22);
+  background: linear-gradient(140deg, rgba(160,29,51,.8), rgba(160,29,51,.38) 70%);
+  border-color: rgba(214,110,124,.55);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 10px 26px rgba(160,29,51,.22);
 }
 /* Ocultos: que salgan del todo por el borde aunque ahora estén separados de él */
 .loading .side.l button, .in-cat .side.l button { transform: translateX(calc(-100% - 24px)); }
@@ -275,13 +276,13 @@ h1 {
 .in-cat .xside { transform: none; }
 .cita {
   border-radius: 999px; padding: 10px 16px;
-  background: linear-gradient(140deg, rgba(232,25,44,.92), rgba(232,25,44,.62));
-  border: 1px solid rgba(255,140,150,.5);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 8px 22px rgba(232,25,44,.3);
+  background: linear-gradient(140deg, rgba(160,29,51,.92), rgba(160,29,51,.62));
+  border: 1px solid rgba(214,110,124,.5);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 8px 22px rgba(160,29,51,.3);
   -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
 }
 .tag { border-radius: 999px; padding: 4px 9px 3px; background: rgba(255,255,255,.07); border-color: rgba(255,255,255,.2); }
-.tag.on { background: rgba(232,25,44,.3); border-color: rgba(255,130,140,.5); }
+.tag.on { background: rgba(160,29,51,.3); border-color: rgba(214,110,124,.5); }
 
 /* Ficha de abajo, más sobria: sin rombo ni brillo, título en la serif de la marca */
 .eyebrow::before { display: none; }
@@ -325,6 +326,151 @@ h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-s
 .side.l button:nth-child(3) { transition-delay: 0s, 0s, .1s, 0s; }
 .side.l button:nth-child(4) { transition-delay: 0s, 0s, .15s, 0s; }
 @media (max-height: 760px) { .side.l { top: auto; gap: 6px; } .side.l button { width: auto; height: 66px; } }
+
+/* ── Capa del cuestionario de Javi (2026-11-05) ──
+   Granate, títulos anchos y sólidos en mayúsculas, esquinas un poco redondeadas, iconos de línea fina,
+   fotos oscuras de cine, animación solo en lo importante, más información a la vista y la ficha del taller. */
+:root { --display: 'Archivo', 'Arial Black', system-ui, sans-serif; --r: 10px; }
+h1, .loader b, .hello, .sheet h2, .sheet h3, .badge { font-family: var(--display); font-stretch: 125%; text-transform: uppercase; }
+h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em; }
+.loader b { font-weight: 800; font-size: 18px; }
+.hello { font-weight: 600; font-size: 11px; letter-spacing: .3em; }
+.k, .desc .k { color: var(--red-ink); }
+@media (max-width: 350px) { h1 { font-size: 19px; } }
+/* Esquinas un poco redondeadas (antes: píldoras y círculos) */
+.side.l button { border-radius: 12px; }
+.xside.l button, .xside.r button { border-radius: 8px; }
+.back, .ab button, .cita { border-radius: var(--r); }
+.tag { border-radius: 6px; }
+.glass { border-radius: 14px; }
+/* Iconos de línea fina */
+.side svg { stroke-width: 1.15; width: 26px; height: 26px; }
+.back svg { stroke-width: 1.4; }
+/* Fotos oscuras y de cine: algo más de contraste, menos saturación y viñeta */
+.layer, .seq { filter: contrast(1.06) saturate(.88) brightness(.94); }
+.shade {
+  background:
+    radial-gradient(120% 70% at 50% 40%, rgba(0,0,0,0) 55%, rgba(0,0,0,.5) 100%),
+    linear-gradient(to bottom, rgba(0,0,0,.55) 0, rgba(0,0,0,0) 16%),
+    linear-gradient(to top, rgba(4,3,3,.94) 0, rgba(4,3,3,.72) 20%, rgba(4,3,3,0) 38%);
+}
+/* Animación la justa: el aviso de «toca aquí» solo en el servicio estrella */
+.invite .side button::after { animation: none; opacity: 0; }
+.invite .side button.star::after { animation: ping 2.4s ease-out infinite; animation-delay: .4s; }
+/* Barra de abajo con cinco botones: Pintura (estrella), Limpieza, Tintado, Extras y El taller */
+.side.l { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
+.side.l button { font-size: 10px; letter-spacing: .05em; overflow: visible; }
+.side.l button.star { border-color: rgba(214,110,124,.6); background: linear-gradient(140deg, rgba(160,29,51,.42), rgba(160,29,51,.12) 70%); }
+.badge {
+  position: absolute; top: -8px; left: 50%; transform: translateX(-50%); white-space: nowrap;
+  font-size: 8px; font-weight: 800; letter-spacing: .12em; padding: 3px 6px 2px; border-radius: 5px;
+  background: var(--red); color: var(--ink); box-shadow: 0 2px 8px rgba(0,0,0,.5);
+}
+/* Ficha técnica de cada servicio: más información a la vista */
+.spec { display: flex; flex-wrap: wrap; gap: 5px; margin: 6px 0 0; padding: 0; list-style: none; }
+.spec:empty { display: none; }
+.spec li {
+  font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.8);
+  padding: 4px 8px 3px; border: 1px solid rgba(255,255,255,.16); border-radius: 6px; background: rgba(255,255,255,.05);
+}
+.desc { max-width: 40ch; min-height: 0; }
+
+/* ── El taller: hoja con cómo trabajamos, Top Detail Report, servicios, bonos, reseñas, horario y redes ── */
+.sheet {
+  position: absolute; inset: 0; z-index: 6; overflow-y: auto; overscroll-behavior: contain; touch-action: pan-y;
+  user-select: text; scrollbar-width: none;
+  background: linear-gradient(to bottom, rgba(6,5,5,.9), rgba(6,5,5,.97) 26%);
+  -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+  padding: 0 max(16px, env(safe-area-inset-right, 0px)) calc(32px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+  opacity: 0; visibility: hidden; transform: translateY(18px);
+  transition: opacity .3s, transform .4s cubic-bezier(.2,.8,.2,1), visibility 0s .4s;
+}
+.sheet::-webkit-scrollbar { display: none; }
+.sheet.open { opacity: 1; visibility: visible; transform: none; transition: opacity .3s, transform .4s cubic-bezier(.2,.8,.2,1); }
+.sheet-head {
+  position: sticky; top: 0; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 16px 0 14px; background: linear-gradient(rgba(8,6,6,.98) 72%, rgba(8,6,6,0));
+}
+.sheet h2 { margin: 0; font-size: 19px; font-weight: 800; letter-spacing: .02em; }
+.sheet h2 .k { color: var(--red-ink); }
+.sheet h3 { margin: 0 0 10px; font-size: 14px; font-weight: 800; letter-spacing: .03em; display: flex; align-items: center; gap: 8px; }
+.sheet h3::before { content: ""; width: 14px; height: 2px; background: var(--red); flex: none; }
+.sheet section { padding: 20px 0; border-top: 1px solid var(--line); }
+.sheet p { margin: 0 0 10px; font-size: 15px; line-height: 1.42; font-weight: 500; color: rgba(255,255,255,.76); }
+.sheet strong { color: var(--ink); }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 16px;
+  font: 700 13px/1 var(--ui); letter-spacing: .12em; text-transform: uppercase; color: var(--ink); text-decoration: none; cursor: pointer;
+  background: linear-gradient(140deg, rgba(255,255,255,.15), rgba(255,255,255,.04) 62%);
+  border: 1px solid rgba(255,255,255,.22); border-radius: var(--r);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.25);
+}
+.btn.red { background: linear-gradient(140deg, rgba(160,29,51,.95), rgba(160,29,51,.6)); border-color: rgba(214,110,124,.5); }
+.btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+.btns { display: flex; flex-wrap: wrap; gap: 8px; }
+.btns .btn { flex: 1 1 140px; }
+.close { width: 44px; height: 44px; padding: 0; flex: none; }
+.btn:focus-visible, .close:focus-visible, .sheet summary:focus-visible, .sheet input:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+/* Pendiente de datos del cliente: se ve claro qué falta */
+.pending {
+  display: inline-block; margin: 2px 0 8px; padding: 4px 8px 3px; font-size: 11px; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase; color: #f1b8c2; border: 1px dashed rgba(214,110,124,.6); border-radius: 6px;
+}
+/* Cómo trabajamos: pasos que aparecen al llegar a ellos */
+.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; counter-reset: s; }
+.steps li {
+  counter-increment: s; position: relative; padding: 12px 12px 12px 52px; border: 1px solid var(--line); border-radius: var(--r);
+  background: rgba(255,255,255,.03);
+}
+.steps li::before {
+  content: counter(s, decimal-leading-zero); position: absolute; left: 12px; top: 12px;
+  font: 800 15px/1 var(--display); font-stretch: 125%; color: var(--red-ink);
+}
+.steps b { display: block; font: 800 13px/1.2 var(--display); font-stretch: 125%; text-transform: uppercase; margin-bottom: 4px; }
+.steps span { display: block; font-size: 14px; line-height: 1.38; color: rgba(255,255,255,.72); }
+.reveal { opacity: 0; transform: translateY(14px); transition: opacity .5s, transform .5s cubic-bezier(.2,.8,.2,1); }
+.reveal.in { opacity: 1; transform: none; }
+/* Top Detail Report */
+.report { border: 1px solid rgba(214,110,124,.35); border-radius: var(--r); background: rgba(160,29,51,.08); margin: 4px 0 12px; }
+.report summary { list-style: none; cursor: pointer; padding: 12px 14px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; font-size: 13px; display: flex; justify-content: space-between; }
+.report summary::-webkit-details-marker { display: none; }
+.report summary::after { content: "+"; font-size: 18px; line-height: .8; }
+.report[open] summary::after { content: "–"; }
+.rep { padding: 0 14px 14px; display: grid; gap: 10px; }
+.rep-row { display: flex; justify-content: space-between; gap: 10px; font-size: 13px; border-bottom: 1px solid var(--line); padding-bottom: 6px; color: rgba(255,255,255,.72); }
+.rep-row b { color: var(--ink); text-align: right; }
+.rep-img { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.rep-img figure { margin: 0; position: relative; }
+.rep-img img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 8px; display: block; filter: contrast(1.06) saturate(.88); }
+.rep-img figcaption { position: absolute; left: 6px; bottom: 6px; font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; background: rgba(0,0,0,.65); padding: 3px 6px; border-radius: 5px; }
+.rep ul { margin: 0; padding-left: 18px; font-size: 13px; line-height: 1.5; color: rgba(255,255,255,.76); }
+.code { display: flex; gap: 8px; }
+.code input {
+  flex: 1; min-width: 0; height: 44px; padding: 0 12px; font: 600 16px/1 var(--ui); letter-spacing: .14em; text-transform: uppercase;
+  color: var(--ink); background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.22); border-radius: var(--r);
+}
+.code input::placeholder { color: rgba(255,255,255,.38); }
+/* Servicios: lista sencilla */
+.svc { list-style: none; margin: 0 0 6px; padding: 0; }
+.svc-g { margin: 14px 0 4px; font-size: 11px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: rgba(255,255,255,.5); }
+.svc li { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.svc li div { flex: 1; min-width: 0; }
+.svc li b { display: block; font-size: 15px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+.svc li span { display: block; font-size: 13px; line-height: 1.35; color: rgba(255,255,255,.66); }
+.svc li em { font-style: normal; font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #f1b8c2; }
+.svc .go { min-height: 36px; padding: 0 12px; font-size: 11px; flex: none; }
+/* Bonos y packs */
+.packs { display: grid; gap: 8px; }
+.pack { padding: 12px 14px; border: 1px solid var(--line); border-radius: var(--r); background: rgba(255,255,255,.03); }
+.pack b { display: block; font: 800 13px/1.2 var(--display); font-stretch: 125%; text-transform: uppercase; margin-bottom: 4px; }
+.pack span { display: block; font-size: 14px; line-height: 1.38; color: rgba(255,255,255,.72); }
+.pack small { display: block; margin-top: 6px; font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--red-ink); }
+/* Horario y mapa */
+.hours { width: 100%; border-collapse: collapse; margin: 0 0 12px; font-size: 14px; }
+.hours td { padding: 7px 0; border-bottom: 1px solid var(--line); color: rgba(255,255,255,.76); }
+.hours td:last-child { text-align: right; color: var(--ink); font-weight: 600; }
+.map { width: 100%; aspect-ratio: 4 / 3; border: 0; border-radius: var(--r); display: block; margin: 0 0 12px; filter: invert(.9) hue-rotate(180deg) saturate(.6) contrast(.9); background: #111; }
+@media (prefers-reduced-motion: reduce) { .sheet, .reveal { transition: none; } .reveal { opacity: 1; transform: none; } }
 </style>
 </head>
 <body>
@@ -343,10 +489,11 @@ h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-s
     </header>
 
     <nav class="side l" aria-label="Servicios">
+      <button data-cat="pintura" class="star"><span class="badge">Estrella</span><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>Pintura</button>
       <button data-cat="limpieza"><svg viewBox="0 0 24 24"><path d="M12 3c3 4 6 7.2 6 10.5A6 6 0 0 1 6 13.5C6 10.2 9 7 12 3z"/><path d="M9.5 14.5a2.5 2.5 0 0 0 2.5 2.5"/></svg>Limpieza</button>
       <button data-cat="tintado"><svg viewBox="0 0 24 24"><path d="M3 16l3-7h9l5 7z"/><path d="M8 16l2-5M12 16l1.5-5" opacity=".55"/></svg>Tintado</button>
-      <button data-cat="pintura"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>Pintura</button>
       <button data-cat="extras"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="6.5" height="6.5"/><rect x="13.5" y="4" width="6.5" height="6.5"/><rect x="4" y="13.5" width="6.5" height="6.5"/><path d="M16.75 14v5.5M14 16.75h5.5"/></svg>Extras</button>
+      <button id="taller-btn" aria-haspopup="dialog"><svg viewBox="0 0 24 24"><path d="M3 10.5 12 4l9 6.5"/><path d="M5 9.5V20h14V9.5"/><path d="M9.5 20v-6h5v6"/></svg>Taller</button>
     </nav>
 
     <button class="back" id="back-btn" inert><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>Volver</button>
@@ -358,6 +505,7 @@ h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-s
       </div>
       <h1 id="name"></h1>
       <p class="desc" id="desc"></p>
+      <ul class="spec" id="spec" aria-label="Detalles técnicos"></ul>
       <div class="ab" id="ab" role="group" aria-label="Comparar" hidden><button id="ab-a" aria-pressed="false">Antes</button><button id="ab-b" aria-pressed="true">Después</button></div>
       <div class="glass wait" id="glass" hidden><div class="glass-row"><span>Antes</span><em>Desliza para comparar</em><span>Después</span></div><input type="range" id="cmp" min="0" max="100" step="0.5" value="100" aria-label="Comparar antes y después"></div>
     </section>
@@ -365,6 +513,103 @@ h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-s
     <nav class="xside l" id="opt-l" aria-label="Opciones" inert></nav>
     <nav class="xside r" id="opt-r" aria-label="Opciones" inert></nav>
 
+
+    <!-- El taller: toda la información que pidió el cliente en el cuestionario. Lo marcado .pending falta por confirmar con él. -->
+    <section class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-t" inert>
+      <div class="sheet-head">
+        <h2 id="sheet-t">El <span class="k">taller</span></h2>
+        <button class="btn close" id="sheet-x" aria-label="Cerrar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+      </div>
+
+      <section>
+        <h3>Cómo trabajamos</h3>
+        <p>Cada coche pasa por el mismo protocolo, con la técnica y los productos de nuestra <strong>formación profesional</strong>, y sale con su propio informe.</p>
+        <ol class="steps">
+          <li class="reveal"><b>Diagnóstico</b><span>Revisamos pintura, interior, llantas y cristales con luz de inspección y te decimos qué necesita de verdad.</span></li>
+          <li class="reveal"><b>Presupuesto cerrado</b><span>Antes de empezar, por WhatsApp. Si el coche llega con suciedad extrema o mucho pelo de mascota, te avisamos antes.</span></li>
+          <li class="reveal"><b>Trabajo técnico</b><span>Descontaminado, corrección de pintura por pasos y protecciones cerámicas, según el servicio.</span></li>
+          <li class="reveal"><b>Top Detail Report</b><span>Te entregamos el informe con el antes y el después, lo que hemos hecho y los cuidados recomendados.</span></li>
+          <li class="reveal"><b>Seguimiento</b><span>Soporte posventa: te recordamos el mantenimiento para que el resultado dure.</span></li>
+        </ol>
+        <p style="margin-top:12px">Nos formamos para competir por ser el mejor taller de detailing de la zona: <strong>calidad, trato personalizado y posventa</strong>.</p>
+        <span class="pending">Pendiente: cursos y certificaciones, con fotos</span>
+      </section>
+
+      <section id="report">
+        <h3>Top Detail Report</h3>
+        <p>Nuestro <strong>informe posventa</strong>: cada cliente recibe un código o un QR con su informe, para consultarlo cuando quiera.</p>
+        <details class="report">
+          <summary>Ver informe de ejemplo</summary>
+          <div class="rep">
+            <div class="rep-row"><span>Vehículo</span><b>Porsche Cayenne Coupé</b></div>
+            <div class="rep-row"><span>Servicio</span><b>Pulido 2 pasos + cerámico</b></div>
+            <div class="rep-img">
+              <figure><img src="img/03-correccion_pintura_swirls.webp?v=2" alt="Pintura con remolinos antes del pulido" loading="lazy"><figcaption>Antes</figcaption></figure>
+              <figure><img src="img/03-correccion_pintura_2pasos.webp?v=2" alt="Pintura con acabado espejo después del pulido" loading="lazy"><figcaption>Después</figcaption></figure>
+            </div>
+            <ul>
+              <li>Descontaminado químico y mecánico de la pintura.</li>
+              <li>Corrección en dos pasos: corte y abrillantado.</li>
+              <li>Protección cerámica aplicada en toda la carrocería.</li>
+              <li>Recomendado: lavado de mantenimiento periódico.</li>
+            </ul>
+            <span class="pending">Informe de ejemplo: los datos reales los pone el taller</span>
+          </div>
+        </details>
+        <form class="code" id="code-f">
+          <input id="code-i" name="code" placeholder="Tu código" autocomplete="off" aria-label="Código de tu Top Detail Report" maxlength="16">
+          <button class="btn red" type="submit">Consultar</button>
+        </form>
+      </section>
+
+      <section>
+        <h3>Servicios</h3>
+        <div id="svc-list"></div>
+      </section>
+
+      <section>
+        <h3>Bonos y packs</h3>
+        <div class="packs">
+          <div class="pack reveal"><b>Bono de mantenimiento</b><span>Lavados periódicos para coches con cerámico: conservan la protección y el brillo.</span><small>Precio a consultar</small></div>
+          <div class="pack reveal"><b>Pack pintura</b><span>Corrección de pintura + protección cerámica, el tratamiento completo.</span><small>Precio a consultar</small></div>
+          <div class="pack reveal"><b>Pack interior</b><span>Tapicería, cuero y tratamiento de ozono contra los malos olores.</span><small>Precio a consultar</small></div>
+        </div>
+        <span class="pending" style="margin-top:10px">Pendiente: precios y packs definitivos</span>
+      </section>
+
+      <section>
+        <h3>Reseñas</h3>
+        <p>Lo que dicen nuestros clientes, en nuestra ficha de Google.</p>
+        <div class="btns"><a class="btn" href="https://www.google.com/maps/search/?api=1&amp;query=Top+Detail+Garage+Fern%C3%A1n+N%C3%BA%C3%B1ez" target="_blank" rel="noopener">Ver reseñas en Google</a></div>
+        <span class="pending" style="margin-top:10px">Pendiente: enlace a la ficha de Google y reseñas destacadas</span>
+      </section>
+
+      <section>
+        <h3>Horario y cómo llegar</h3>
+        <table class="hours"><tbody>
+          <tr><td>Lunes a sábado</td><td>9:00 – 19:00</td></tr>
+          <tr><td>Domingo</td><td>Cerrado</td></tr>
+        </tbody></table>
+        <span class="pending">Pendiente: confirmar horario y dirección exacta</span>
+        <p>Fernán Núñez, Córdoba.</p>
+        <iframe class="map" title="Mapa de Top Detail Garage" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=Fern%C3%A1n+N%C3%BA%C3%B1ez,+C%C3%B3rdoba&amp;z=14&amp;output=embed"></iframe>
+        <div class="btns"><a class="btn" href="https://www.google.com/maps/dir/?api=1&amp;destination=Fern%C3%A1n+N%C3%BA%C3%B1ez,+C%C3%B3rdoba" target="_blank" rel="noopener">Cómo llegar</a></div>
+      </section>
+
+      <section>
+        <h3>Galería y redes</h3>
+        <p>Nuestros trabajos reales, coche a coche.</p>
+        <span class="pending">Pendiente: fotos reales de trabajos y usuarios de Instagram y TikTok</span>
+      </section>
+
+      <section>
+        <h3>Pide tu cita</h3>
+        <div class="btns">
+          <a class="btn red" href="https://wa.me/34643182964?text=Hola%21%20Quiero%20pedir%20cita%20en%20Top%20Detail%20Garage." target="_blank" rel="noopener">WhatsApp</a>
+          <a class="btn" href="tel:+34643182964">Llamar · 643 182 964</a>
+        </div>
+      </section>
+    </section>
     <div class="loader" id="loader" role="status">
       <div class="welcome"><span class="hello">Bienvenido a</span><img class="brand" src="img/logo-topdetail.svg" alt="Top Detail Garage"></div>
       <p><span id="pct">0 %</span></p>
@@ -426,6 +671,67 @@ h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-s
   ].forEach(([z, n, name, short, desc, more = {}]) => CATS.extras.opts.push(
     o(name, short, desc, `05-extras_${z}_${n}_antes`, `05-extras_${z}_${n}_despues`, n, { zone: more.sup ? 'Te avisamos' : ZONA[z], group: more.sup ? 2 : z === 'interior' ? 0 : 1, ...more })));
 
+
+  // Textos técnicos y ficha de cada servicio (cuestionario: tono técnico y más información a la vista)
+  const TECH = {
+    limpieza: [
+      ['Prelavado con *espuma activa*, lavado a mano con dos cubos y secado con microfibra. El coche, *impecable*.', ['Espuma activa', 'Lavado a mano', 'Aspirado']],
+      ['Todo lo del básico más *llantas descontaminadas* y *neumáticos* con abrillantador.', ['Llantas a fondo', 'Neumáticos con brillo', 'Sellado rápido']],
+      ['Interior y exterior completos: tapicería, plásticos, cristales, faros y parrilla, con *acabado espejo*.', ['Interior completo', 'Exterior completo', 'Acabado espejo']],
+    ],
+    tintado: [
+      ['Lámina con un *50 % de transmisión de luz* en las lunas traseras: rechaza calor y reflejos sin perder visibilidad.', ['50 % de luz', 'Menos calor', 'Lunas traseras']],
+      ['Lámina del *30 %*: mucha más *privacidad* y control solar; desde fuera apenas se ven siluetas.', ['30 % de luz', 'Privacidad', 'Control solar']],
+      ['Lámina *limusina del 5 %*: privacidad total en las plazas traseras y máximo rechazo de luz.', ['5 % de luz', 'Privacidad total', 'Lunas traseras']],
+    ],
+    pintura: [
+      ['Corrección en *un paso* con pulidora y pulimento de corte medio: elimina la mayoría de *swirls* y recupera el brillo.', ['Un pulimento', 'Fuera swirls', 'Brillo recuperado']],
+      ['Corrección en *dos pasos*: corte para eliminar defectos y abrillantado final para un *acabado espejo*.', ['Corte', 'Abrillantado', 'Acabado espejo']],
+      ['Recubrimiento *cerámico* sobre pintura descontaminada y corregida: repele el agua, la suciedad y los rayos UV.', ['Descontaminado', 'Corrección previa', 'Hidrofóbico']],
+      ['Lavado de mantenimiento con espuma activa y champú de pH neutro para que el cerámico *dure años*.', ['pH neutro', 'Sin rayar', 'Bono disponible']],
+    ],
+  };
+  for (const [c, list] of Object.entries(TECH)) list.forEach(([desc, spec], i) => Object.assign(CATS[c].opts[i], { desc, spec }));
+  const XSPEC = {
+    'cuero': ['Limpiador pH neutro', 'Cepillo suave', 'Nutrición'], 'coating-cuero': ['Hidrofóbico', 'Antimanchas'],
+    'cinturones': ['Limpieza de cinta', 'Color original'], 'plasticos': ['Limpieza técnica', 'Acabado satinado', 'Protección UV'],
+    'pulido-cristales': ['Pulido de cristal', 'Antical'], 'vano-motor': ['Desengrasado', 'Protección de plásticos'],
+    'neumaticos': ['Desengrasado', 'Abrillantador satinado'], 'pasos-de-rueda': ['Desengrasado', 'Protección'],
+    'hidratacion-gomas': ['Limpieza', 'Hidratación', 'Protección UV'], 'plateados': ['Desoxidado', 'Pulido', 'Sellado'],
+    'negro-piano': ['Pulido fino', 'Sin hologramas', 'Sellado'], 'cera-rapida': ['Cera sintética', 'Brillo húmedo', 'Repele el agua'],
+    'suciedad-extrema': ['Aspirado industrial', 'Inyección-extracción', 'Con suplemento'], 'pelo-de-perro': ['Cepillo de goma', 'Aspirado', 'Con suplemento'],
+  };
+  CATS.extras.opts.forEach(x => { const n = x.frame; if (XSPEC[n]) x.spec = XSPEC[n]; });
+  // Lista sencilla de servicios del taller; go = sección e índice para verlo en acción (null: aún sin fotos)
+  const xi = n => CATS.extras.opts.findIndex(x => x.frame === n);
+  const SVC = [
+    ['Pintura', [
+      ['Pulido 1 paso', 'Elimina la mayoría de swirls y recupera el brillo.', ['pintura', 0]],
+      ['Pulido 2 pasos', 'Corte y abrillantado: acabado espejo.', ['pintura', 1]],
+      ['Tratamiento cerámico', 'Protección hidrofóbica y UV de larga duración.', ['pintura', 2]],
+      ['Mantenimiento de cerámico', 'Lavado específico para que la protección dure.', ['pintura', 3]],
+    ]],
+    ['Limpieza', [
+      ['Básico', 'Lavado a mano con espuma activa y aspirado.', ['limpieza', 0]],
+      ['Premium', 'Además, llantas a fondo y neumáticos con brillo.', ['limpieza', 1]],
+      ['Integral', 'Interior y exterior completos, acabado espejo.', ['limpieza', 2]],
+    ]],
+    ['Tintado', [['Tintado de lunas traseras', 'Láminas del 50, 30 y 5 %.', ['tintado', 0]]]],
+    ['Interior', [
+      ['Tapicería', 'Limpieza por inyección-extracción de asientos, moqueta y techo.', null],
+      ['Ozono y malos olores', 'Generador de ozono: elimina olores, bacterias y ácaros.', null],
+      ['Cuero y coating de cuero', 'Limpieza, nutrición y protección antimanchas.', ['extras', xi('cuero')]],
+      ['Cinturones y plásticos', 'Cintas con su color y plásticos satinados.', ['extras', xi('plasticos')]],
+    ]],
+    ['Exterior', [
+      ['Llantas', 'Descontaminado férrico, limpieza a fondo y sellado.', null],
+      ['Limpieza de motor', 'Desengrasado y protección del vano motor.', ['extras', xi('vano-motor')]],
+      ['Neumáticos y pasos de rueda', 'Barro fuera y negro satinado.', ['extras', xi('neumaticos')]],
+      ['Cristales, gomas, plateados y negro piano', 'Cada pieza con su tratamiento.', ['extras', xi('negro-piano')]],
+      ['Cera rápida', 'Brillo húmedo y repelencia en minutos.', ['extras', xi('cera-rapida')]],
+    ]],
+    ['Bonos', [['Bonos de mantenimiento', 'Lavados periódicos con precio cerrado.', 'packs']]],
+  ];
   const $ = id => document.getElementById(id);
   const back = $('back'), front = $('front'), sweep = $('sweep'), phone = $('phone');
   const wait = ms => new Promise(r => setTimeout(r, ms));
@@ -666,6 +972,7 @@ h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-s
     $('name').innerHTML = titleHTML(C, O);
     if (O) { const t = document.createElement('span'); t.className = 'tag'; $('name').append(t); }
     $('desc').innerHTML = rich(O ? O.desc : 'Toca un servicio para verlo en acción, o desliza hacia arriba para ver la pintura de cerca.');
+    $('spec').innerHTML = O && O.spec ? O.spec.map(t => `<li>${esc(t)}</li>`).join('') : '';
     const what = !C || O.sup ? 'vuestros servicios' : `${C.label.split(' ·')[0]} (${O.name})`;
     $('cita').href = W + encodeURIComponent(`Hola! Me interesa ${what}. ¿Me dais información?`);
     back.alt = O ? `${O.name}. ${plain(O.desc)}` : 'Porsche Cayenne negro, limpio, en el taller de Top Detail Garage';
@@ -716,17 +1023,59 @@ h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-s
     q(() => VIDEO && CLIPS[was] && shownFrame === CLIPS[was].frame && clipReady(was) ? bridge(was === 'pintura' ? p0 : 1, 0, was) : doShow(LIMPIO, 'car', -1, my));
   }
 
-  document.querySelectorAll('.side button').forEach(b => b.onclick = () => play(b.dataset.cat, 0));
+  document.querySelectorAll('.side button[data-cat]').forEach(b => b.onclick = () => play(b.dataset.cat, 0));
   $('back-btn').onclick = home;
   $('logo').onclick = home;
   $('ab-a').onclick = () => flip('a');
   $('ab-b').onclick = () => flip('b');
-  addEventListener('keydown', e => { if (e.key === 'Escape') home(); });
+  // ── El taller (hoja de información) ──
+  const sheet = $('sheet');
+  let sheetFrom = null;
+  function openSheet(focusId) {
+    if (loading) return;
+    sheetFrom = document.activeElement;
+    sheet.inert = false; sheet.classList.add('open'); sheet.scrollTop = 0;
+    if (focusId) { const t = $(focusId); if (t) t.scrollIntoView({ block: 'start' }); }
+    $('sheet-x').focus({ preventScroll: true });
+  }
+  function closeSheet() {
+    if (!sheet.classList.contains('open')) return false;
+    sheet.classList.remove('open'); sheet.inert = true;
+    if (sheetFrom && sheetFrom.focus) sheetFrom.focus({ preventScroll: true });
+    return true;
+  }
+  $('taller-btn').onclick = () => openSheet();
+  $('sheet-x').onclick = closeSheet;
+  // Lista de servicios: los que tienen fotos llevan «Ver», que cierra la hoja y lo enseña en acción
+  $('svc-list').innerHTML = SVC.map(([g, items]) => `<p class="svc-g">${esc(g)}</p><ul class="svc">${items.map(([n, d, go]) =>
+    `<li><div><b>${esc(n)}</b><span>${esc(d)}</span>${go ? '' : '<em>Consúltanos</em>'}</div>${
+      Array.isArray(go) ? `<button class="btn go" data-go="${go.join(':')}">Ver</button>` :
+      go === 'packs' ? '<button class="btn go" data-go="packs">Bonos</button>' : ''}</li>`).join('')}</ul>`).join('');
+  $('svc-list').addEventListener('click', e => {
+    const b = e.target.closest('[data-go]'); if (!b) return;
+    if (b.dataset.go === 'packs') { sheet.querySelector('.packs').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' }); return; }
+    const [c, i] = b.dataset.go.split(':'); closeSheet(); play(c, +i);
+  });
+  // Consulta del Top Detail Report: de momento se pide por WhatsApp con el código
+  $('code-f').onsubmit = e => {
+    e.preventDefault();
+    const c = $('code-i').value.trim().toUpperCase().replace(/[^A-Z0-9-]/g, '');
+    if (!c) { $('code-i').focus(); return; }
+    window.open(W + encodeURIComponent(`Hola! Quiero ver mi Top Detail Report. Mi código es ${c}.`), '_blank', 'noopener');
+  };
+  // Los pasos y packs aparecen al llegar a ellos (animación solo aquí)
+  if ('IntersectionObserver' in window && !reduce) {
+    const io = new IntersectionObserver(es => es.forEach(x => { if (x.isIntersecting) { x.target.classList.add('in'); io.unobserve(x.target); } }), { root: sheet, threshold: .25 });
+    sheet.querySelectorAll('.reveal').forEach(n => io.observe(n));
+  } else sheet.querySelectorAll('.reveal').forEach(n => n.classList.add('in'));
+  // La lista de opciones de los lados se ajusta a la altura real de la ficha
+  if ('ResizeObserver' in window) new ResizeObserver(() => phone.style.setProperty('--hud-h', $('hud').offsetHeight + 'px')).observe($('hud'));
+  addEventListener('keydown', e => { if (e.key === 'Escape' && !closeSheet()) home(); });
   // Solo se navega con los botones: sin scroll ni gestos
   let sy = 0, wheelT;
   phone.addEventListener('touchstart', e => { sy = e.touches[0].clientY; }, { passive: true });
   phone.addEventListener('touchmove', e => {
-    if (e.target === cmp || e.target.closest('.xside')) return;
+    if (e.target === cmp || e.target.closest('.xside') || e.target.closest('.sheet')) return;
     e.preventDefault();
     const dy = sy - e.touches[0].clientY;   // > 0 al subir el dedo
     if (!drag && Math.abs(dy) > 12) scrubStart(dy > 0 ? 1 : -1);
@@ -735,7 +1084,7 @@ h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-s
   phone.addEventListener('touchend', scrubEnd);
   phone.addEventListener('touchcancel', scrubEnd);
   addEventListener('wheel', e => {
-    if (e.target.closest && e.target.closest('.xside')) return;
+    if (e.target.closest && (e.target.closest('.xside') || e.target.closest('.sheet'))) return;
     e.preventDefault();
     if (!drag && (Math.abs(e.deltaY) < 2 || !scrubStart(e.deltaY > 0 ? 1 : -1))) return;
     scrubMove(drag.p + e.deltaY / 700);
