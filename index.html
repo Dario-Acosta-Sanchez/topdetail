@@ -375,7 +375,9 @@ h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-s
 
 <script>
 (() => {
-  const img = n => `img/${n}.webp`;
+  // IMGV: súbelo cada vez que cambien fotos con el mismo nombre, para que el navegador no enseñe las viejas de su caché
+  const IMGV = 2;
+  const img = n => `img/${n}.webp?v=${IMGV}`;
   const W = 'https://wa.me/34643182964?text=';
   const SUCIO = '01-intro_porsche_sucio', LIMPIO = '00-base_porsche_limpio';
   // Fotos antiguas del taller, para las secciones que aún no se han rehecho en el estilo oscuro
@@ -416,8 +418,7 @@ h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-s
     ['ruedas', 'pasos-de-rueda', 'Pasos de rueda', 'Pasos de rueda', 'Barro incrustado fuera, *pasos limpios*.'],
     ['carroceria', 'hidratacion-gomas', 'Hidratación de gomas', 'Gomas', 'Juntas resecas que vuelven a estar *negras y flexibles*.'],
     ['carroceria', 'plateados', 'Plateados', 'Plateados', 'Molduras sin oxidación ni cal, con *brillo de espejo*.'],
-    // Negro piano: de momento con las fotos de la consola; pasará a carrocería (pilares y molduras) cuando estén sus fotos
-    ['interior', 'negro-piano', 'Negro piano', 'Negro piano', 'Pulimos los *micro-arañazos* y las huellas del *negro piano*.'],
+    ['carroceria', 'negro-piano', 'Negro piano', 'Negro piano', 'Pilares y molduras sin *hologramas* ni micro-arañazos: *negro espejo*.'],
     ['carroceria', 'cera-rapida', 'Cera rápida', 'Cera', 'Brillo húmedo y *reflejos nítidos* en minutos.', { slider: true }],
     // No se contratan: si el coche llega así, Top Detail avisa al cliente antes de empezar (más tiempo y suplemento)
     ['interior', 'suciedad-extrema', 'Suciedad extrema', 'Obra', 'Si el coche llega con polvo de obra, yeso o barro, *te avisamos antes*: lleva más tiempo y un suplemento.', { sup: true }],
