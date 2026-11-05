@@ -212,6 +212,9 @@ h1 {
 .xside.r button { border-right: 0; border-radius: 5px 0 0 5px; box-shadow: inset -2px 0 0 var(--red); text-align: right; justify-content: flex-end; }
 .xside button[aria-current="true"] { background: var(--red); border-color: var(--red); }
 .xside button:active { transform: scale(.95); }
+/* «Si hace falta»: no se eligen, se avisan; sin la franja roja y con borde discontinuo */
+.xside.l button.sup { box-shadow: none; border-style: dashed; border-left: 0; border-color: rgba(255,255,255,.34); color: var(--mute); }
+.xside.l button.sup[aria-current="true"] { color: var(--ink); background: rgba(255,255,255,.14); border-color: var(--line); }
 
 .side button:focus-visible, .cita:focus-visible, .logo:focus-visible, .back:focus-visible, .xside button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 @media (max-height: 700px) { .xside button { min-height: 34px; } .xside { gap: 4px; } }
@@ -399,26 +402,28 @@ h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-s
       o('Cerámico', 'Cerámico', 'Recubrimiento que *repele* el agua, la suciedad y los rayos UV.', '03-correccion_pintura_2pasos', '04-ceramica_perlado', 'macro', { la: 'Sin proteger', lb: 'Con cerámico' }),
       o('Mantenimiento', 'Manteni­miento', 'Lavado con espuma activa para que el cerámico *dure años*.', '04-ceramica_mantenimiento', LIMPIO, 'car', { la: 'Lavado', lb: 'Resultado' }),
     ]},
-    extras: { label: 'Extras', groups: ['Interior', 'Exterior'], opts: [] },
+    extras: { label: 'Extras', groups: ['Interior', 'Exterior', 'Si hace falta'], opts: [] },
   };
   const ZONA = { interior: 'Interior', cristales: 'Cristales', motor: 'Motor', ruedas: 'Ruedas', carroceria: 'Carrocería' };
   [
-    ['interior', 'suciedad-extrema', 'Suciedad extrema', 'Obra', 'Polvo de obra, yeso y barro. Interior *recuperado a fondo*.'],
-    ['interior', 'pelo-de-perro', 'Pelo de mascota', 'Mascota', 'Sacamos el *pelo incrustado* en la tapicería.'],
     ['interior', 'cuero', 'Limpieza de cuero', 'Cuero', 'Sin grasa ni brillos sucios: el cuero vuelve a su *tacto mate*.'],
     ['interior', 'coating-cuero', 'Coating de cuero', 'Coating cuero', 'Una protección que impide que los líquidos *penetren y manchen*.'],
     ['interior', 'cinturones', 'Cinturones', 'Cinturones', 'Cintas limpias y con su *color original*.'],
     ['interior', 'plasticos', 'Plásticos interiores', 'Plásticos', 'Salpicadero y puertas sin polvo ni huellas, en *negro satinado*.'],
-    ['interior', 'negro-piano', 'Negro piano', 'Negro piano', 'Pulimos los *micro-arañazos* y las huellas de la consola.'],
     ['cristales', 'pulido-cristales', 'Pulido de cristales', 'Cristales', 'Fuera la *cal*, los arcos del limpia y la *grasa*.'],
     ['motor', 'vano-motor', 'Vano motor', 'Motor', 'Limpieza y protección del motor, *sin riesgos*.'],
     ['ruedas', 'neumaticos', 'Neumáticos', 'Neumáticos', 'Del marrón apagado a un *negro satinado*.'],
     ['ruedas', 'pasos-de-rueda', 'Pasos de rueda', 'Pasos de rueda', 'Barro incrustado fuera, *pasos limpios*.'],
     ['carroceria', 'hidratacion-gomas', 'Hidratación de gomas', 'Gomas', 'Juntas resecas que vuelven a estar *negras y flexibles*.'],
     ['carroceria', 'plateados', 'Plateados', 'Plateados', 'Molduras sin oxidación ni cal, con *brillo de espejo*.'],
+    // Negro piano: de momento con las fotos de la consola; pasará a carrocería (pilares y molduras) cuando estén sus fotos
+    ['interior', 'negro-piano', 'Negro piano', 'Negro piano', 'Pulimos los *micro-arañazos* y las huellas del *negro piano*.'],
     ['carroceria', 'cera-rapida', 'Cera rápida', 'Cera', 'Brillo húmedo y *reflejos nítidos* en minutos.', { slider: true }],
+    // No se contratan: si el coche llega así, Top Detail avisa al cliente antes de empezar (más tiempo y suplemento)
+    ['interior', 'suciedad-extrema', 'Suciedad extrema', 'Obra', 'Si el coche llega con polvo de obra, yeso o barro, *te avisamos antes*: lleva más tiempo y un suplemento.', { sup: true }],
+    ['interior', 'pelo-de-perro', 'Pelo de mascota', 'Mascota', 'Si hay mucho *pelo incrustado* en la tapicería, *te avisamos antes*: lleva más tiempo y un suplemento.', { sup: true }],
   ].forEach(([z, n, name, short, desc, more = {}]) => CATS.extras.opts.push(
-    o(name, short, desc, `05-extras_${z}_${n}_antes`, `05-extras_${z}_${n}_despues`, n, { zone: ZONA[z], group: z === 'interior' ? 0 : 1, ...more })));
+    o(name, short, desc, `05-extras_${z}_${n}_antes`, `05-extras_${z}_${n}_despues`, n, { zone: more.sup ? 'Te avisamos' : ZONA[z], group: more.sup ? 2 : z === 'interior' ? 0 : 1, ...more })));
 
   const $ = id => document.getElementById(id);
   const back = $('back'), front = $('front'), sweep = $('sweep'), phone = $('phone');
@@ -606,7 +611,7 @@ h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-s
       const p = document.createElement('p'); p.textContent = h; nav.append(p);
       items.forEach(([x, i]) => {
         const b = document.createElement('button');
-        b.textContent = x.short; b.dataset.i = i; b.setAttribute('aria-label', x.name);
+        b.textContent = x.short; b.dataset.i = i; b.setAttribute('aria-label', x.name); if (x.sup) b.className = 'sup';
         b.onclick = () => play(cat, i);
         nav.append(b);
       });
@@ -660,7 +665,7 @@ h1 { font-family: var(--display); text-transform: none; font-weight: 600; font-s
     $('name').innerHTML = titleHTML(C, O);
     if (O) { const t = document.createElement('span'); t.className = 'tag'; $('name').append(t); }
     $('desc').innerHTML = rich(O ? O.desc : 'Toca un servicio para verlo en acción, o desliza hacia arriba para ver la pintura de cerca.');
-    const what = !C ? 'vuestros servicios' : `${C.label.split(' ·')[0]} (${O.name})`;
+    const what = !C || O.sup ? 'vuestros servicios' : `${C.label.split(' ·')[0]} (${O.name})`;
     $('cita').href = W + encodeURIComponent(`Hola! Me interesa ${what}. ¿Me dais información?`);
     back.alt = O ? `${O.name}. ${plain(O.desc)}` : 'Porsche Cayenne negro, limpio, en el taller de Top Detail Garage';
     paintAB();
