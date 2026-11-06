@@ -585,6 +585,10 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
 .motto { margin: 16px 0 0 !important; font-size: 16px !important; color: rgba(255,255,255,.6) !important; }
 .motto b { color: var(--ink); }
 @media (prefers-reduced-motion: reduce) { .reveal { filter: none; } .u { background-size: 100% 2px; transition: none; } .strike::after { transform: scaleX(1); transition: none; } .steps li::after { transition: none; } }
+/* Galería de trabajos reales (fotos de las redes de Javi) */
+.gal > figure { flex: 0 0 62%; margin: 0; position: relative; border-radius: var(--r); overflow: hidden; aspect-ratio: 3 / 4.4; background: #111; box-shadow: 0 12px 28px rgba(0,0,0,.4); }
+.gal img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.gal figcaption { position: absolute; inset: auto 0 0; padding: 26px 10px 9px; font-size: 12px; font-weight: 600; line-height: 1.3; background: linear-gradient(to top, rgba(0,0,0,.85), rgba(0,0,0,0)); }
 /* ── El taller por pestañas (2026-11-06): menos scroll, más profundidad ── */
 .sheet-head { flex-wrap: wrap; row-gap: 10px; padding-bottom: 8px; background: linear-gradient(rgba(8,6,6,.98) 86%, rgba(8,6,6,0)); }
 .tabs { order: 3; flex: 1 0 100%; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; margin: 0 -16px; padding: 0 16px 6px; scroll-snap-type: x proximity; }
@@ -701,7 +705,7 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
           <button role="tab" data-t="nos">Nosotros</button><button role="tab" data-t="serv">Servicios</button><button role="tab" data-t="pint">Pintura</button><button role="tab" data-t="rep">Report™</button><button role="tab" data-t="dud">Dudas</button><button role="tab" data-t="vis">Tu cita</button>
         </nav>
       </div>
-      <div class="hero" data-tab="nos" data-o="0" style="--bg:url(img/00-base_porsche_limpio.webp?v=2)"><p class="tagline">Centro detailing profesional · Cuidado · Corrección · Protección · Seguimiento</p><b>Top Detail <span class="k">Garage</span></b><span>Fernán Núñez · Córdoba</span></div>
+      <div class="hero" data-tab="nos" data-o="0" style="--bg:url(img/real_taller_suv.webp)"><p class="tagline">Centro detailing profesional · Cuidado · Corrección · Protección · Seguimiento</p><b>Top Detail <span class="k">Garage</span></b><span>Fernán Núñez · Córdoba</span></div>
       <div class="hero" data-tab="serv" data-o="0" style="--bg:url(img/06-limpieza_integral.webp?v=2)"><p class="tagline">Precios con IVA incluido</p><b>Elige el servicio <span class="k">que tu coche merece.</span></b><span>Toca «Ver» para verlo en acción</span></div>
 
       <section data-tab="nos" data-o="1">
@@ -894,10 +898,19 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
         <div class="btns"><a class="btn" href="https://www.google.com/maps/dir/?api=1&amp;destination=Fern%C3%A1n+N%C3%BA%C3%B1ez,+C%C3%B3rdoba" target="_blank" rel="noopener">Cómo llegar</a></div>
       </section>
 
-      <section data-tab="nos" data-o="5">
-        <h3 class="reveal">Galería <b>y redes.</b></h3>
-        <p>Nuestros trabajos reales, coche a coche.</p>
-        <span class="pending">Pendiente: fotos reales de trabajos y usuarios de Instagram y TikTok</span>
+      <section data-tab="nos" data-o="1.5">
+        <h3 class="reveal"><small>Galería</small>Trabajos <b>reales.</b></h3>
+        <p>Así trabajamos en el taller, coche a coche.</p>
+        <div class="gal rail">
+          <figure><img src="img/real_taller_suv.webp" alt="El taller, con su iluminación hexagonal" loading="lazy"><figcaption>El taller, con su iluminación hexagonal</figcaption></figure>
+          <figure><img src="img/real_taller_audi_tt.webp" alt="Audi TT recién terminado en el taller" loading="lazy"><figcaption>Audi TT recién terminado en el taller</figcaption></figure>
+          <figure><img src="img/real_trabajo_audi_tt_interior.webp" alt="Interior del Audi TT con tapicería roja" loading="lazy"><figcaption>Interior del Audi TT con tapicería roja</figcaption></figure>
+          <figure><img src="img/real_trabajo_bmw_interior.webp" alt="Interior de BMW en cuero blanco" loading="lazy"><figcaption>Interior de BMW en cuero blanco</figcaption></figure>
+          <figure><img src="img/real_trabajo_audi_interior.webp" alt="Interior de Audi limpio y protegido" loading="lazy"><figcaption>Interior de Audi limpio y protegido</figcaption></figure>
+          <figure><img src="img/real_trabajo_porsche_escudo.webp" alt="Escudo de Porsche detallado" loading="lazy"><figcaption>Escudo de Porsche detallado</figcaption></figure>
+        </div>
+        <p class="swipe-h">Desliza para ver más →</p>
+        <span class="pending">Pendiente: usuarios de Instagram y TikTok y más fotos</span>
       </section>
 
       <section data-tab="vis" data-o="1">
@@ -946,7 +959,7 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
       o('5 %', '5 %', 'Tinte limusina. *Privacidad total* en las plazas traseras.', '02-tintado_lunas_sin', '02-tintado_lunas_5', 'side', { la: 'Sin tintar', lb: 'Tintado' }),
     ]},
     pintura: { label: 'Pintura', head: 'Trabajo', evo: true, opts: [
-      o('Pulido 1 paso', '1 paso', 'Quita la mayoría de los *swirls* y recupera el *brillo*.', '03-correccion_pintura_swirls', '03-correccion_pintura_1paso', 'macro'),
+      o('Pulido 1 paso', '1 paso', 'Quita la mayoría de los *swirls* y recupera el *brillo*.', '03-correccion_pintura_swirls', '03-correccion_pintura_1paso', 'macro', { clip: 'pulido' }),
       o('Pulido 2 pasos', '2 pasos', 'Corte y abrillantado: la pintura queda como un *espejo*.', '03-correccion_pintura_swirls', '03-correccion_pintura_2pasos', 'macro'),
       o('Cerámico', 'Cerámico', 'Recubrimiento que *repele* el agua, la suciedad y los rayos UV.', '03-correccion_pintura_2pasos', '04-ceramica_perlado', 'macro', { la: 'Sin proteger', lb: 'Con cerámico' }),
       o('Mantenimiento', 'Manteni­miento', 'Lavado con espuma activa para que el cerámico *dure años*.', '04-ceramica_mantenimiento', LIMPIO, 'car', { la: 'Lavado', lb: 'Resultado' }),
@@ -1094,6 +1107,8 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
   const CLIPS = {
     pintura: { pre: 'p_', v: 2, end: SWIRLS, frame: 'macro', frames: [] },
     tintado: { pre: 't_', v: 2, end: '02-tintado_lunas_sin', frame: 'side', frames: [] },
+    // pulido: Veo con 1.º = remolinos y último = pulido 1 paso; la pulidora entra, pule el capó y sale (start: foto del primer fotograma)
+    pulido: { pre: 'u_', v: 1, ms: 5000, start: SWIRLS, end: '03-correccion_pintura_1paso', frame: 'macro', frames: [] },
   };
   let clip = CLIPS.pintura, frames = clip.frames;
   const photos = {};   // fotos ya cargadas, por nombre (para fundirlas con el vídeo)
@@ -1126,7 +1141,7 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
     const e = t => t * t * (3 - 2 * t);
     const key = i + '|' + Math.round(a0 * 40) + '|' + Math.round(a1 * 40);
     if (key === lastDrawn) return;
-    const im = nearest(i), P0 = photos[LIMPIO], P1 = photos[shownFrame === clip.frame ? shownSrc : clip.end];
+    const im = nearest(i), P0 = photos[clip.start || LIMPIO], P1 = photos[clip.start || shownFrame !== clip.frame ? clip.end : shownSrc];
     if (!im && !(a0 && ok(P0)) && !(a1 && ok(P1))) return;
     if (im) cover(im);
     if (a0 && ok(P0)) cover(P0, im ? e(a0) : 1);
@@ -1149,7 +1164,7 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
   async function bridge(from, to, c = 'pintura') {
     useClip(c); sizeSeq(); drawP(from);
     await fade(1, 260);
-    await tween(from, to, 3200 * Math.abs(to - from) + 150, drawP);
+    await tween(from, to, (clip.ms || 3200) * Math.abs(to - from) + 150, drawP);
     const src = to === 1 ? clip.end : LIMPIO;
     back.src = img(src); try { await back.decode(); } catch (e) {}
     shownSrc = src; shownFrame = to === 1 ? clip.frame : 'car';
@@ -1359,7 +1374,10 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
     await show(O.a, O.frame, 1, my); if (my !== token) return;
     await wait(HOLD); if (my !== token) return;
     state = 'b'; paintAB();
-    await show(O.b, O.frame, 1, my); if (my !== token) return;
+    // Con vídeo propio (pulidora), el «después» llega con la máquina pasando por el capó; si no, con el barrido
+    if (VIDEO && O.clip && clipReady(O.clip)) await q(() => my === token && shownSrc === O.a ? bridge(0, 1, O.clip) : doShow(O.b, O.frame, 1, my));
+    else await show(O.b, O.frame, 1, my);
+    if (my !== token) return;
     abReady = true; paintAB();
     if (O.slider) q(() => enterSlider(O, my));
   }
