@@ -19,7 +19,7 @@
 <title>Top Detail Garage</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,300..900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
 /* Layout: un teléfono a pantalla completa; la foto ocupa todo, los servicios cuelgan de los dos bordes y la ficha va abajo, sobre el suelo. */
 :root {
@@ -489,6 +489,102 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
 .price:empty { display: none; }
 .sheet section { scroll-margin-top: 64px; }
 .price .k { font-weight: 800; font-size: 17px; }
+/* ── Cambios de Javi (2026-11-06) ──
+   Pantalla de inicio tipo «pulsa para empezar», «Top ventas» en la limpieza premium
+   y El taller con titulares en dos pesos, línea de tiempo, teoría en acordeón y preguntas frecuentes. */
+/* Inicio: al terminar la carga, se pide deslizar hacia arriba para empezar */
+.start {
+  display: grid; justify-items: center; gap: 4px; margin: 6px auto 0; padding: 8px 16px 0; background: none; border: 0;
+  color: var(--ink); font: inherit; cursor: pointer; text-align: center; -webkit-tap-highlight-color: transparent;
+}
+.start[hidden] { display: none; }
+.start .chev { display: grid; justify-items: center; height: 30px; }
+.start .chev i { width: 14px; height: 14px; border: solid var(--red-ink); border-width: 2px 0 0 2px; transform: rotate(45deg); margin-top: -6px; opacity: .3; animation: chev 1.6s ease-in-out infinite; }
+.start .chev i:nth-child(1) { animation-delay: .3s; }
+.start .chev i:nth-child(2) { animation-delay: .15s; }
+.start b { font: 800 15px/1.1 var(--display); font-stretch: 125%; text-transform: uppercase; letter-spacing: .06em; animation: blink 2.2s ease-in-out infinite; }
+.start span { font-size: 13px; font-weight: 500; color: rgba(255,255,255,.66); letter-spacing: .02em; }
+.start:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; border-radius: var(--r); }
+@keyframes chev { 0%, 100% { opacity: .2; transform: translateY(4px) rotate(45deg); } 50% { opacity: 1; transform: translateY(-2px) rotate(45deg); } }
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: .45; } }
+.loader.ready #pct, .loader.ready .bar { display: none; }
+.loader.done { transform: translateY(-36px); transition: opacity .6s, transform .6s cubic-bezier(.2,.8,.2,1); }
+@media (prefers-reduced-motion: reduce) { .start .chev i, .start b { animation: none; opacity: 1; } .loader.done { transform: none; } }
+/* «Top ventas»: etiqueta en el botón de la opción y primera píldora de la ficha */
+.xside button { position: relative; overflow: visible; }
+.xside button .badge { top: -7px; left: auto; right: -4px; transform: none; font-size: 7px; padding: 2px 5px 1px; }
+.spec li.hot { color: var(--ink); background: var(--red); border-color: var(--red); }
+
+/* El taller, estilo editorial: titular fino + palabra fuerte, subrayado rojo y aparición desenfocada */
+.sheet h3 {
+  display: block; margin: 0 0 14px; font: 300 27px/1.06 var(--display); font-stretch: 100%; text-transform: none;
+  letter-spacing: -.01em; color: rgba(255,255,255,.9);
+}
+.sheet h3::before { display: none; }
+.sheet h3 b { font-weight: 800; font-stretch: 112%; color: var(--ink); }
+.sheet h3 small { display: block; margin-bottom: 8px; font: 700 10px/1 var(--ui); letter-spacing: .24em; text-transform: uppercase; color: var(--red-ink); }
+.sheet section { padding: 28px 0; }
+.u { background: linear-gradient(var(--red), var(--red)) 0 100% / 0 2px no-repeat; padding-bottom: 2px; transition: background-size .9s cubic-bezier(.2,.8,.2,1) .25s; }
+.in .u, .u.in { background-size: 100% 2px; }
+.strike { position: relative; color: rgba(255,255,255,.55); font-weight: 300; }
+.strike::after { content: ""; position: absolute; left: -2px; right: -2px; top: 52%; height: 2px; background: var(--red); transform: scaleX(0); transform-origin: 0 50%; transition: transform .6s cubic-bezier(.2,.8,.2,1) .35s; }
+.in .strike::after { transform: scaleX(1); }
+.claim { font: 300 25px/1.1 var(--display) !important; font-stretch: 100% !important; text-transform: none; }
+.claim b { font-weight: 800; font-stretch: 112%; }
+.reveal { filter: blur(6px); transition: opacity .7s, transform .7s cubic-bezier(.2,.8,.2,1), filter .7s; }
+.reveal.in { filter: none; }
+/* Cifras */
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); margin: 16px 0 4px; }
+.stats div { padding: 2px 10px; border-left: 1px solid rgba(255,255,255,.16); }
+.stats b { display: block; font: 300 28px/1 var(--display); color: var(--ink); white-space: nowrap; }
+.stats b small { font-size: 13px; color: rgba(255,255,255,.6); margin-left: 2px; }
+.stats span { display: block; margin-top: 6px; font-size: 9px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.5); line-height: 1.35; }
+/* Línea de tiempo: el paso a la vista se marca con la barra roja */
+.steps { gap: 0; }
+.steps li { padding: 14px 4px 14px 46px; border: 0; border-left: 1px solid rgba(255,255,255,.12); border-radius: 0; background: none; transition: opacity .7s, transform .7s cubic-bezier(.2,.8,.2,1), filter .7s, border-color .4s; }
+.steps li::before { left: 14px; top: 16px; font: 600 11px/1 var(--ui); letter-spacing: .1em; color: rgba(255,255,255,.4); }
+.steps li::after { content: ""; position: absolute; left: -2px; top: 10px; bottom: 10px; width: 3px; border-radius: 2px; background: var(--red); transform: scaleY(0); transition: transform .5s cubic-bezier(.2,.8,.2,1); }
+.steps li.on::after { transform: none; }
+.steps li.on::before { color: var(--red-ink); }
+.steps b { font: 600 16px/1.2 var(--ui); text-transform: none; letter-spacing: .01em; }
+.steps li:not(.on) b { color: rgba(255,255,255,.62); }
+/* Qué incluye cada limpieza */
+.cmp-t { width: 100%; border-collapse: collapse; font-size: 13px; margin: 4px 0 12px; }
+.cmp-t th, .cmp-t td { padding: 9px 4px; border-bottom: 1px solid var(--line); text-align: center; }
+.cmp-t th:first-child, .cmp-t td:first-child { text-align: left; color: rgba(255,255,255,.76); padding-left: 0; }
+.cmp-t thead th { font: 800 11px/1.2 var(--display); font-stretch: 112%; text-transform: uppercase; letter-spacing: .04em; vertical-align: bottom; }
+.cmp-t thead th small { display: block; font: 700 9px/1.2 var(--ui); letter-spacing: .1em; color: var(--red-ink); margin-top: 3px; }
+.cmp-t thead th.tp { color: var(--ink); background: rgba(160,29,51,.28); border-radius: 8px 8px 0 0; }
+.cmp-t td.tp { background: rgba(160,29,51,.14); }
+.cmp-t .y { color: var(--red-ink); font-weight: 800; font-size: 15px; }
+.cmp-t .n { color: rgba(255,255,255,.28); }
+/* Teoría: del problema a la protección, en acordeón con su foto */
+.theory-img { position: relative; margin: 0 0 6px; border-radius: var(--r); overflow: hidden; aspect-ratio: 4 / 3; background: #111; }
+.theory-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .6s; filter: contrast(1.06) saturate(.88) brightness(.94); }
+.theory-img img.on { opacity: 1; }
+.theory-img .lbl { position: absolute; left: 10px; top: 10px; z-index: 1; font-size: 9px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; background: rgba(0,0,0,.6); padding: 4px 7px 3px; border-radius: 5px; }
+.theory-img .rd { position: absolute; right: 10px; bottom: 8px; z-index: 1; font-size: 9px; letter-spacing: .08em; color: rgba(255,255,255,.55); }
+.dot { position: absolute; z-index: 1; display: flex; align-items: center; gap: 6px; font-size: 10px; font-weight: 700; letter-spacing: .04em; transition: opacity .4s; }
+.dot::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--red); box-shadow: 0 0 0 4px rgba(160,29,51,.3); flex: none; }
+.dot span { background: rgba(0,0,0,.65); padding: 3px 6px; border-radius: 5px; }
+.theory-img:not(.p0) .dot { opacity: 0; }
+.acc { border-bottom: 1px solid var(--line); }
+.acc summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 12px; padding: 14px 0; font-size: 16px; font-weight: 600; }
+.acc summary::-webkit-details-marker { display: none; }
+.acc summary i { font-style: normal; font-size: 11px; font-weight: 600; letter-spacing: .1em; color: rgba(255,255,255,.4); width: 18px; }
+.acc summary::after { content: "+"; margin-left: auto; width: 28px; height: 28px; flex: none; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.3); border-radius: 50%; font-size: 16px; font-weight: 400; transition: transform .3s, background .3s, color .3s; }
+.acc[open] summary::after { transform: rotate(45deg); background: var(--ink); color: #000; border-color: var(--ink); }
+.acc[open] summary i { color: var(--red-ink); }
+.acc[open] { border-bottom-color: var(--red); }
+.acc .body { padding: 0 0 16px 30px; }
+.acc .body p { font-size: 14px; }
+.big { font: 300 22px/1.12 var(--display) !important; color: var(--ink) !important; margin: 4px 0 12px !important; }
+.lvl { display: flex; gap: 6px; flex-wrap: wrap; margin: 0 0 10px; }
+.lvl span { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: 6px 9px 5px; border: 1px solid rgba(255,255,255,.2); border-radius: 6px; }
+.lvl span.on { background: var(--red); border-color: var(--red); }
+.motto { margin: 16px 0 0 !important; font-size: 16px !important; color: rgba(255,255,255,.6) !important; }
+.motto b { color: var(--ink); }
+@media (prefers-reduced-motion: reduce) { .reveal { filter: none; } .u { background-size: 100% 2px; transition: none; } .strike::after { transform: scaleX(1); transition: none; } .steps li::after { transition: none; } }
 </style>
 </head>
 <body>
@@ -542,8 +638,8 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
       <p class="tagline">Centro detailing profesional · Cuidado · Corrección · Protección · Seguimiento</p>
 
       <section>
-        <h3>Nuestra filosofía</h3>
-        <p class="claim">No limpiamos coches.<br><span class="k">Cuidamos vehículos.</span></p>
+        <h3 class="reveal"><small>01 · El taller</small>Nuestra <b>filosofía.</b></h3>
+        <p class="claim reveal">No <span class="strike">limpiamos</span> coches.<br><b class="u">Cuidamos vehículos.</b></p>
         <p>Entendemos que un vehículo es una inversión, una afición y, para muchos, una parte importante de su día a día. Nuestro objetivo no es solo limpiarlo: es <strong>conservar su estado, proteger su valor</strong> y hacer un seguimiento profesional de su evolución.</p>
         <div class="values">
           <div class="reveal"><b>Calidad</b><span>Resultados impecables en cada detalle.</span></div>
@@ -551,10 +647,15 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
           <div class="reveal"><b>Productos premium</b><span>Las mejores marcas del mercado.</span></div>
           <div class="reveal"><b>Seguimiento</b><span>Tu vehículo, siempre bajo control.</span></div>
         </div>
+        <div class="stats reveal">
+          <div><b>3</b><span>Niveles de limpieza, todos completos</span></div>
+          <div><b>7<small>años</small></b><span>Garantía máxima del cerámico</span></div>
+          <div><b>1</b><span>Historial para cada coche</span></div>
+        </div>
       </section>
 
       <section>
-        <h3>Cómo trabajamos</h3>
+        <h3 class="reveal"><small>02 · Proceso</small>Cómo <b>trabajamos.</b></h3>
         <ol class="steps">
           <li class="reveal"><b>Diagnóstico estético</b><span>Revisamos el estado real de pintura, interior, llantas y cristales antes de tocar nada.</span></li>
           <li class="reveal"><b>Asesoramiento</b><span>Te recomendamos el servicio según el uso, el estado y las necesidades reales del coche. Si llega con suciedad extrema o mucho pelo de mascota, te avisamos antes.</span></li>
@@ -564,8 +665,64 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
         </ol>
       </section>
 
+
+      <section id="limpiezas">
+        <h3 class="reveal"><small>03 · Limpiezas</small>Las tres son <b>completas.</b></h3>
+        <p class="reveal">Básica, premium o integral: <strong>todas limpian el coche por dentro y por fuera, al detalle</strong>. Lo que cambia es hasta dónde llegamos en el interior.</p>
+        <table class="cmp-t reveal">
+          <thead><tr><th></th><th>Básica<small>70 €</small></th><th class="tp">Premium<small>Top ventas</small></th><th>Integral<small>130 €</small></th></tr></thead>
+          <tbody>
+            <tr><td>Exterior al detalle</td><td class="y">✓</td><td class="y tp">✓</td><td class="y">✓</td></tr>
+            <tr><td>Interior al detalle</td><td class="y">✓</td><td class="y tp">✓</td><td class="y">✓</td></tr>
+            <tr><td>Tapicería de asientos</td><td class="n">—</td><td class="y tp">✓</td><td class="y">✓</td></tr>
+            <tr><td>Moqueta y techo</td><td class="n">—</td><td class="n tp">—</td><td class="y">✓</td></tr>
+          </tbody>
+        </table>
+        <p class="note reveal">La <strong>básica no incluye la tapicería</strong>: si lo que quieres es limpiar los asientos, elige la premium, que desde 100&nbsp;€ es la que más se pide.</p>
+      </section>
+
+      <section id="teoria">
+        <h3 class="reveal"><small>04 · Pintura</small>Del problema a la <b>protección.</b></h3>
+        <div class="theory-img p0 reveal" id="th-img">
+          <span class="lbl" id="th-lbl">Sin pulir</span>
+          <img class="on" src="img/03-correccion_pintura_swirls.webp?v=2" alt="Pintura negra con remolinos y brillo apagado" loading="lazy">
+          <img src="img/03-correccion_pintura_2pasos.webp?v=2" alt="Pintura negra pulida con acabado espejo" loading="lazy">
+          <img src="img/04-ceramica_perlado.webp?v=2" alt="Gotas de agua perlando sobre la pintura con cerámico" loading="lazy">
+          <span class="dot" style="left:16%;top:30%"><span>Remolinos de lavado</span></span>
+          <span class="dot" style="left:46%;top:56%"><span>Microarañazos</span></span>
+          <span class="dot" style="left:22%;top:76%"><span>Brillo apagado</span></span>
+          <span class="rd">Recreación digital</span>
+        </div>
+        <details class="acc" name="teoria" data-img="0" data-lbl="Sin pulir" open>
+          <summary><i>01</i>El problema</summary>
+          <div class="body">
+            <p>Los túneles de lavado, las esponjas con arena y secar con cualquier trapo van dejando <strong>microarañazos</strong> en el barniz. Al sol se ven como una telaraña.</p>
+            <p class="big">Apagada.<br>Con remolinos.<br>Sin reflejos.</p>
+            <p>Con el pulido corregimos ese desgaste y la pintura recupera <strong>brillo, profundidad y reflejos</strong>.</p>
+          </div>
+        </details>
+        <details class="acc" name="teoria" data-img="1" data-lbl="Pulida">
+          <summary><i>02</i>El pulido</summary>
+          <div class="body">
+            <p>Con máquina, pads y pulimentos nivelamos el barniz hasta que el defecto <strong>desaparece</strong>. Elegimos el nivel según el estado real de la pintura:</p>
+            <div class="lvl"><span class="on">1 paso · 220–300 €</span><span>2 pasos · 350–450 €</span></div>
+            <p><strong>1 paso</strong>: swirls ligeros y poco desgaste. <strong>2 pasos</strong>: arañazos visibles, hologramas y oxidación, con acabado espejo.</p>
+          </div>
+        </details>
+        <details class="acc" name="teoria" data-img="2" data-lbl="Con cerámico">
+          <summary><i>03</i>El cerámico</summary>
+          <div class="body">
+            <p>Con la pintura ya corregida, la sellamos con un coating <strong>FX Protect</strong>.</p>
+            <p class="big">Brillo intenso.<br>El agua resbala.<br>Protegida del sol.</p>
+            <div class="lvl"><span>Gloss · 3 años</span><span>CNT · 5 años</span><span class="on">CNT+ · 7 años</span></div>
+            <p class="note">Va siempre después de pulir: el cerámico sella la pintura tal y como está. Protege, pero no la hace inrayable.</p>
+          </div>
+        </details>
+        <p class="motto reveal">Un buen pulido no esconde los defectos. <b>Los quita.</b></p>
+      </section>
+
       <section id="report">
-        <h3>Top Detail Report™</h3>
+        <h3 class="reveal"><small>05 · Seguimiento</small>Top Detail <b>Report™</b></h3>
         <p class="claim sm">Más que una limpieza.<br><span class="k">Un historial estético para tu vehículo.</span></p>
         <p>Cada vehículo recibe un <strong>diagnóstico estético profesional</strong> y pasa a formar parte de nuestro sistema exclusivo de seguimiento.</p>
         <ul class="feats">
@@ -600,13 +757,13 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
       </section>
 
       <section>
-        <h3>Servicios y precios</h3>
+        <h3 class="reveal"><small>06 · Tarifas</small>Servicios y <b>precios.</b></h3>
         <p class="note">Precios con IVA incluido.</p>
         <div id="svc-list"></div>
       </section>
 
       <section id="ceramica">
-        <h3>Protección cerámica</h3>
+        <h3 class="reveal">Protección <b>cerámica.</b></h3>
         <p>Sellamos el acabado y protegemos tu vehículo a largo plazo. <strong>Recomendado tras una corrección de pintura.</strong></p>
         <div class="packs">
           <div class="pack reveal"><b>FX Protect Gloss</b><span>Coating cerámico · garantía de <strong>3 años</strong>.</span><small>Desde 150 €</small></div>
@@ -617,16 +774,17 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
       </section>
 
       <section id="packs">
-        <h3>Mantenimiento y bonos</h3>
+        <h3 class="reveal">Mantenimiento <b>y bonos.</b></h3>
         <div class="packs">
-          <div class="pack reveal"><b>Mantenimiento cerámico</b><span>Lavado seguro, limpieza de llantas y zonas bajas, descontaminación ligera si procede, booster y revisión del comportamiento hidrofóbico.</span><small>Recomendado cada 4–6 meses</small></div>
+          <div class="pack reveal"><b>Lavado de mantenimiento</b><span>Solo exterior, de forma profesional y <strong>segura, sin rayar</strong>: mantiene el estado y el aspecto del cerámico siempre como nuevo.</span><small>20 € · cada mes</small></div>
+          <div class="pack reveal"><b>Booster del cerámico</b><span>Potenciador que refuerza la hidrofobicidad y el brillo del coating y alarga su vida útil.</span><small>Cada 6 meses o una vez al año</small></div>
           <div class="pack reveal"><b>Bonos de mantenimiento</b><span>Visitas periódicas para conservar el brillo y la protección, con su registro en el Top Detail Report™.</span><small>Consúltanos</small></div>
         </div>
-        <span class="pending" style="margin-top:10px">Pendiente: precio del mantenimiento, bonos, tintado y extras</span>
+        <span class="pending" style="margin-top:10px">Pendiente: precio del booster, bonos, tintado y extras</span>
       </section>
 
       <section>
-        <h3>¿Por qué elegirnos?</h3>
+        <h3 class="reveal">¿Por qué <b>elegirnos?</b></h3>
         <ol class="steps">
           <li class="reveal"><b>Seguimiento profesional</b><span>Cada vehículo puede formar parte de nuestro sistema de seguimiento estético con el Top Detail Report™ y su historial de mantenimiento.</span></li>
           <li class="reveal"><b>Formación continua</b><span>Criterio técnico, formación especializada y mejora constante de nuestros procesos.</span></li>
@@ -637,15 +795,27 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
         <span class="pending" style="margin-top:10px">Pendiente: fotos de cursos y certificaciones</span>
       </section>
 
+
+      <section id="faq">
+        <h3 class="reveal"><small>07 · Dudas</small>Preguntas <b>frecuentes.</b></h3>
+        <details class="acc" name="faq" open><summary><i>01</i>¿Las limpiezas incluyen el interior?</summary><div class="body"><p><strong>Sí, las tres.</strong> Todas son completas, por dentro y por fuera. La básica no incluye la tapicería; la premium sí, y la integral además limpia moqueta y techo.</p></div></details>
+        <details class="acc" name="faq"><summary><i>02</i>¿Puedo hacer solo el cerámico, sin pulir?</summary><div class="body"><p>Se puede, pero lo recomendamos <strong>después de una corrección</strong>: el cerámico sella la pintura tal y como está, con sus remolinos incluidos.</p></div></details>
+        <details class="acc" name="faq"><summary><i>03</i>¿El cerámico hace la pintura inrayable?</summary><div class="body"><p><strong>No.</strong> La protege del sol y la suciedad, la hace más fácil de lavar y le da brillo, pero no evita un arañazo.</p></div></details>
+        <details class="acc" name="faq"><summary><i>04</i>¿Cada cuánto hay que mantener el cerámico?</summary><div class="body"><p>Un <strong>lavado de mantenimiento al mes</strong> (solo exterior, 20&nbsp;€) y el <strong>booster cada 6 meses o una vez al año</strong>.</p></div></details>
+        <details class="acc" name="faq"><summary><i>05</i>¿Cuánto tarda una limpieza?</summary><div class="body"><p>Básica, hasta 2 h 30 min; premium, hasta 3 h; integral, hasta 4 h 30 min. Pulidos y cerámicos dependen del estado de la pintura: te lo decimos al ver el coche.</p></div></details>
+        <details class="acc" name="faq"><summary><i>06</i>¿Y si el coche llega muy sucio o con pelo de mascota?</summary><div class="body"><p><strong>Te avisamos antes de empezar.</strong> Lleva más tiempo y un suplemento, y no tocamos nada sin que lo sepas.</p></div></details>
+        <details class="acc" name="faq"><summary><i>07</i>¿Cómo pido cita?</summary><div class="body"><p>Por <strong>WhatsApp</strong> o llamando al <strong>643 182 964</strong>. Abajo tienes los dos botones.</p></div></details>
+      </section>
+
       <section>
-        <h3>Reseñas</h3>
-        <p>Lo que dicen nuestros clientes, en nuestra ficha de Google.</p>
+        <h3 class="reveal">Lo que dicen <b>nuestros clientes.</b></h3>
+        <p>Opiniones reales de nuestros clientes, en nuestra ficha de Google.</p>
         <div class="btns"><a class="btn" href="https://www.google.com/maps/search/?api=1&amp;query=Top+Detail+Garage+Fern%C3%A1n+N%C3%BA%C3%B1ez" target="_blank" rel="noopener">Ver reseñas en Google</a></div>
         <span class="pending" style="margin-top:10px">Pendiente: enlace a la ficha de Google y reseñas destacadas</span>
       </section>
 
       <section>
-        <h3>Horario y cómo llegar</h3>
+        <h3 class="reveal">Horario y <b>cómo llegar.</b></h3>
         <table class="hours"><tbody>
           <tr><td>Lunes a sábado</td><td>9:00 – 19:00</td></tr>
           <tr><td>Domingo</td><td>Cerrado</td></tr>
@@ -657,13 +827,13 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
       </section>
 
       <section>
-        <h3>Galería y redes</h3>
+        <h3 class="reveal">Galería <b>y redes.</b></h3>
         <p>Nuestros trabajos reales, coche a coche.</p>
         <span class="pending">Pendiente: fotos reales de trabajos y usuarios de Instagram y TikTok</span>
       </section>
 
       <section>
-        <h3>Pide tu cita</h3>
+        <h3 class="reveal">Pide tu <b>cita.</b></h3>
         <div class="btns">
           <a class="btn red" href="https://wa.me/34643182964?text=Hola%21%20Quiero%20pedir%20cita%20en%20Top%20Detail%20Garage." target="_blank" rel="noopener">WhatsApp</a>
           <a class="btn" href="tel:+34643182964">Llamar · 643 182 964</a>
@@ -674,6 +844,7 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
       <div class="welcome"><span class="hello">Bienvenido a</span><img class="brand" src="img/logo-topdetail.svg" alt="Top Detail Garage"></div>
       <p><span id="pct">0 %</span></p>
       <div class="bar"><i id="bar"></i></div>
+      <button class="start" id="start" type="button" hidden><span class="chev" aria-hidden="true"><i></i><i></i><i></i></span><b>Desliza hacia arriba</b><span>para comenzar a ver todos nuestros servicios</span></button>
     </div>
   </div>
 </div>
@@ -695,7 +866,7 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
   const CATS = {
     limpieza: { label: 'Limpieza', head: 'Nivel', evo: true, opts: [
       o('Básico', 'Básico', 'Lavado a mano y aspirado. Fuera el *barro* y el *polvo*.', SUCIO, '06-limpieza_basico', 'car'),
-      o('Premium', 'Premium', 'Además, *llantas y neumáticos* a fondo y *brillo* en la carrocería.', SUCIO, '06-limpieza_premium', 'car'),
+      o('Premium', 'Premium', 'Además, *llantas y neumáticos* a fondo y *brillo* en la carrocería.', SUCIO, '06-limpieza_premium', 'car', { top: 'Top ventas' }),
       o('Integral', 'Integral', 'Interior y exterior completos, faros y parrilla renovados, *brillo espejo*.', SUCIO, '06-limpieza_integral', 'car'),
     ]},
     tintado: { label: 'Tintado · lunas traseras', head: 'Tinte', evo: true, opts: [
@@ -735,12 +906,12 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
   // Textos técnicos y ficha de cada servicio (cuestionario: tono técnico y más información a la vista)
   const TECH = {
     limpieza: [
-      ['Lavado exterior *manual*, cristales por dentro y por fuera, interior y maletero aspirados y *desinfectados*, plásticos hidratados y llantas, pasos de rueda y neumáticos limpios.',
-        ['Lavado manual', 'Interior desinfectado', 'Llantas y pasos de rueda'], 'Desde *70 €* · IVA incl. · hasta 2 h 30 min'],
-      ['Todo lo del básico, con *extracción de manchas* en textiles de asientos, limpieza de *cuero*, interior al detalle y *abrillantado* de neumáticos.',
-        ['Extracción de manchas', 'Asientos de cuero', 'Neumáticos abrillantados'], 'Desde *100 €* · IVA incl. · hasta 3 h'],
-      ['*Nuestro servicio más completo*: extracción de manchas en alfombrillas, moquetas y asientos, cuero, *eliminador de olores* y garganta y perfil de llanta.',
-        ['Moquetas y alfombrillas', 'Eliminador de olores', 'Garganta de llanta'], 'Desde *130 €* · IVA incl. · hasta 4 h 30 min'],
+      ['Limpieza *completa por dentro y por fuera*, al detalle: lavado exterior manual, cristales, interior y maletero aspirados y desinfectados, plásticos, llantas y pasos de rueda. *No incluye la tapicería.*',
+        ['Interior y exterior', 'Desinfección', 'Sin tapicería'], 'Desde *70 €* · IVA incl. · hasta 2 h 30 min'],
+      ['Todo lo de la básica *y además la tapicería*: extracción de manchas en los asientos, limpieza de cuero, interior al detalle y neumáticos abrillantados.',
+        ['Interior y exterior', 'Tapicería de asientos', 'Cuero y neumáticos'], 'Desde *100 €* · IVA incl. · hasta 3 h'],
+      ['Literalmente *todo lo anterior, más moqueta y techo*: extracción de manchas en asientos, alfombrillas, moquetas y techo, eliminador de olores y garganta y perfil de llanta.',
+        ['Todo lo de la premium', 'Moqueta y techo', 'Eliminador de olores'], 'Desde *130 €* · IVA incl. · hasta 4 h 30 min'],
     ],
     tintado: [
       ['Lámina con un *50 % de transmisión de luz* en las lunas traseras: rechaza calor y reflejos sin perder visibilidad.', ['50 % de luz', 'Menos calor', 'Lunas traseras']],
@@ -754,8 +925,8 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
         ['Corrección alta', 'Hologramas', 'Oxidación'], '*350 – 450 €* · IVA incl.'],
       ['Coating *FX Protect* sobre pintura preparada y desengrasada: protege de agentes externos, facilita la limpieza y aporta brillo. *Recomendado tras una corrección.*',
         ['Gloss · 3 años', 'G-Finity CNT · 5 años', 'CNT+ · 7 años'], 'Desde *150 €* · garantía de 3 a 7 años'],
-      ['Lavado seguro, descontaminación ligera si procede y *booster*: conserva la hidrofobicidad, el brillo y la vida útil del coating.',
-        ['Booster', 'Revisión del coating', 'Seguimiento'], 'Recomendado *cada 4–6 meses*'],
+      ['*Lavado de mantenimiento cada mes*, solo exterior: profesional y *seguro, sin rayar*, para que el cerámico siga siempre como nuevo. El *booster* que lo refuerza, cada 6 meses o una vez al año.',
+        ['Lavado mensual', 'Solo exterior', 'Booster cada 6–12 meses'], '*20 €* el lavado · cada mes'],
     ],
   };
   for (const [c, list] of Object.entries(TECH)) list.forEach(([desc, spec, price], i) => Object.assign(CATS[c].opts[i], { desc, spec, price }));
@@ -776,12 +947,12 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
       ['Pulido 1 paso', 'Microarañazos y swirls ligeros fuera, más brillo.', ['pintura', 0], '220 – 300 €'],
       ['Pulido 2 pasos', 'Defectos medios y fuertes, acabado espejo.', ['pintura', 1], '350 – 450 €'],
       ['Protección cerámica FX Protect', 'Gloss, G-Finity CNT y CNT+: de 3 a 7 años de garantía.', ['pintura', 2], 'Desde 150 €'],
-      ['Mantenimiento cerámico', 'Booster y revisión del coating, cada 4–6 meses.', ['pintura', 3]],
+      ['Mantenimiento cerámico', 'Lavado exterior mensual y seguro; booster cada 6 meses o una vez al año.', ['pintura', 3], '20 € / lavado'],
     ]],
     ['Limpieza', [
-      ['Básico', 'Lavado manual, interior desinfectado, llantas y pasos de rueda.', ['limpieza', 0], 'Desde 70 €'],
-      ['Premium', 'Además, extracción de manchas, cuero y neumáticos abrillantados.', ['limpieza', 1], 'Desde 100 €'],
-      ['Integral', 'El más completo: moquetas, eliminador de olores y llantas a fondo.', ['limpieza', 2], 'Desde 130 €'],
+      ['Básico', 'Completa por dentro y por fuera, al detalle. Sin tapicería.', ['limpieza', 0], 'Desde 70 €'],
+      ['Premium · Top ventas', 'Todo lo de la básica y además la tapicería de los asientos.', ['limpieza', 1], 'Desde 100 €'],
+      ['Integral', 'Todo lo anterior, más moqueta y techo.', ['limpieza', 2], 'Desde 130 €'],
     ]],
     ['Tintado', [['Tintado de lunas traseras', 'Láminas del 50, 30 y 5 %.', ['tintado', 0]]]],
     ['Interior', [
@@ -917,7 +1088,7 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
   // Al soltar, si has pasado el umbral termina sola; si no, vuelve a su sitio.
   function scrubStart(dir) {
     if (!VIDEO || !clipReady('pintura')) return false;
-    if (loading || pending || sliding) return false;
+    if (loading || pending || sliding || performance.now() < introLock) return false;
     if (dir > 0 && cat !== null) return false;
     if (dir < 0 && !(cat === 'pintura' && shownFrame === 'macro')) return false;
     useClip('pintura'); sizeSeq(); drag = { dir, p: dir > 0 ? 0 : 1 };
@@ -985,7 +1156,8 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
       const p = document.createElement('p'); p.textContent = h; nav.append(p);
       items.forEach(([x, i]) => {
         const b = document.createElement('button');
-        b.textContent = x.short; b.dataset.i = i; b.setAttribute('aria-label', x.name); if (x.sup) b.className = 'sup';
+        b.textContent = x.short; b.dataset.i = i; b.setAttribute('aria-label', x.top ? `${x.name}, ${x.top}` : x.name); if (x.sup) b.className = 'sup';
+        if (x.top) { const t = document.createElement('span'); t.className = 'badge'; t.textContent = x.top; t.setAttribute('aria-hidden', 'true'); b.append(t); }
         b.onclick = () => play(cat, i);
         nav.append(b);
       });
@@ -1039,7 +1211,7 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
     $('name').innerHTML = titleHTML(C, O);
     if (O) { const t = document.createElement('span'); t.className = 'tag'; $('name').append(t); }
     $('desc').innerHTML = rich(O ? O.desc : 'Toca un servicio para verlo en acción, o desliza hacia arriba para ver la pintura de cerca.');
-    $('spec').innerHTML = O && O.spec ? O.spec.map(t => `<li>${esc(t)}</li>`).join('') : '';
+    $('spec').innerHTML = (O && O.top ? `<li class="hot">${esc(O.top)}</li>` : '') + (O && O.spec ? O.spec.map(t => `<li>${esc(t)}</li>`).join('') : '');
     $('price').innerHTML = O && O.price ? rich(O.price) : '';
     const what = !C || O.sup ? 'vuestros servicios' : `${C.label.split(' ·')[0]} (${O.name})`;
     $('cita').href = W + encodeURIComponent(`Hola! Me interesa ${what}. ¿Me dais información?`);
@@ -1131,6 +1303,18 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
     if (!c) { $('code-i').focus(); return; }
     window.open(W + encodeURIComponent(`Hola! Quiero ver mi Top Detail Report. Mi código es ${c}.`), '_blank', 'noopener');
   };
+  // Teoría: la foto cambia según el apartado abierto (sin pulir → pulida → con cerámico)
+  sheet.querySelectorAll('#teoria .acc').forEach(d => d.addEventListener('toggle', () => {
+    if (!d.open) return;
+    const box = $('th-img'), n = +d.dataset.img;
+    box.querySelectorAll('img').forEach((im, k) => im.classList.toggle('on', k === n));
+    box.className = `theory-img p${n} reveal in`; $('th-lbl').textContent = d.dataset.lbl;
+  }));
+  // Cómo trabajamos: se enciende el paso que está a la altura de la vista
+  if ('IntersectionObserver' in window) {
+    const lit = new IntersectionObserver(es => es.forEach(x => x.target.classList.toggle('on', x.isIntersecting)), { root: sheet, rootMargin: '-38% 0px -38% 0px' });
+    sheet.querySelectorAll('.steps li').forEach(n => lit.observe(n));
+  } else sheet.querySelectorAll('.steps li').forEach(n => n.classList.add('on'));
   // Los pasos y packs aparecen al llegar a ellos (animación solo aquí)
   if ('IntersectionObserver' in window && !reduce) {
     const io = new IntersectionObserver(es => es.forEach(x => { if (x.isIntersecting) { x.target.classList.add('in'); io.unobserve(x.target); } }), { root: sheet, threshold: .25 });
@@ -1158,6 +1342,33 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
     scrubMove(drag.p + e.deltaY / 700);
     clearTimeout(wheelT); wheelT = setTimeout(scrubEnd, 180);
   }, { passive: false });
+
+  // ── Pantalla de inicio: cuando todo está cargado se pide deslizar hacia arriba (o tocar) para empezar ──
+  let introLock = 0;
+  function ready2start() {
+    const L = $('loader'), S = $('start');
+    L.classList.add('ready'); S.hidden = false;
+    let y0 = null, gone = false;
+    const go = () => {
+      if (gone) return; gone = true;
+      introLock = performance.now() + 900;   // el mismo gesto no debe seguir y acercar la cámara a la pintura
+      L.classList.add('done'); S.blur();
+      phone.classList.remove('loading');
+      loading = false;
+      paintInfo();
+      phone.removeEventListener('touchstart', ts); phone.removeEventListener('touchmove', tm);
+      removeEventListener('wheel', wh); removeEventListener('keydown', kd);
+    };
+    const ts = e => { y0 = e.touches[0].clientY; };
+    const tm = e => { if (y0 !== null && y0 - e.touches[0].clientY > 36) go(); };
+    const wh = e => { if (Math.abs(e.deltaY) > 4) go(); };
+    const kd = e => { if (['ArrowUp', 'ArrowDown', 'PageDown', 'Enter', ' '].includes(e.key)) { e.preventDefault(); go(); } };
+    phone.addEventListener('touchstart', ts, { passive: true });
+    phone.addEventListener('touchmove', tm, { passive: true });
+    addEventListener('wheel', wh, { passive: true });
+    addEventListener('keydown', kd);
+    S.onclick = go;
+  }
 
   // ── Pantalla de carga ──
   // Se descargan todas las fotos; el barrido de sucio a limpio avanza con la carga real
@@ -1208,10 +1419,7 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
         ready(back).then(() => {
           front.style.cssText = ''; sweep.style.cssText = '';
           shownSrc = LIMPIO; shownFrame = 'car';
-          $('loader').classList.add('done');
-          phone.classList.remove('loading');
-          loading = false;
-          paintInfo();
+          ready2start();
         });
       };
       requestAnimationFrame(tick);
