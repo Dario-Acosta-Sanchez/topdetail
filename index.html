@@ -487,7 +487,7 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
 .svc li i { font-style: normal; display: block; margin-top: 2px; font-size: 13px; font-weight: 700; color: var(--red-ink); letter-spacing: .04em; }
 .price { margin: 2px 0 0; font-size: 14px; font-weight: 600; letter-spacing: .04em; color: rgba(255,255,255,.78); }
 .price:empty { display: none; }
-.sheet section { scroll-margin-top: 64px; }
+.sheet section { scroll-margin-top: 118px; }
 .price .k { font-weight: 800; font-size: 17px; }
 /* ── Cambios de Javi (2026-11-06) ──
    Pantalla de inicio tipo «pulsa para empezar», «Top ventas» en la limpieza premium
@@ -585,6 +585,69 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
 .motto { margin: 16px 0 0 !important; font-size: 16px !important; color: rgba(255,255,255,.6) !important; }
 .motto b { color: var(--ink); }
 @media (prefers-reduced-motion: reduce) { .reveal { filter: none; } .u { background-size: 100% 2px; transition: none; } .strike::after { transform: scaleX(1); transition: none; } .steps li::after { transition: none; } }
+/* ── El taller por pestañas (2026-11-06): menos scroll, más profundidad ── */
+.sheet-head { flex-wrap: wrap; row-gap: 10px; padding-bottom: 8px; background: linear-gradient(rgba(8,6,6,.98) 86%, rgba(8,6,6,0)); }
+.tabs { order: 3; flex: 1 0 100%; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; margin: 0 -16px; padding: 0 16px 6px; scroll-snap-type: x proximity; }
+.tabs::-webkit-scrollbar { display: none; }
+.tabs button {
+  flex: none; scroll-snap-align: start; min-height: 36px; padding: 0 13px; border-radius: 999px; cursor: pointer;
+  font: 700 11px/1 var(--ui); letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.66);
+  background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.14); transition: background .25s, color .25s, border-color .25s;
+}
+.tabs button[aria-selected="true"] { color: var(--ink); background: var(--red); border-color: var(--red); box-shadow: 0 6px 18px rgba(160,29,51,.45); }
+.tabs button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.tab-p[hidden] { display: none; }
+.tab-p { animation: tabin .45s cubic-bezier(.2,.8,.2,1); padding-bottom: 76px; }
+.tab-p.l { animation-name: tabin-l; }
+@keyframes tabin { from { opacity: 0; transform: translateX(26px); } to { opacity: 1; transform: none; } }
+@keyframes tabin-l { from { opacity: 0; transform: translateX(-26px); } to { opacity: 1; transform: none; } }
+.tab-p > section:first-of-type, .tab-p > .hero + section { border-top: 0; padding-top: 18px; }
+/* Cabecera con foto */
+.hero {
+  position: relative; display: grid; align-content: end; gap: 4px; min-height: 190px; margin: 4px 0 0; padding: 16px;
+  border-radius: 14px; overflow: hidden; background: #111 var(--bg) center 58% / cover;
+  box-shadow: 0 18px 40px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.12);
+}
+.hero::before { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(6,5,5,.95), rgba(6,5,5,.35) 60%, rgba(6,5,5,.1)); }
+.hero > * { position: relative; margin: 0; }
+.hero .tagline { margin: 0 0 4px; color: rgba(255,255,255,.7); }
+.hero b { font: 300 26px/1.05 var(--display); color: var(--ink); }
+.hero b .k { font-weight: 800; font-stretch: 112%; display: block; }
+.hero > span { font-size: 12px; letter-spacing: .08em; color: rgba(255,255,255,.6); }
+/* Tarjetas con algo de volumen */
+.values div, .pack, .report, .why li {
+  background: linear-gradient(160deg, rgba(255,255,255,.075), rgba(255,255,255,.015) 70%);
+  border: 1px solid rgba(255,255,255,.1); box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 0 12px 28px rgba(0,0,0,.35);
+}
+/* Carruseles horizontales */
+.rail { display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin: 0 -16px; padding: 4px 16px 14px; list-style: none; }
+.rail::-webkit-scrollbar { display: none; }
+.rail > * { flex: 0 0 76%; scroll-snap-align: start; }
+.why { counter-reset: w; }
+.why li { counter-increment: w; position: relative; padding: 16px 14px; border-radius: var(--r); min-height: 150px; }
+.why li::before { content: counter(w, decimal-leading-zero); display: block; margin-bottom: 18px; font: 300 30px/1 var(--display); color: var(--red-ink); }
+.why b { display: block; font: 800 13px/1.2 var(--display); font-stretch: 112%; text-transform: uppercase; margin-bottom: 6px; }
+.why span { display: block; font-size: 14px; line-height: 1.38; color: rgba(255,255,255,.72); }
+.swipe-h { margin: -4px 0 6px !important; font-size: 11px !important; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.4) !important; }
+/* Lo que has mirado */
+.picks { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 14px; }
+.picks .empty { font-size: 13px; color: rgba(255,255,255,.5); }
+.pick { display: inline-flex; align-items: center; gap: 6px; padding: 6px 6px 6px 10px; border-radius: 8px; font-size: 13px; font-weight: 600; background: rgba(160,29,51,.2); border: 1px solid rgba(214,110,124,.45); }
+.pick small { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.55); }
+.pick button { width: 24px; height: 24px; display: grid; place-items: center; border: 0; border-radius: 6px; background: rgba(255,255,255,.1); color: var(--ink); font-size: 14px; cursor: pointer; }
+.pick.av { background: rgba(255,255,255,.06); border-style: dashed; border-color: rgba(255,255,255,.3); }
+/* Botón flotante de WhatsApp del taller */
+.sheet-cta {
+  position: sticky; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); z-index: 2; display: flex; align-items: center; justify-content: center; gap: 10px;
+  min-height: 52px; margin: -64px 0 0; border-radius: 14px; text-decoration: none; color: var(--ink);
+  font: 700 13px/1 var(--ui); letter-spacing: .12em; text-transform: uppercase;
+  background: linear-gradient(140deg, rgba(160,29,51,.98), rgba(120,20,38,.95)); border: 1px solid rgba(214,110,124,.55);
+  box-shadow: 0 14px 34px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.2);
+}
+.sheet-cta svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linejoin: round; }
+.n { display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 5px; margin-left: 6px; border-radius: 10px; font: 800 11px/1 var(--ui); letter-spacing: 0; background: var(--ink); color: var(--red); }
+.n[hidden] { display: none; }
+@media (prefers-reduced-motion: reduce) { .tab-p { animation: none; } }
 </style>
 </head>
 <body>
@@ -599,7 +662,7 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
 
     <header class="top">
       <button class="logo" id="logo" aria-label="Volver al inicio"><img src="img/logo-topdetail.svg" alt="Top Detail Garage"></button>
-      <a class="cita" id="cita" href="https://wa.me/34643182964" target="_blank" rel="noopener">Pedir cita</a>
+      <a class="cita wa" id="cita" href="https://wa.me/34643182964" target="_blank" rel="noopener">Pedir cita<b class="n" hidden></b></a>
     </header>
 
     <nav class="side l" aria-label="Servicios">
@@ -634,11 +697,15 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
       <div class="sheet-head">
         <h2 id="sheet-t">El <span class="k">taller</span></h2>
         <button class="btn close" id="sheet-x" aria-label="Cerrar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+        <nav class="tabs" id="tabs" role="tablist" aria-label="Secciones del taller">
+          <button role="tab" data-t="nos">Nosotros</button><button role="tab" data-t="serv">Servicios</button><button role="tab" data-t="pint">Pintura</button><button role="tab" data-t="rep">Report™</button><button role="tab" data-t="dud">Dudas</button><button role="tab" data-t="vis">Tu cita</button>
+        </nav>
       </div>
-      <p class="tagline">Centro detailing profesional · Cuidado · Corrección · Protección · Seguimiento</p>
+      <div class="hero" data-tab="nos" data-o="0" style="--bg:url(img/00-base_porsche_limpio.webp?v=2)"><p class="tagline">Centro detailing profesional · Cuidado · Corrección · Protección · Seguimiento</p><b>Top Detail <span class="k">Garage</span></b><span>Fernán Núñez · Córdoba</span></div>
+      <div class="hero" data-tab="serv" data-o="0" style="--bg:url(img/06-limpieza_integral.webp?v=2)"><p class="tagline">Precios con IVA incluido</p><b>Elige el servicio <span class="k">que tu coche merece.</span></b><span>Toca «Ver» para verlo en acción</span></div>
 
-      <section>
-        <h3 class="reveal"><small>01 · El taller</small>Nuestra <b>filosofía.</b></h3>
+      <section data-tab="nos" data-o="1">
+        <h3 class="reveal"><small>El taller</small>Nuestra <b>filosofía.</b></h3>
         <p class="claim reveal">No <span class="strike">limpiamos</span> coches.<br><b class="u">Cuidamos vehículos.</b></p>
         <p>Entendemos que un vehículo es una inversión, una afición y, para muchos, una parte importante de su día a día. Nuestro objetivo no es solo limpiarlo: es <strong>conservar su estado, proteger su valor</strong> y hacer un seguimiento profesional de su evolución.</p>
         <div class="values">
@@ -654,8 +721,8 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
         </div>
       </section>
 
-      <section>
-        <h3 class="reveal"><small>02 · Proceso</small>Cómo <b>trabajamos.</b></h3>
+      <section data-tab="nos" data-o="2">
+        <h3 class="reveal"><small>Proceso</small>Cómo <b>trabajamos.</b></h3>
         <ol class="steps">
           <li class="reveal"><b>Diagnóstico estético</b><span>Revisamos el estado real de pintura, interior, llantas y cristales antes de tocar nada.</span></li>
           <li class="reveal"><b>Asesoramiento</b><span>Te recomendamos el servicio según el uso, el estado y las necesidades reales del coche. Si llega con suciedad extrema o mucho pelo de mascota, te avisamos antes.</span></li>
@@ -666,8 +733,8 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
       </section>
 
 
-      <section id="limpiezas">
-        <h3 class="reveal"><small>03 · Limpiezas</small>Las tres son <b>completas.</b></h3>
+      <section id="limpiezas" data-tab="serv" data-o="2">
+        <h3 class="reveal"><small>Limpiezas</small>Las tres son <b>completas.</b></h3>
         <p class="reveal">Básica, premium o integral: <strong>todas limpian el coche por dentro y por fuera, al detalle</strong>. Lo que cambia es hasta dónde llegamos en el interior.</p>
         <table class="cmp-t reveal">
           <thead><tr><th></th><th>Básica<small>70 €</small></th><th class="tp">Premium<small>Top ventas</small></th><th>Integral<small>130 €</small></th></tr></thead>
@@ -681,8 +748,8 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
         <p class="note reveal">La <strong>básica no incluye la tapicería</strong>: si lo que quieres es limpiar los asientos, elige la premium, que desde 100&nbsp;€ es la que más se pide.</p>
       </section>
 
-      <section id="teoria">
-        <h3 class="reveal"><small>04 · Pintura</small>Del problema a la <b>protección.</b></h3>
+      <section id="teoria" data-tab="pint" data-o="1">
+        <h3 class="reveal"><small>Pintura</small>Del problema a la <b>protección.</b></h3>
         <div class="theory-img p0 reveal" id="th-img">
           <span class="lbl" id="th-lbl">Sin pulir</span>
           <img class="on" src="img/03-correccion_pintura_swirls.webp?v=2" alt="Pintura negra con remolinos y brillo apagado" loading="lazy">
@@ -721,8 +788,8 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
         <p class="motto reveal">Un buen pulido no esconde los defectos. <b>Los quita.</b></p>
       </section>
 
-      <section id="report">
-        <h3 class="reveal"><small>05 · Seguimiento</small>Top Detail <b>Report™</b></h3>
+      <section id="report" data-tab="rep" data-o="1">
+        <h3 class="reveal"><small>Seguimiento</small>Top Detail <b>Report™</b></h3>
         <p class="claim sm">Más que una limpieza.<br><span class="k">Un historial estético para tu vehículo.</span></p>
         <p>Cada vehículo recibe un <strong>diagnóstico estético profesional</strong> y pasa a formar parte de nuestro sistema exclusivo de seguimiento.</p>
         <ul class="feats">
@@ -756,16 +823,16 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
         </form>
       </section>
 
-      <section>
-        <h3 class="reveal"><small>06 · Tarifas</small>Servicios y <b>precios.</b></h3>
+      <section data-tab="serv" data-o="1">
+        <h3 class="reveal"><small>Tarifas</small>Servicios y <b>precios.</b></h3>
         <p class="note">Precios con IVA incluido.</p>
         <div id="svc-list"></div>
       </section>
 
-      <section id="ceramica">
+      <section id="ceramica" data-tab="pint" data-o="2">
         <h3 class="reveal">Protección <b>cerámica.</b></h3>
         <p>Sellamos el acabado y protegemos tu vehículo a largo plazo. <strong>Recomendado tras una corrección de pintura.</strong></p>
-        <div class="packs">
+        <div class="packs rail">
           <div class="pack reveal"><b>FX Protect Gloss</b><span>Coating cerámico · garantía de <strong>3 años</strong>.</span><small>Desde 150 €</small></div>
           <div class="pack reveal"><b>FX Protect G-Finity CNT</b><span>Coating de grafeno · garantía de <strong>5 años</strong>.</span><small>Desde 150 €</small></div>
           <div class="pack reveal"><b>FX Protect G-Finity CNT+</b><span>Coating de grafeno · garantía de <strong>7 años</strong>.</span><small>Desde 150 €</small></div>
@@ -773,7 +840,7 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
         <p class="note" style="margin-top:10px">Incluye preparación y desengrase previo, aplicación profesional, recomendaciones de mantenimiento y seguimiento del tratamiento.</p>
       </section>
 
-      <section id="packs">
+      <section id="packs" data-tab="pint" data-o="3">
         <h3 class="reveal">Mantenimiento <b>y bonos.</b></h3>
         <div class="packs">
           <div class="pack reveal"><b>Lavado de mantenimiento</b><span>Solo exterior, de forma profesional y <strong>segura, sin rayar</strong>: mantiene el estado y el aspecto del cerámico siempre como nuevo.</span><small>20 € · cada mes</small></div>
@@ -783,38 +850,39 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
         <span class="pending" style="margin-top:10px">Pendiente: precio del booster, bonos, tintado y extras</span>
       </section>
 
-      <section>
+      <section data-tab="nos" data-o="3">
         <h3 class="reveal">¿Por qué <b>elegirnos?</b></h3>
-        <ol class="steps">
+        <ol class="why rail">
           <li class="reveal"><b>Seguimiento profesional</b><span>Cada vehículo puede formar parte de nuestro sistema de seguimiento estético con el Top Detail Report™ y su historial de mantenimiento.</span></li>
           <li class="reveal"><b>Formación continua</b><span>Criterio técnico, formación especializada y mejora constante de nuestros procesos.</span></li>
           <li class="reveal"><b>Productos premium</b><span>Productos profesionales y técnicas seguras para cada superficie.</span></li>
           <li class="reveal"><b>Experiencia real</b><span>No solo mejoramos el aspecto: conservamos el valor, el estado y la presencia del vehículo con el paso del tiempo.</span></li>
           <li class="reveal"><b>Atención personalizada</b><span>Asesoramiento según el uso, el estado y las necesidades reales de cada coche.</span></li>
         </ol>
+        <p class="swipe-h">Desliza para ver más →</p>
         <span class="pending" style="margin-top:10px">Pendiente: fotos de cursos y certificaciones</span>
       </section>
 
 
-      <section id="faq">
-        <h3 class="reveal"><small>07 · Dudas</small>Preguntas <b>frecuentes.</b></h3>
+      <section id="faq" data-tab="dud" data-o="1">
+        <h3 class="reveal"><small>Dudas</small>Preguntas <b>frecuentes.</b></h3>
         <details class="acc" name="faq" open><summary><i>01</i>¿Las limpiezas incluyen el interior?</summary><div class="body"><p><strong>Sí, las tres.</strong> Todas son completas, por dentro y por fuera. La básica no incluye la tapicería; la premium sí, y la integral además limpia moqueta y techo.</p></div></details>
         <details class="acc" name="faq"><summary><i>02</i>¿Puedo hacer solo el cerámico, sin pulir?</summary><div class="body"><p>Se puede, pero lo recomendamos <strong>después de una corrección</strong>: el cerámico sella la pintura tal y como está, con sus remolinos incluidos.</p></div></details>
         <details class="acc" name="faq"><summary><i>03</i>¿El cerámico hace la pintura inrayable?</summary><div class="body"><p><strong>No.</strong> La protege del sol y la suciedad, la hace más fácil de lavar y le da brillo, pero no evita un arañazo.</p></div></details>
         <details class="acc" name="faq"><summary><i>04</i>¿Cada cuánto hay que mantener el cerámico?</summary><div class="body"><p>Un <strong>lavado de mantenimiento al mes</strong> (solo exterior, 20&nbsp;€) y el <strong>booster cada 6 meses o una vez al año</strong>.</p></div></details>
         <details class="acc" name="faq"><summary><i>05</i>¿Cuánto tarda una limpieza?</summary><div class="body"><p>Básica, hasta 2 h 30 min; premium, hasta 3 h; integral, hasta 4 h 30 min. Pulidos y cerámicos dependen del estado de la pintura: te lo decimos al ver el coche.</p></div></details>
         <details class="acc" name="faq"><summary><i>06</i>¿Y si el coche llega muy sucio o con pelo de mascota?</summary><div class="body"><p><strong>Te avisamos antes de empezar.</strong> Lleva más tiempo y un suplemento, y no tocamos nada sin que lo sepas.</p></div></details>
-        <details class="acc" name="faq"><summary><i>07</i>¿Cómo pido cita?</summary><div class="body"><p>Por <strong>WhatsApp</strong> o llamando al <strong>643 182 964</strong>. Abajo tienes los dos botones.</p></div></details>
+        <details class="acc" name="faq"><summary><i>07</i>¿Cómo pido cita?</summary><div class="body"><p>Por <strong>WhatsApp</strong> o llamando al <strong>643 182 964</strong>. El botón de WhatsApp te abre el chat con lo que has mirado en la web ya escrito.</p></div></details>
       </section>
 
-      <section>
+      <section data-tab="nos" data-o="4">
         <h3 class="reveal">Lo que dicen <b>nuestros clientes.</b></h3>
         <p>Opiniones reales de nuestros clientes, en nuestra ficha de Google.</p>
         <div class="btns"><a class="btn" href="https://www.google.com/maps/search/?api=1&amp;query=Top+Detail+Garage+Fern%C3%A1n+N%C3%BA%C3%B1ez" target="_blank" rel="noopener">Ver reseñas en Google</a></div>
         <span class="pending" style="margin-top:10px">Pendiente: enlace a la ficha de Google y reseñas destacadas</span>
       </section>
 
-      <section>
+      <section data-tab="vis" data-o="2">
         <h3 class="reveal">Horario y <b>cómo llegar.</b></h3>
         <table class="hours"><tbody>
           <tr><td>Lunes a sábado</td><td>9:00 – 19:00</td></tr>
@@ -826,19 +894,22 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
         <div class="btns"><a class="btn" href="https://www.google.com/maps/dir/?api=1&amp;destination=Fern%C3%A1n+N%C3%BA%C3%B1ez,+C%C3%B3rdoba" target="_blank" rel="noopener">Cómo llegar</a></div>
       </section>
 
-      <section>
+      <section data-tab="nos" data-o="5">
         <h3 class="reveal">Galería <b>y redes.</b></h3>
         <p>Nuestros trabajos reales, coche a coche.</p>
         <span class="pending">Pendiente: fotos reales de trabajos y usuarios de Instagram y TikTok</span>
       </section>
 
-      <section>
+      <section data-tab="vis" data-o="1">
         <h3 class="reveal">Pide tu <b>cita.</b></h3>
+        <p>Lo que has mirado en la web va <strong>directo en el WhatsApp</strong>, para que te demos precio sin repetir nada. Quita lo que no te interese.</p>
+        <div class="picks" id="picks"></div>
         <div class="btns">
-          <a class="btn red" href="https://wa.me/34643182964?text=Hola%21%20Quiero%20pedir%20cita%20en%20Top%20Detail%20Garage." target="_blank" rel="noopener">WhatsApp</a>
+          <a class="btn red wa" href="https://wa.me/34643182964" target="_blank" rel="noopener">WhatsApp</a>
           <a class="btn" href="tel:+34643182964">Llamar · 643 182 964</a>
         </div>
       </section>
+      <a class="sheet-cta wa" id="sheet-cta" href="https://wa.me/34643182964" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 18.8z"/></svg><span>Pedir cita por WhatsApp</span><b class="n" hidden></b></a>
     </section>
     <div class="loader" id="loader" role="status">
       <div class="welcome"><span class="hello">Bienvenido a</span><img class="brand" src="img/logo-topdetail.svg" alt="Top Detail Garage"></div>
@@ -1145,6 +1216,53 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
   }
   cmp.addEventListener('input', () => { if (sliding) setCmp(+cmp.value); });
 
+  // ── Lo que el cliente mira en la web va resumido en el WhatsApp ──
+  // seen: «cat:i» en el orden en que lo tocó; se guarda en la pestaña del navegador por si recarga
+  let seen = [];
+  try { seen = JSON.parse(sessionStorage.getItem('td-seen') || '[]').filter(k => { const [c, i] = k.split(':'); return CATS[c] && CATS[c].opts[+i]; }); } catch (e) {}
+  const saveSeen = () => { try { sessionStorage.setItem('td-seen', JSON.stringify(seen)); } catch (e) {} };
+  const catName = c => CATS[c].label.split(' ·')[0];
+  // Al entrar en una sección se enseña sola su primera opción: cuenta «a prueba» (tent) y se quita
+  // si el cliente elige otra de esa sección sin haberla tocado
+  let tent = null;
+  function track(c, i, auto) {
+    const k = `${c}:${i}`;
+    if (!auto && tent && tent !== k && tent.startsWith(c + ':')) seen = seen.filter(x => x !== tent);
+    if (!auto || tent === k) tent = null;
+    if (!seen.includes(k)) { seen.push(k); if (auto) tent = k; }
+    saveSeen(); updateWA();
+  }
+  function waText() {
+    if (!seen.length) return 'Hola! Vengo de la web de Top Detail Garage. Quiero pedir cita, ¿me dais información?';
+    const lines = [], avisos = [];
+    for (const c of Object.keys(CATS)) {
+      const names = [];
+      seen.forEach(k => { const [kc, i] = k.split(':'); if (kc !== c) return; const O = CATS[c].opts[+i]; (O.sup ? avisos : names).push(O.name); });
+      if (names.length) lines.push(`• ${catName(c)}: ${names.join(', ')}`);
+    }
+    let t = 'Hola! Vengo de la web de Top Detail Garage.';
+    if (lines.length) t += `\nHe estado mirando:\n${lines.join('\n')}`;
+    if (avisos.length) t += `\nOs aviso de que el coche puede necesitar: ${avisos.join(', ').toLowerCase()}.`;
+    return t + '\n¿Me dais precio y cita?';
+  }
+  function updateWA() {
+    const href = W + encodeURIComponent(waText());
+    document.querySelectorAll('a.wa').forEach(a => { a.href = href; });
+    document.querySelectorAll('.wa .n').forEach(n => { n.hidden = !seen.length; n.textContent = seen.length; });
+    $('cita').setAttribute('aria-label', seen.length ? `Pedir cita por WhatsApp con los ${seen.length} servicios que has mirado` : 'Pedir cita por WhatsApp');
+    if (tab === 'vis') renderPicks();
+  }
+  function renderPicks() {
+    const box = $('picks');
+    if (!seen.length) { box.innerHTML = '<span class="empty">Aún no has mirado ningún servicio. Toca uno en la web y aparecerá aquí.</span>'; return; }
+    box.innerHTML = seen.map(k => { const [c, i] = k.split(':'), O = CATS[c].opts[+i];
+      return `<span class="pick${O.sup ? ' av' : ''}"><small>${esc(O.sup ? 'Aviso' : catName(c))}</small>${esc(O.name)}<button type="button" data-k="${k}" aria-label="Quitar ${esc(O.name)}">×</button></span>`; }).join('');
+  }
+  $('picks').addEventListener('click', e => {
+    const b = e.target.closest('[data-k]'); if (!b) return;
+    seen = seen.filter(k => k !== b.dataset.k); saveSeen(); updateWA(); renderPicks();
+  });
+
   // ── Pantalla ──
   function buildOpts() {
     const C = CATS[cat], nav = $('opt-l');
@@ -1213,8 +1331,6 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
     $('desc').innerHTML = rich(O ? O.desc : 'Toca un servicio para verlo en acción, o desliza hacia arriba para ver la pintura de cerca.');
     $('spec').innerHTML = (O && O.top ? `<li class="hot">${esc(O.top)}</li>` : '') + (O && O.spec ? O.spec.map(t => `<li>${esc(t)}</li>`).join('') : '');
     $('price').innerHTML = O && O.price ? rich(O.price) : '';
-    const what = !C || O.sup ? 'vuestros servicios' : `${C.label.split(' ·')[0]} (${O.name})`;
-    $('cita').href = W + encodeURIComponent(`Hola! Me interesa ${what}. ¿Me dais información?`);
     back.alt = O ? `${O.name}. ${plain(O.desc)}` : 'Porsche Cayenne negro, limpio, en el taller de Top Detail Garage';
     paintAB();
     if (!reduce && !loading) $('hud').animate([{ opacity: 0, transform: 'translateY(10px)' }, { opacity: 1, transform: 'none' }], { duration: 420, easing: 'cubic-bezier(.2,.7,.2,1)' });
@@ -1225,6 +1341,7 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
     if (loading) return;
     const my = ++token;
     const prevI = c === cat ? opt : -1, prev = prevI >= 0 ? CATS[c].opts[prevI] : null, wasHome = cat === null;
+    track(c, i, c !== cat);
     if (c !== cat) { cat = c; buildOpts(); }
     const O = CATS[c].opts[i];
     // Secciones evolutivas (limpieza, tintado, pintura): si ya estás en esa escena,
@@ -1275,7 +1392,7 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
     if (loading) return;
     sheetFrom = document.activeElement;
     sheet.inert = false; sheet.classList.add('open'); sheet.scrollTop = 0;
-    if (focusId) { const t = $(focusId); if (t) t.scrollIntoView({ block: 'start' }); }
+    if (focusId) goTo(focusId);
     $('sheet-x').focus({ preventScroll: true });
   }
   function closeSheet() {
@@ -1283,6 +1400,49 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
     sheet.classList.remove('open'); sheet.inert = true;
     if (sheetFrom && sheetFrom.focus) sheetFrom.focus({ preventScroll: true });
     return true;
+  }
+  // Pestañas del taller: cada sección (data-tab) se mete en su panel, ordenada por data-o
+  const TABS = [...$('tabs').querySelectorAll('[data-t]')].map(b => b.dataset.t);
+  const panels = {};
+  TABS.forEach(t => {
+    const pn = document.createElement('div'); pn.className = 'tab-p'; pn.id = 'tp-' + t; pn.dataset.p = t;
+    pn.setAttribute('role', 'tabpanel'); pn.hidden = true; panels[t] = pn;
+    [...sheet.querySelectorAll(`:scope > [data-tab="${t}"]`)].sort((x, y) => x.dataset.o - y.dataset.o).forEach(n => pn.append(n));
+  });
+  $('sheet-cta').before(...TABS.map(t => panels[t]));
+  let tab = null;
+  function showTab(t, focus) {
+    if (!panels[t] || t === tab) return;
+    const back = tab && TABS.indexOf(t) < TABS.indexOf(tab);
+    tab = t;
+    TABS.forEach(x => { panels[x].hidden = x !== t; });
+    panels[t].classList.toggle('l', !!back);
+    $('tabs').querySelectorAll('[data-t]').forEach(b => {
+      const on = b.dataset.t === t; b.setAttribute('aria-selected', String(on)); b.tabIndex = on ? 0 : -1;
+      if (on) { b.scrollIntoView({ block: 'nearest', inline: 'center' }); if (focus) b.focus({ preventScroll: true }); }
+    });
+    sheet.scrollTop = 0;
+    if (t === 'vis') renderPicks();
+  }
+  showTab('nos');
+  updateWA();
+  $('tabs').addEventListener('click', e => { const b = e.target.closest('[data-t]'); if (b) showTab(b.dataset.t); });
+  $('tabs').addEventListener('keydown', e => {
+    const d = { ArrowRight: 1, ArrowLeft: -1 }[e.key]; if (!d) return;
+    e.preventDefault(); showTab(TABS[(TABS.indexOf(tab) + d + TABS.length) % TABS.length], true);
+  });
+  // Deslizar a los lados cambia de pestaña (menos en los carruseles y el formulario)
+  let sx = 0, sy2 = 0, sOk = false;
+  sheet.addEventListener('touchstart', e => { const t = e.touches[0]; sx = t.clientX; sy2 = t.clientY; sOk = !e.target.closest('.rail, .tabs, input, .map'); }, { passive: true });
+  sheet.addEventListener('touchend', e => {
+    if (!sOk) return; const t = e.changedTouches[0], dx = t.clientX - sx, dy = t.clientY - sy2;
+    if (Math.abs(dx) > 70 && Math.abs(dx) > 2 * Math.abs(dy)) { const k = TABS.indexOf(tab) + (dx < 0 ? 1 : -1); if (TABS[k]) showTab(TABS[k]); }
+  }, { passive: true });
+  // Ir a una sección: abre su pestaña y baja hasta ella
+  function goTo(id) {
+    const t = $(id); if (!t) return;
+    const pn = t.closest('.tab-p'); if (pn) showTab(pn.dataset.p);
+    if (t.tagName === 'SECTION' && t.previousElementSibling) t.scrollIntoView({ block: 'start' });
   }
   $('taller-btn').onclick = () => openSheet();
   $('sheet-x').onclick = closeSheet;
@@ -1293,7 +1453,7 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
       typeof go === 'string' ? `<button class="btn go" data-go="${go}">Ver</button>` : ''}</li>`).join('')}</ul>`).join('');
   $('svc-list').addEventListener('click', e => {
     const b = e.target.closest('[data-go]'); if (!b) return;
-    if (!b.dataset.go.includes(':')) { $(b.dataset.go).scrollIntoView({ block: 'start' }); return; }
+    if (!b.dataset.go.includes(':')) { goTo(b.dataset.go); return; }
     const [c, i] = b.dataset.go.split(':'); closeSheet(); play(c, +i);
   });
   // Consulta del Top Detail Report: de momento se pide por WhatsApp con el código
