@@ -767,6 +767,7 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
 #phone.loading .side.l, #phone.in-cat .side.l, #phone.in-serv .side.l,
 #phone .side.s { transform: translateY(calc(100% + 60px)); opacity: 0; }
 #phone.in-serv .side.s { transform: none; opacity: 1; }
+#phone .side.l, #phone .side.s { z-index: 5; }
 #phone .side .dock {
   display: flex; align-items: center; gap: 2px; padding: 6px; border-radius: 999px;
   background: rgba(14,12,12,.66); border: 1px solid rgba(233,220,199,.2);
@@ -2201,7 +2202,7 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
   }
 
   // ══ Tutorial guiado: como en un videojuego, la propia web enseña a usarla y luego te deja a ti ══
-  // Un dedo toca los botones de verdad y la cápsula de abajo cuenta qué pasa. Unos 16 s.
+  // Un dedo toca los botones de verdad y la cápsula de abajo cuenta qué pasa. Unos 30 s, con tiempo para leer.
   // Lo corta cualquier toque real, la rueda, Escape o «Saltar». Lo que toca no cuenta para el WhatsApp.
   const island = $('island'), islT = $('isl-t'), islN = $('isl-n'), finger = $('finger');
   const sleep = ms => new Promise(r => setTimeout(r, ms));
@@ -2265,37 +2266,41 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
   function hint() { say('Empieza por Servicios'); islTimer = setTimeout(hideIsland, 3800); seenDemo(); }
   async function runDemo() {
     if (demo || loading) return;
-    demo = { stop: false, t0: performance.now() }; tempo = .5;
-    const N = 6;
+    demo = { stop: false, t0: performance.now() }; tempo = .8;
+    const N = 6, READ = 1100;   // READ: lo que se deja leer cada mensaje antes de que el dedo se mueva
     try {
       if (sheet.classList.contains('open')) { closeSheet(); await sleep(450); }
       if (cat !== null || level !== 'home') { home(); await until(() => cat === null && !pending, 8000); await sleep(300); }
       say('Empieza por Servicios', 1, N);
-      await sleep(320);
+      await sleep(READ);
       await tap($('serv-btn'));
-      await until(() => level === 'serv', 2000); await sleep(420);
+      await until(() => level === 'serv', 2000); await sleep(500);
       say('Elige uno: el pulido, por ejemplo', 2, N);
-      await tap(document.querySelector('#serv button[data-cat="pulido"]'), 480);
+      await sleep(READ);
+      await tap(document.querySelector('#serv button[data-cat="pulido"]'), 700);
       await until(() => cat === 'pulido' && state === 'b', 9000);
       say('Así trabaja la pulidora', 2, N);
       await until(() => abReady && !pending, 12000);
       say('Compara el antes y el después', 3, N);
-      await sleep(200);
-      await tap($('ab-a'), 460); await until(() => !pending, 4000);
+      await sleep(READ);
+      await tap($('ab-a'), 700); await until(() => !pending, 4000); await sleep(900);
       say('Pide cita con lo que has visto', 4, N);
-      await moveTo($('cita'), 520);
-      $('cita').classList.add('pulse'); await sleep(850); live(); $('cita').classList.remove('pulse');
+      await sleep(600);
+      await moveTo($('cita'), 700);
+      $('cita').classList.add('pulse'); await sleep(1500); live(); $('cita').classList.remove('pulse');
       say('«Volver» te lleva al menú', 5, N);
-      await tap($('back-btn'), 480); await until(() => cat === null && !pending, 4000); await sleep(260);
-      await tap($('back-btn'), 300); await until(() => level === 'home', 2000); await sleep(420);
+      await sleep(READ);
+      await tap($('back-btn'), 700); await until(() => cat === null && !pending, 5000); await sleep(700);
+      await tap($('back-btn'), 400); await until(() => level === 'home', 2000); await sleep(600);
       say('Report, nosotros, contacto y ubicación', 6, N);
-      await moveTo(document.querySelector('#menu [data-page="report"]'), 440);
-      await sleep(260); live();
-      await moveTo(document.querySelector('#menu .links'), 420);
-      $('menu').querySelector('.links').classList.add('pulse'); await sleep(1000); live();
+      await sleep(700);
+      await moveTo(document.querySelector('#menu [data-page="report"]'), 650);
+      await sleep(700); live();
+      await moveTo(document.querySelector('#menu .links'), 600);
+      $('menu').querySelector('.links').classList.add('pulse'); await sleep(1800); live();
       say('Ahora te toca a ti');
       finger.classList.remove('on');
-      await sleep(1100); live();
+      await sleep(1600); live();
     } catch (e) { /* lo ha cortado el cliente */ }
     endDemo();
   }
