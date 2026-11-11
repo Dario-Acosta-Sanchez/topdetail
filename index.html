@@ -652,6 +652,50 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
 .n { display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 5px; margin-left: 6px; border-radius: 10px; font: 800 11px/1 var(--ui); letter-spacing: 0; background: var(--ink); color: var(--red); }
 .n[hidden] { display: none; }
 @media (prefers-reduced-motion: reduce) { .tab-p { animation: none; } }
+
+/* ── Tutorial guiado (2026-11-07): un dedo toca los botones y una cápsula cuenta qué pasa ── */
+.island {
+  position: absolute; z-index: 9; left: 16px; right: 16px; margin-inline: auto; width: fit-content; max-width: calc(100% - 32px);
+  bottom: calc(108px + env(safe-area-inset-bottom, 0px)); overflow: hidden;
+  display: flex; align-items: center; gap: 10px; min-height: 46px; padding: 6px 6px 6px 15px; border-radius: 999px;
+  background: rgba(8, 7, 8, .84); border: 1px solid rgba(214, 110, 124, .4);
+  -webkit-backdrop-filter: blur(12px) saturate(1.2); backdrop-filter: blur(12px) saturate(1.2);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12), 0 14px 36px rgba(0, 0, 0, .55);
+  animation: isl-in .5s cubic-bezier(.2, .8, .2, 1) both; transition: bottom .5s cubic-bezier(.2, .8, .2, 1);
+}
+.in-cat .island { bottom: calc(var(--hud-h, 190px) + 12px); }
+.island::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--red-ink);
+  transform-origin: 0 50%; transform: scaleX(var(--k, 0)); transition: transform .6s cubic-bezier(.2, .8, .2, 1);
+}
+.island.tip { padding: 10px 18px; }
+.island.tip .isl-n, .island.tip .isl-x, .island.tip::after { display: none; }
+.island.out { animation: isl-out .4s cubic-bezier(.4, 0, 1, 1) both; }
+@keyframes isl-in { from { opacity: 0; transform: translateY(12px) scale(.92); } to { opacity: 1; transform: none; } }
+@keyframes isl-out { to { opacity: 0; transform: translateY(8px) scale(.94); } }
+.isl-n { flex: none; font: 800 11px/1 var(--display); font-stretch: 125%; letter-spacing: .06em; color: var(--red-ink); font-variant-numeric: tabular-nums; }
+.isl-t { min-width: 0; font: 700 14px/1.2 var(--ui); letter-spacing: .06em; text-transform: uppercase; color: var(--ink); }
+.isl-t.swap { animation: isl-swap .45s cubic-bezier(.2, .8, .2, 1); }
+@keyframes isl-swap { from { opacity: 0; transform: translateY(5px); filter: blur(4px); } to { opacity: 1; transform: none; filter: none; } }
+.isl-x {
+  flex: none; height: 34px; padding: 0 13px; cursor: pointer; border-radius: 999px;
+  font: 700 11px/1 var(--ui); letter-spacing: .14em; text-transform: uppercase; color: var(--ink);
+  background: rgba(255, 255, 255, .1); border: 1px solid rgba(255, 255, 255, .18);
+}
+.isl-x:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.finger {
+  position: absolute; z-index: 10; left: 0; top: 0; width: 46px; height: 46px; border-radius: 50%; pointer-events: none; opacity: 0;
+  background: radial-gradient(circle at 50% 45%, rgba(255, 255, 255, .75), rgba(255, 255, 255, .3) 58%, rgba(255, 255, 255, .1));
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, .6), 0 10px 26px rgba(0, 0, 0, .5); transition: opacity .3s;
+}
+.finger.on { opacity: 1; }
+.finger::after { content: ""; position: absolute; inset: -2px; border-radius: 50%; border: 2px solid var(--red-ink); opacity: 0; }
+.finger.tap::after { animation: ripple .55s cubic-bezier(.2, .8, .2, 1); }
+@keyframes ripple { from { opacity: .95; transform: scale(.7); } to { opacity: 0; transform: scale(1.9); } }
+.cita.pulse, .side button.pulse { animation: cta-pulse .9s ease-in-out infinite; }
+@keyframes cta-pulse { 50% { transform: scale(1.06); box-shadow: 0 0 0 5px rgba(224, 96, 122, .28), 0 0 30px rgba(160, 29, 51, .6); } }
+.hero .demo-btn { justify-self: start; margin-top: 12px; min-height: 40px; }
+.demo-btn svg { width: 14px; height: 14px; fill: currentColor; stroke: none; }
 </style>
 </head>
 <body>
@@ -705,7 +749,7 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
           <button role="tab" data-t="nos">Nosotros</button><button role="tab" data-t="serv">Servicios</button><button role="tab" data-t="pint">Pintura</button><button role="tab" data-t="rep">Report™</button><button role="tab" data-t="dud">Dudas</button><button role="tab" data-t="vis">Tu cita</button>
         </nav>
       </div>
-      <div class="hero" data-tab="nos" data-o="0" style="--bg:url(img/real_taller_suv.webp)"><p class="tagline">Centro detailing profesional · Cuidado · Corrección · Protección · Seguimiento</p><b>Top Detail <span class="k">Garage</span></b><span>Fernán Núñez · Córdoba</span></div>
+      <div class="hero" data-tab="nos" data-o="0" style="--bg:url(img/real_taller_suv.webp)"><p class="tagline">Centro detailing profesional · Cuidado · Corrección · Protección · Seguimiento</p><b>Top Detail <span class="k">Garage</span></b><span>Fernán Núñez · Córdoba</span><button class="btn demo-btn" id="demo-btn" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>Ver cómo funciona</button></div>
       <div class="hero" data-tab="serv" data-o="0" style="--bg:url(img/06-limpieza_integral.webp?v=2)"><p class="tagline">Precios con IVA incluido</p><b>Elige el servicio <span class="k">que tu coche merece.</span></b><span>Toca «Ver» para verlo en acción</span></div>
 
       <section data-tab="nos" data-o="1">
@@ -924,6 +968,14 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
       </section>
       <a class="sheet-cta wa" id="sheet-cta" href="https://wa.me/34643182964" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 18.8z"/></svg><span>Pedir cita por WhatsApp</span><b class="n" hidden></b></a>
     </section>
+    <!-- Tutorial guiado: cápsula con lo que pasa y un dedo que toca los botones -->
+    <div class="island" id="island" role="status" aria-live="polite" hidden>
+      <span class="isl-n" id="isl-n"></span>
+      <span class="isl-t" id="isl-t"></span>
+      <button class="isl-x" id="isl-x" type="button">Saltar</button>
+    </div>
+    <div class="finger" id="finger" aria-hidden="true"></div>
+
     <div class="loader" id="loader" role="status">
       <div class="welcome"><span class="hello">Bienvenido a</span><img class="brand" src="img/logo-topdetail.svg" alt="Top Detail Garage"></div>
       <p><span id="pct">0 %</span></p>
@@ -944,25 +996,29 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
   const SUCIO_T = '01-intro_a7_sucio_taller', LIMPIO_T = '00-base_a7_limpio_taller';
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const HOLD = 1000;   // lo que se ve el «antes» antes de pasar solo al «después»
+  let tempo = 1;       // velocidad de las animaciones (el tutorial guiado va más rápido)
+  let demo = null;     // tutorial guiado en marcha
+  // Foto del coche cubierto de espuma: paso intermedio del lavado
+  const FOAM = '04-ceramica_mantenimiento';
 
   // Cada opción es una pareja antes → después. frame: mismo encuadre → barrido; distinto → fundido con zoom
   const o = (name, short, desc, a, b, frame, extra = {}) => ({ name, short, desc, a, b, frame, ...extra });
   const CATS = {
     limpieza: { label: 'Limpieza', head: 'Nivel', evo: true, opts: [
-      o('Básico', 'Básico', 'Lavado a mano y aspirado. Fuera el *barro* y el *polvo*.', SUCIO, '06-limpieza_basico', 'car'),
-      o('Premium', 'Premium', 'Además, *llantas y neumáticos* a fondo y *brillo* en la carrocería.', SUCIO, '06-limpieza_premium', 'car', { top: 'Top ventas' }),
-      o('Integral', 'Integral', 'Interior y exterior completos, faros y parrilla renovados, *brillo espejo*.', SUCIO, '06-limpieza_integral', 'car'),
+      o('Básico', 'Básico', 'Lavado a mano y aspirado. Fuera el *barro* y el *polvo*.', SUCIO, '06-limpieza_basico', 'car', { fx: [['foam', FOAM], ['rinse', '06-limpieza_basico']] }),
+      o('Premium', 'Premium', 'Además, *llantas y neumáticos* a fondo y *brillo* en la carrocería.', SUCIO, '06-limpieza_premium', 'car', { top: 'Top ventas', fx: [['foam', FOAM], ['rinse', '06-limpieza_premium']] }),
+      o('Integral', 'Integral', 'Interior y exterior completos, faros y parrilla renovados, *brillo espejo*.', SUCIO, '06-limpieza_integral', 'car', { fx: [['foam', FOAM], ['rinse', '06-limpieza_integral']] }),
     ]},
     tintado: { label: 'Tintado · lunas traseras', head: 'Tinte', evo: true, opts: [
-      o('50 %', '50 %', 'Tinte suave. *Menos calor* y reflejos, sin perder visibilidad.', '02-tintado_lunas_sin', '02-tintado_lunas_50', 'side', { la: 'Sin tintar', lb: 'Tintado' }),
-      o('30 %', '30 %', 'Más *privacidad*: desde fuera apenas se ven siluetas.', '02-tintado_lunas_sin', '02-tintado_lunas_30', 'side', { la: 'Sin tintar', lb: 'Tintado' }),
-      o('5 %', '5 %', 'Tinte limusina. *Privacidad total* en las plazas traseras.', '02-tintado_lunas_sin', '02-tintado_lunas_5', 'side', { la: 'Sin tintar', lb: 'Tintado' }),
+      o('50 %', '50 %', 'Tinte suave. *Menos calor* y reflejos, sin perder visibilidad.', '02-tintado_lunas_sin', '02-tintado_lunas_50', 'side', { la: 'Sin tintar', lb: 'Tintado', fx: [['film', '02-tintado_lunas_50']], fxAny: true }),
+      o('30 %', '30 %', 'Más *privacidad*: desde fuera apenas se ven siluetas.', '02-tintado_lunas_sin', '02-tintado_lunas_30', 'side', { la: 'Sin tintar', lb: 'Tintado', fx: [['film', '02-tintado_lunas_30']], fxAny: true }),
+      o('5 %', '5 %', 'Tinte limusina. *Privacidad total* en las plazas traseras.', '02-tintado_lunas_sin', '02-tintado_lunas_5', 'side', { la: 'Sin tintar', lb: 'Tintado', fx: [['film', '02-tintado_lunas_5']], fxAny: true }),
     ]},
     pintura: { label: 'Pintura', head: 'Trabajo', evo: true, opts: [
-      o('Pulido 1 paso', '1 paso', 'Quita la mayoría de los *swirls* y recupera el *brillo*.', '03-correccion_pintura_swirls', '03-correccion_pintura_1paso', 'macro', { clip: 'pulido' }),
-      o('Pulido 2 pasos', '2 pasos', 'Corte y abrillantado: la pintura queda como un *espejo*.', '03-correccion_pintura_swirls', '03-correccion_pintura_2pasos', 'macro'),
-      o('Cerámico', 'Cerámico', 'Recubrimiento que *repele* el agua, la suciedad y los rayos UV.', '03-correccion_pintura_2pasos', '04-ceramica_perlado', 'macro', { la: 'Sin proteger', lb: 'Con cerámico' }),
-      o('Mantenimiento', 'Manteni­miento', 'Lavado con espuma activa para que el cerámico *dure años*.', '04-ceramica_mantenimiento', LIMPIO, 'car', { la: 'Lavado', lb: 'Resultado' }),
+      o('Pulido 1 paso', '1 paso', 'Quita la mayoría de los *swirls* y recupera el *brillo*.', '03-correccion_pintura_swirls', '03-correccion_pintura_1paso', 'macro', { fx: [['polish', '03-correccion_pintura_1paso']] }),
+      o('Pulido 2 pasos', '2 pasos', 'Corte y abrillantado: la pintura queda como un *espejo*.', '03-correccion_pintura_swirls', '03-correccion_pintura_2pasos', 'macro', { fx: [['polish', '03-correccion_pintura_1paso'], ['finish', '03-correccion_pintura_2pasos']] }),
+      o('Cerámico', 'Cerámico', 'Recubrimiento que *repele* el agua, la suciedad y los rayos UV.', '03-correccion_pintura_2pasos', '04-ceramica_perlado', 'macro', { la: 'Sin proteger', lb: 'Con cerámico', clip: 'ceramico' }),
+      o('Mantenimiento', 'Manteni­miento', 'Lavado con espuma activa para que el cerámico *dure años*.', FOAM, LIMPIO, 'car', { la: 'Lavado', lb: 'Resultado', fx: [['rinse', LIMPIO]] }),
     ]},
     extras: { label: 'Extras', groups: ['Interior', 'Exterior', 'Si hace falta'], opts: [] },
   };
@@ -984,7 +1040,9 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
     ['interior', 'suciedad-extrema', 'Suciedad extrema', 'Obra', 'Si el coche llega con polvo de obra, yeso o barro, *te avisamos antes*: lleva más tiempo y un suplemento.', { sup: true }],
     ['interior', 'pelo-de-perro', 'Pelo de mascota', 'Mascota', 'Si hay mucho *pelo incrustado* en la tapicería, *te avisamos antes*: lleva más tiempo y un suplemento.', { sup: true }],
   ].forEach(([z, n, name, short, desc, more = {}]) => CATS.extras.opts.push(
-    o(name, short, desc, `05-extras_${z}_${n}_antes`, `05-extras_${z}_${n}_despues`, n, { zone: more.sup ? 'Te avisamos' : ZONA[z], group: more.sup ? 2 : z === 'interior' ? 0 : 1, ...more })));
+    o(name, short, desc, `05-extras_${z}_${n}_antes`, `05-extras_${z}_${n}_despues`, n, { zone: more.sup ? 'Te avisamos' : ZONA[z], group: more.sup ? 2 : z === 'interior' ? 0 : 1,
+      // Cristales: pulidora pequeña; el resto, cepillo y limpiador (la cera tiene su comparador)
+      ...(more.slider ? {} : { fx: [[n === 'pulido-cristales' ? 'glass' : 'scrub', `05-extras_${z}_${n}_despues`]] }), ...more })));
 
 
   // Textos técnicos y ficha de cada servicio (cuestionario: tono técnico y más información a la vista)
@@ -1074,13 +1132,13 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
         // Barrido: la nueva foto entra detrás de una línea roja, como una pasada de máquina
         const from = dir > 0 ? 'inset(0 100% 0 0)' : 'inset(0 0 0 100%)';
         const w = phone.clientWidth;
-        const opt = { duration: 950, easing: 'cubic-bezier(.65,0,.35,1)', fill: 'forwards' };
+        const opt = { duration: 950 * tempo, easing: 'cubic-bezier(.65,0,.35,1)', fill: 'forwards' };
         anims = [
           front.animate([{ opacity: 1, clipPath: from }, { opacity: 1, clipPath: 'inset(0 0 0 0)' }], opt),
           sweep.animate([{ opacity: 1, transform: `translateX(${dir > 0 ? 0 : w}px)` }, { opacity: 1, transform: `translateX(${dir > 0 ? w : 0}px)` }], opt),
         ];
       } else {
-        const opt = { duration: 720, easing: 'cubic-bezier(.2,.7,.2,1)', fill: 'forwards' };
+        const opt = { duration: 720 * tempo, easing: 'cubic-bezier(.2,.7,.2,1)', fill: 'forwards' };
         anims = [
           front.animate([{ opacity: 0, transform: 'scale(1.07)' }, { opacity: 1, transform: 'scale(1)' }], opt),
           back.animate([{ transform: 'scale(1)' }, { transform: 'scale(.97)' }], opt),
@@ -1107,8 +1165,11 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
   const CLIPS = {
     pintura: { pre: 'p_', v: 2, end: SWIRLS, frame: 'macro', frames: [] },
     tintado: { pre: 't_', v: 2, end: '02-tintado_lunas_sin', frame: 'side', frames: [] },
-    // pulido: Veo con 1.º = remolinos y último = pulido 1 paso; la pulidora entra, pule el capó y sale (start: foto del primer fotograma)
-    pulido: { pre: 'u_', v: 1, ms: 5000, start: SWIRLS, end: '03-correccion_pintura_1paso', frame: 'macro', frames: [] },
+    // cerámico: Veo con 1.º = pintura a 2 pasos y último = perlado; cae agua pulverizada y se recoge en gotas (start: foto del primer fotograma)
+    // extras: Veo de la base al interior (la cámara llega a la puerta del conductor, se abre y entra). Veo metió un corte
+    // a mitad, así que se usa desde la puerta (fotogramas 72–225) y se entra con un fundido largo desde la base (e0)
+    extras: { pre: 'e_', v: 1, ms: 3400, e0: .22, end: '05-extras_interior_cuero_antes', frame: 'cuero', frames: [] },
+    ceramico: { pre: 'c_', v: 1, ms: 3600, start: '03-correccion_pintura_2pasos', end: '04-ceramica_perlado', frame: 'macro', frames: [] },
   };
   let clip = CLIPS.pintura, frames = clip.frames;
   const photos = {};   // fotos ya cargadas, por nombre (para fundirlas con el vídeo)
@@ -1137,7 +1198,7 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
   function drawP(p) {
     p = Math.max(0, Math.min(1, p));
     const i = Math.round(p * (VN - 1));
-    const a0 = p < EDGE ? 1 - p / EDGE : 0, a1 = p > 1 - EDGE ? (p - 1 + EDGE) / EDGE : 0;
+    const E0 = clip.e0 || EDGE, a0 = p < E0 ? 1 - p / E0 : 0, a1 = p > 1 - EDGE ? (p - 1 + EDGE) / EDGE : 0;
     const e = t => t * t * (3 - 2 * t);
     const key = i + '|' + Math.round(a0 * 40) + '|' + Math.round(a1 * 40);
     if (key === lastDrawn) return;
@@ -1163,17 +1224,17 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
   // Recorre el clip c de from a to (0 = coche entero, 1 = foto final) y deja debajo la foto que toca
   async function bridge(from, to, c = 'pintura') {
     useClip(c); sizeSeq(); drawP(from);
-    await fade(1, 260);
-    await tween(from, to, (clip.ms || 3200) * Math.abs(to - from) + 150, drawP);
+    await fade(1, 260 * tempo);
+    await tween(from, to, ((clip.ms || 3200) * Math.abs(to - from) + 150) * tempo, drawP);
     const src = to === 1 ? clip.end : LIMPIO;
     back.src = img(src); try { await back.decode(); } catch (e) {}
     shownSrc = src; shownFrame = to === 1 ? clip.frame : 'car';
-    await fade(0, 380);
+    await fade(0, 380 * tempo);
   }
   // Scroll magnético: en el inicio, deslizar hacia arriba acerca la cámara; en pintura, hacia abajo la aleja.
   // Al soltar, si has pasado el umbral termina sola; si no, vuelve a su sitio.
   function scrubStart(dir) {
-    if (!VIDEO || !clipReady('pintura')) return false;
+    if (demo || !VIDEO || !clipReady('pintura')) return false;
     if (loading || pending || sliding || performance.now() < introLock) return false;
     if (dir > 0 && cat !== null) return false;
     if (dir < 0 && !(cat === 'pintura' && shownFrame === 'macro')) return false;
@@ -1215,7 +1276,7 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
     await new Promise(res => {
       const f = now => {
         if (!sliding || my !== token) return res();
-        const k = Math.min(1, (now - t0) / 900), e = 1 - Math.pow(1 - k, 3);
+        const k = Math.min(1, (now - t0) / (900 * tempo)), e = 1 - Math.pow(1 - k, 3);
         setCmp(100 - 50 * e);
         k < 1 ? requestAnimationFrame(f) : res();
       };
@@ -1241,6 +1302,7 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
   // si el cliente elige otra de esa sección sin haberla tocado
   let tent = null;
   function track(c, i, auto) {
+    if (demo) return;
     const k = `${c}:${i}`;
     if (!auto && tent && tent !== k && tent.startsWith(c + ':')) seen = seen.filter(x => x !== tent);
     if (!auto || tent === k) tent = null;
@@ -1361,22 +1423,24 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
     const O = CATS[c].opts[i];
     // Secciones evolutivas (limpieza, tintado, pintura): si ya estás en esa escena,
     // pasa directamente del nivel que ves al nuevo, sin volver al estado inicial
-    const direct = !!(CATS[c].evo && prev && i !== prevI && prev.frame === O.frame);
+    // (si la opción tiene vídeo propio y lo que se ve no es su punto de partida, se pasa antes por su «antes»: de 1 paso al cerámico)
+    const direct = !!(CATS[c].evo && prev && i !== prevI && prev.frame === O.frame) && !(O.clip && CLIPS[O.clip] && shownSrc !== CLIPS[O.clip].start);
     opt = i; state = direct ? 'b' : 'a'; abReady = false;
     chrome(); paintInfo();
     q(exitSlider);
     if (VIDEO && CLIPS[c] && wasHome && clipReady(c)) { const p0 = c === 'pintura' ? scrubP ?? 0 : 0; scrubP = null; q(() => bridge(p0, 1, c)); }
     if (direct) {
-      await show(O.b, O.frame, i > prevI ? 1 : -1, my); if (my !== token) return;
+      // De un nivel al siguiente: si lo que se ve es el punto de partida de su animación (de 1 paso a 2 pasos,
+      // de 2 pasos al cerámico, de un tinte a otro), se anima; si no, barrido
+      await q(() => animate(O, my, i > prevI ? 1 : -1)); if (my !== token) return;
       abReady = true; paintAB();
       return;
     }
     await show(O.a, O.frame, 1, my); if (my !== token) return;
-    await wait(HOLD); if (my !== token) return;
+    await wait(HOLD * tempo); if (my !== token) return;
     state = 'b'; paintAB();
-    // Con vídeo propio (pulidora), el «después» llega con la máquina pasando por el capó; si no, con el barrido
-    if (VIDEO && O.clip && clipReady(O.clip)) await q(() => my === token && shownSrc === O.a ? bridge(0, 1, O.clip) : doShow(O.b, O.frame, 1, my));
-    else await show(O.b, O.frame, 1, my);
+    // El «después» llega con la herramienta trabajando (pulidora, espuma y agua, lámina, cepillo, vídeo del cerámico…)
+    await q(() => animate(O, my, 1));
     if (my !== token) return;
     abReady = true; paintAB();
     if (O.slider) q(() => enterSlider(O, my));
@@ -1500,7 +1564,7 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
   } else sheet.querySelectorAll('.reveal').forEach(n => n.classList.add('in'));
   // La lista de opciones de los lados se ajusta a la altura real de la ficha
   if ('ResizeObserver' in window) new ResizeObserver(() => phone.style.setProperty('--hud-h', $('hud').offsetHeight + 'px')).observe($('hud'));
-  addEventListener('keydown', e => { if (e.key === 'Escape' && !closeSheet()) home(); });
+  addEventListener('keydown', e => { if (e.key !== 'Escape') return; if (demo) return endDemo(); if (!closeSheet()) home(); });
   // Solo se navega con los botones: sin scroll ni gestos
   let sy = 0, wheelT;
   phone.addEventListener('touchstart', e => { sy = e.touches[0].clientY; }, { passive: true });
@@ -1521,6 +1585,564 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
     clearTimeout(wheelT); wheelT = setTimeout(scrubEnd, 180);
   }, { passive: false });
 
+  // ══ Animaciones hechas con código: la pulidora y compañía, sin vídeo ══
+  // La foto de antes va en una capa encima de la de después y la herramienta la «borra» por donde pasa:
+  // la pulidora deja la pintura pulida, la espuma cubre el coche y el agua la aclara, la lámina oscurece
+  // las lunas, el cepillo limpia el interior… Todo se pinta en el canvas #seq (misma geometría que las fotos)
+  // y, al terminar, la foto de después se queda fija debajo. Sirve para cualquier pareja antes → después.
+  // Pulidora recortada de un fotograma del vídeo de Veo, con mano y antebrazo (img/fx-pulidora*.webp).
+  // Medidas en píxeles de ese fotograma, que tenía 720 de ancho (= el ancho entero de la foto)
+  const PUL = { px: 108, py: 496, rx: 108, ry: 72, ang: Math.atan2(-.4, 1), sx: 1.39, sy: .454 };
+  // Mano con cepillo (Gemini, fondo croma): ancla en el centro de las cerdas; bw = ancho de las cerdas
+  const BRU = { ax: 112, ay: 179, bw: 260 };
+  const sprites = {};
+  const sprite = n => {
+    if (!sprites[n]) {
+      const i = new Image(); i.src = `img/fx-${n}.webp?v=1`;
+      sprites[n] = { i, ready: i.decode().then(() => i, () => null) };
+    }
+    return sprites[n];
+  };
+  const loadPhoto = n => new Promise(res => {
+    let i = photos[n];
+    if (ok(i)) return res(i);
+    if (!i) { i = new Image(); photos[n] = i; i.src = img(n); }
+    const done = () => res(ok(i) ? i : null);
+    if (i.complete) return done();
+    i.addEventListener('load', done, { once: true }); i.addEventListener('error', done, { once: true });
+  });
+  const canvasOf = (w, h) => { const c = document.createElement('canvas'); c.width = w; c.height = h; return c; };
+  // La foto al tamaño del canvas, encuadrada igual que en pantalla (object-fit: cover)
+  function plate(im) {
+    const c = canvasOf(seq.width, seq.height), x = c.getContext('2d');
+    x.imageSmoothingEnabled = true; x.imageSmoothingQuality = 'high';
+    const k = Math.max(c.width / im.naturalWidth, c.height / im.naturalHeight), w = im.naturalWidth * k, h = im.naturalHeight * k;
+    x.drawImage(im, (c.width - w) / 2, (c.height - h) / 2, w, h);
+    return c;
+  }
+  // Mapa de lo que cambia entre las dos fotos, a baja resolución: dice a la herramienta dónde trabajar
+  function diffMap(a, b) {
+    const W = 72, H = Math.round(W * seq.height / seq.width), N = W * H;
+    const c = canvasOf(W, H), x = c.getContext('2d', { willReadFrequently: true });
+    x.imageSmoothingEnabled = true; x.imageSmoothingQuality = 'high';
+    x.drawImage(a, 0, 0, W, H); const A = x.getImageData(0, 0, W, H).data;
+    x.drawImage(b, 0, 0, W, H); const B = x.getImageData(0, 0, W, H).data;
+    let d = new Float32Array(N); const L = new Float32Array(N);
+    for (let i = 0, j = 0; i < N; i++, j += 4) {
+      d[i] = Math.max(Math.abs(A[j] - B[j]), Math.abs(A[j + 1] - B[j + 1]), Math.abs(A[j + 2] - B[j + 2])) / 255;
+      L[i] = (B[j] * .3 + B[j + 1] * .59 + B[j + 2] * .11) / 255;
+    }
+    for (let p = 0; p < 2; p++) {   // suavizado 3×3
+      const e = new Float32Array(N);
+      for (let y = 0; y < H; y++) for (let x2 = 0; x2 < W; x2++) {
+        let s = 0, n = 0;
+        for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) {
+          const yy = y + dy, xx = x2 + dx;
+          if (yy >= 0 && yy < H && xx >= 0 && xx < W) { s += d[yy * W + xx]; n++; }
+        }
+        e[y * W + x2] = s / n;
+      }
+      d = e;
+    }
+    let mx = 0; for (let i = 0; i < N; i++) mx = Math.max(mx, d[i]);
+    const thr = Math.max(.045, mx * .28);
+    // Caja con el grueso del cambio (del 8 al 92 % de su «peso»): así no la estiran los píxeles sueltos con ruido
+    const cw = new Float32Array(W), rw = new Float32Array(H); let tot = 0;
+    for (let y = 0; y < H; y++) for (let x2 = 0; x2 < W; x2++) { const v = Math.max(0, d[y * W + x2] - thr * .5); cw[x2] += v; rw[y] += v; tot += v; }
+    const pct = (arr, q) => { let s = 0; for (let i = 0; i < arr.length; i++) { s += arr[i]; if (s >= q * tot) return i; } return arr.length - 1; };
+    let box = { x0: .15, y0: .3, x1: .85, y1: .75 };
+    if (tot > 0) {
+      box = { x0: pct(cw, .08) / W, x1: (pct(cw, .92) + 1) / W, y0: pct(rw, .08) / H, y1: (pct(rw, .92) + 1) / H };
+      const ex = Math.max(0, .2 - (box.x1 - box.x0)) / 2, ey = Math.max(0, .12 - (box.y1 - box.y0)) / 2;   // tamaño mínimo
+      box = { x0: Math.max(0, box.x0 - ex), x1: Math.min(1, box.x1 + ex), y0: Math.max(0, box.y0 - ey), y1: Math.min(1, box.y1 + ey) };
+    }
+    return { W, H, d, L, thr, box };
+  }
+  // Máscara suave de la zona que cambia (para que los brillos solo caigan donde trabaja la herramienta)
+  function maskOf(m) {
+    const c = canvasOf(m.W, m.H), x = c.getContext('2d'), im = x.createImageData(m.W, m.H);
+    for (let i = 0; i < m.W * m.H; i++) {
+      const v = Math.min(1, Math.max(0, (m.d[i] - m.thr * .6) / (m.thr * .8)));
+      im.data[i * 4] = im.data[i * 4 + 1] = im.data[i * 4 + 2] = 255; im.data[i * 4 + 3] = v * 255;
+    }
+    x.putImageData(im, 0, 0);
+    return c;
+  }
+  // Los puntos más brillantes de la foto de después dentro de la zona trabajada: ahí destellan las chispas
+  function sparkPoints(m, n) {
+    const out = [], cand = [];
+    for (let i = 0; i < m.W * m.H; i++) if (m.d[i] > m.thr) cand.push(i);
+    cand.sort((a, b) => m.L[b] - m.L[a]);
+    for (const i of cand) {
+      const x = (i % m.W + .5) / m.W, y = (Math.floor(i / m.W) + .5) / m.H;
+      if (out.every(p => Math.hypot(p[0] - x, (p[1] - y) * 1.8) > .16)) out.push([x, y]);
+      if (out.length >= n) break;
+    }
+    return out;
+  }
+  // Pincel que «borra» la foto de antes: elipse con el borde difuminado
+  function dab(x, cx, cy, rx, ry, a) {
+    x.save(); x.translate(cx, cy); x.scale(1, ry / rx);
+    const g = x.createRadialGradient(0, 0, 0, 0, 0, rx);
+    g.addColorStop(0, `rgba(0,0,0,${a})`); g.addColorStop(.6, `rgba(0,0,0,${a * .75})`); g.addColorStop(1, 'rgba(0,0,0,0)');
+    x.fillStyle = g; x.beginPath(); x.arc(0, 0, rx, 0, 6.2832); x.fill(); x.restore();
+  }
+  // Recorrido suave (Catmull-Rom) por unos puntos; at(s) da la posición a una fracción s del camino
+  function spline(pts, n = 20) {
+    const o = [];
+    for (let i = 0; i < pts.length - 1; i++) {
+      const p0 = pts[Math.max(0, i - 1)], p1 = pts[i], p2 = pts[i + 1], p3 = pts[Math.min(pts.length - 1, i + 2)];
+      for (let k = 0; k < n; k++) {
+        const t = k / n, t2 = t * t, t3 = t2 * t;
+        o.push([0, 1].map(j => .5 * (2 * p1[j] + (p2[j] - p0[j]) * t + (2 * p0[j] - 5 * p1[j] + 4 * p2[j] - p3[j]) * t2 + (3 * p1[j] - p0[j] - 3 * p2[j] + p3[j]) * t3)));
+      }
+    }
+    o.push(pts[pts.length - 1]);
+    const len = [0];
+    for (let i = 1; i < o.length; i++) len.push(len[i - 1] + Math.hypot(o[i][0] - o[i - 1][0], o[i][1] - o[i - 1][1]));
+    const L = len[len.length - 1] || 1;
+    const at = s => {
+      const d = Math.max(0, Math.min(1, s)) * L;
+      let lo = 1, hi = len.length - 1;
+      while (lo < hi) { const m = (lo + hi) >> 1; if (len[m] < d) lo = m + 1; else hi = m; }
+      const f = (d - len[lo - 1]) / ((len[lo] - len[lo - 1]) || 1);
+      return [o[lo - 1][0] + (o[lo][0] - o[lo - 1][0]) * f, o[lo - 1][1] + (o[lo][1] - o[lo - 1][1]) * f];
+    };
+    at.knot = i => len[Math.min(len.length - 1, i * n)] / L;   // fracción del camino en el punto i
+    return at;
+  }
+  // Velocidad constante con arranque y frenada suaves
+  const trap = (t, a = .12) => {
+    const v = 1 / (1 - a); t = Math.max(0, Math.min(1, t));
+    return t < a ? v * t * t / (2 * a) : t > 1 - a ? 1 - v * (1 - t) * (1 - t) / (2 * a) : v * (t - a / 2);
+  };
+  // Partículas sencillas (gotas, espuma, pulverizado)
+  function particles() {
+    const ps = [];
+    return {
+      add: p => ps.push(Object.assign({ t: 0 }, p)),
+      tick(dt) { for (let i = ps.length - 1; i >= 0; i--) { ps[i].t += dt; if (ps[i].t >= ps[i].life) ps.splice(i, 1); } },
+      draw(g, fn) { for (const p of ps) fn(g, p, p.t / p.life); },
+    };
+  }
+  // Destellos en forma de estrella, al terminar
+  function twinkle(g, x, y, r, a) {
+    if (a <= 0) return;
+    g.save(); g.translate(x, y); g.globalCompositeOperation = 'lighter';
+    const h = g.createRadialGradient(0, 0, 0, 0, 0, r * .9);
+    h.addColorStop(0, `rgba(255,255,255,${.55 * a})`); h.addColorStop(1, 'rgba(255,255,255,0)');
+    g.fillStyle = h; g.beginPath(); g.arc(0, 0, r * .9, 0, 6.2832); g.fill();
+    g.fillStyle = `rgba(255,255,255,${.9 * a})`;
+    const ray = (l, w) => { g.beginPath(); g.moveTo(-l, 0); g.quadraticCurveTo(0, -w, l, 0); g.quadraticCurveTo(0, w, -l, 0); g.fill(); };
+    ray(r * 2.1, r * .09); g.rotate(Math.PI / 2); ray(r * 2.1, r * .09);
+    g.rotate(Math.PI / 4); ray(r * 1.1, r * .06); g.rotate(Math.PI / 2); ray(r * 1.1, r * .06);
+    g.restore();
+  }
+
+  const FX = {
+    // Pulidora: entra por la derecha, hace pasadas sobre la pintura y se va. Por donde pasa, la pintura queda pulida
+    polish(c, o = {}) {
+      const { W, H, dpr } = c, sp = sprite(o.pad || 'pulidora');
+      const k = W / 720 * (o.scale || 1);
+      const R = PUL.rx * k * 1.3, Ry = PUL.ry * k * 1.3;
+      const b = o.box || { x0: .15, x1: .85, y0: .52, y1: .73 };
+      const rows = o.rows || 3, pts = [[W * 1.3, H * (b.y0 - .03)]];
+      for (let r = 0; r < rows; r++) {
+        const y = H * (b.y0 + (b.y1 - b.y0) * (rows === 1 ? .5 : r / (rows - 1)));
+        const [xa, xb] = r % 2 ? [b.x0, b.x1] : [b.x1, b.x0];
+        pts.push([W * xa, y], [W * xb, y]);
+      }
+      pts.push([W * 1.35, H * (b.y1 + .015)]);
+      const P = spline(pts), sOn = P.knot(1), sOff = P.knot(pts.length - 2);
+      const ta = .14, tb = .84;
+      const sAt = t => t < ta ? sOn * (1 - Math.pow(1 - t / ta, 2))
+        : t < tb ? sOn + (sOff - sOn) * trap((t - ta) / (tb - ta), .08)
+        : sOff + (1 - sOff) * Math.pow((t - tb) / (1 - tb), 1.6);
+      let cur = pts[0], prev = null;
+      const dust = particles();
+      return {
+        ms: o.ms || 3000, ready: sp.ready,
+        glare: 1.35, haze: 14, glareAt: t => { const u = Math.min(1, t / .14); return u * u * (3 - 2 * u); },
+        step(t, dt) {
+          const s = sAt(t), p = P(s), on = s > sOn - .002 && s < sOff + .002;
+          if (on && prev) {
+            const d = Math.hypot(p[0] - prev[0], p[1] - prev[1]), n = Math.max(1, Math.ceil(d / (R * .15)));
+            for (let i = 1; i <= n; i++) c.erase(prev[0] + (p[0] - prev[0]) * i / n, prev[1] + (p[1] - prev[1]) * i / n, R, Ry, .34);
+            // restos de pulimento que salen despedidos del pad
+            if (Math.random() < .5) { const a = Math.random() * 6.28; dust.add({ x: p[0] + Math.cos(a) * R * .8, y: p[1] + Math.sin(a) * Ry * .8, vx: Math.cos(a) * 60 * dpr, vy: Math.sin(a) * 40 * dpr, life: 380, r: (.6 + Math.random()) * dpr }); }
+          }
+          prev = on ? p : null; cur = p; dust.tick(dt);
+        },
+        fade: t => t < .82 ? 1 : Math.max(0, 1 - (t - .82) / .16),
+        draw(g, t) {
+          dust.draw(g, (g, p, u) => { g.fillStyle = `rgba(235,232,228,${.5 * (1 - u)})`; g.beginPath(); g.arc(p.x + p.vx * p.t / 1000, p.y + p.vy * p.t / 1000, p.r, 0, 6.2832); g.fill(); });
+          // brillo que recorre la pintura recién pulida
+          if (t > .74) {
+            const u = (t - .74) / .26, x = W * (-.35 + 1.7 * u), y0 = H * (b.y0 - .1), y1 = H * (b.y1 + .1);
+            const gr = g.createLinearGradient(x - W * .16, 0, x + W * .16, 0);
+            gr.addColorStop(0, 'rgba(255,255,255,0)'); gr.addColorStop(.5, `rgba(255,255,255,${.13 * Math.sin(Math.PI * u)})`); gr.addColorStop(1, 'rgba(255,255,255,0)');
+            g.save(); g.globalCompositeOperation = 'lighter'; g.fillStyle = gr;
+            g.beginPath(); g.moveTo(x - W * .1, y0); g.lineTo(x + W * .22, y0); g.lineTo(x + W * .1, y1); g.lineTo(x - W * .22, y1); g.fill(); g.restore();
+          }
+          const im = sp.i; if (!ok(im)) return;
+          const ph = performance.now() / 1000 * 6.2832 * 7.5;     // órbita del pad (máquina roto-orbital) y vibración
+          const x = cur[0] + Math.cos(ph) * 1.5 * dpr + (Math.random() - .5) * .8 * dpr;
+          const y = cur[1] + Math.sin(ph) * 1.1 * dpr + (Math.random() - .5) * .8 * dpr;
+          const sc = k * (1 + .4 * (y / H - .68));                // más grande cuanto más cerca de la cámara
+          let rot = Math.atan2(H * PUL.sy - y, W * PUL.sx - x) - PUL.ang;
+          rot = Math.max(-.15, Math.min(.15, rot * .65));          // el brazo gira desde el hombro (fuera de la pantalla)
+          // sombra del pad sobre la pintura
+          g.save(); g.translate(x, y + PUL.ry * sc * .45); g.scale(1, .55);
+          const sh = g.createRadialGradient(0, 0, 0, 0, 0, PUL.rx * sc * 1.25);
+          sh.addColorStop(0, 'rgba(0,0,0,.55)'); sh.addColorStop(1, 'rgba(0,0,0,0)');
+          g.fillStyle = sh; g.beginPath(); g.arc(0, 0, PUL.rx * sc * 1.25, 0, 6.2832); g.fill(); g.restore();
+          g.save(); g.translate(x, y); g.rotate(rot); g.scale(sc, sc); g.drawImage(im, -PUL.px, -PUL.py); g.restore();
+        },
+      };
+    },
+    // Segundo paso: pad negro de acabado, menos pasadas
+    finish: c => FX.polish(c, { pad: 'pulidora-acabado', rows: 2, ms: 2400, box: { x0: .17, x1: .83, y0: .55, y1: .7 } }),
+    // Pulidora pequeña para los cristales: trabaja donde cambia la foto
+    glass(c) {
+      const b = c.dm.box;
+      return FX.polish(c, { scale: .72, rows: 2, ms: 2600, box: { x0: Math.max(.16, b.x0 + .04), x1: Math.min(.84, b.x1 - .04), y0: b.y0 + (b.y1 - b.y0) * .25, y1: b.y0 + (b.y1 - b.y0) * .75 } });
+    },
+    // Espuma activa: un cañón la pulveriza de lado a lado, de arriba abajo, hasta cubrir el coche
+    foam(c) {
+      const { W, H, dpr } = c, b = c.dm.box;
+      const x0 = (b.x0 - .03) * W, x1 = (b.x1 + .03) * W, y0 = (b.y0 - .02) * H, y1 = (b.y1 + .02) * H, bw = x1 - x0, bh = y1 - y0;
+      const rows = 3, pts = [];
+      for (let r = 0; r < rows; r++) {
+        const y = y0 + bh * (r + .5) / rows;
+        pts.push(r % 2 ? [x1, y] : [x0, y], r % 2 ? [x0, y] : [x1, y]);
+      }
+      const P = spline(pts), noz = [W * 1.06, H * .97], spray = particles();
+      return {
+        ms: 1500,
+        step(t, dt) {
+          const p = P(trap(Math.min(1, t / .86), .1));
+          if (t < .88) {
+            for (let i = 0; i < 3; i++) {
+              const a = Math.random() * 6.28, r = Math.random() * bw * .13;
+              dab(c.tx, p[0] + Math.cos(a) * r, p[1] + Math.sin(a) * r * .8, bw * (.07 + Math.random() * .07), bw * (.06 + Math.random() * .06), .34);
+            }
+            for (let i = 0; i < 7; i++) spray.add({ tx: p[0] + (Math.random() - .5) * bw * .26, ty: p[1] + (Math.random() - .5) * bw * .2, life: 170 + Math.random() * 150, r: (.7 + Math.random() * 1.5) * dpr, cv: (Math.random() - .5) * 60 * dpr });
+          }
+          spray.tick(dt);
+        },
+        fade: t => t < .86 ? 1 : Math.max(0, 1 - (t - .86) / .12),
+        draw(g) {
+          spray.draw(g, (g, p, u) => {
+            const e = 1 - Math.pow(1 - u, 2), x = noz[0] + (p.tx - noz[0]) * e, y = noz[1] + (p.ty - noz[1]) * e + p.cv * Math.sin(Math.PI * u);
+            g.fillStyle = `rgba(248,248,246,${.6 * (1 - u * u)})`; g.beginPath(); g.arc(x, y, p.r * (1 + u), 0, 6.2832); g.fill();
+          });
+        },
+      };
+    },
+    // Aclarado: el agua baja de arriba abajo arrastrando la espuma, con regueros que se adelantan
+    rinse(c) {
+      const { W, H, dpr } = c, b = c.dm.box;
+      const top = b.y0 * H - H * .08, bot = b.y1 * H + H * .12, x0 = b.x0 * W - W * .04, x1 = b.x1 * W + W * .04;
+      const st = Math.max(4, Math.round(5 * dpr)), cols = Math.ceil(W / st) + 1, lag = [], drip = [];
+      let v = 0;
+      for (let i = 0; i < cols; i++) {
+        v = (v + (Math.random() - .5) * .45) * .88; lag.push(v);
+        drip.push(Math.random() < .14 ? (40 + Math.random() * 90) * dpr : Math.random() * 12 * dpr);
+      }
+      let front = top, prog = 0;
+      const drops = particles();
+      const cut = (g, off) => {
+        g.beginPath(); g.moveTo(0, 0); g.lineTo(W, 0);
+        for (let i = cols - 1; i >= 0; i--) g.lineTo(i * st, front + lag[i] * 30 * dpr + drip[i] * prog - off);
+        g.closePath(); g.fill();
+      };
+      return {
+        ms: 1700,
+        step(t, dt) {
+          prog = Math.min(1, t / .9); front = top + (bot - top) * easeIO(prog);
+          c.tx.fillStyle = 'rgba(0,0,0,.4)'; cut(c.tx, 0); cut(c.tx, 9 * dpr); c.tx.fillStyle = '#000'; cut(c.tx, 20 * dpr);
+          if (t < .9) for (let i = 0; i < 3; i++) drops.add({ x: x0 + Math.random() * (x1 - x0), y: front + Math.random() * 20 * dpr, life: 260 + Math.random() * 240, l: (5 + Math.random() * 9) * dpr });
+          drops.tick(dt);
+        },
+        fade: t => t < .9 ? 1 : Math.max(0, 1 - (t - .9) / .08),
+        draw(g) {
+          // lámina de agua: un brillo justo en el frente
+          const gr = g.createLinearGradient(0, front - 46 * dpr, 0, front + 8 * dpr);
+          gr.addColorStop(0, 'rgba(255,255,255,0)'); gr.addColorStop(.75, `rgba(220,232,240,${.16 * Math.sin(Math.PI * prog)})`); gr.addColorStop(1, 'rgba(255,255,255,0)');
+          g.save(); g.globalCompositeOperation = 'lighter'; g.fillStyle = gr; g.fillRect(x0, front - 46 * dpr, x1 - x0, 54 * dpr); g.restore();
+          drops.draw(g, (g, p, u) => {
+            const y = p.y + 900 * dpr * (p.t / 1000) * (.6 + u);
+            g.strokeStyle = `rgba(225,235,242,${.45 * (1 - u)})`; g.lineWidth = .9 * dpr;
+            g.beginPath(); g.moveTo(p.x, y); g.lineTo(p.x, y + p.l); g.stroke();
+          });
+        },
+      };
+    },
+    // Lámina de tintado: la rasqueta la asienta de un lado a otro y solo se ve brillar sobre los cristales
+    film(c) {
+      const { W, H, dpr } = c, b = c.dm.box, m = maskOf(c.dm);
+      const x0 = (b.x0 - .04) * W, x1 = (b.x1 + .04) * W, y0 = (b.y0 - .02) * H, y1 = (b.y1 + .02) * H, sl = (y1 - y0) * .22;
+      const hl = canvasOf(W, H), hx = hl.getContext('2d');
+      let fx = x0;
+      const cut = (g, off) => { g.beginPath(); g.moveTo(-sl, 0); g.lineTo(fx + sl - off, y0 - 30); g.lineTo(fx - sl - off, y1 + 30); g.lineTo(-sl, H); g.closePath(); g.fill(); };
+      return {
+        ms: 1200,
+        step(t) {
+          fx = x0 - sl + (x1 - x0 + 2 * sl) * easeIO(Math.min(1, t / .86));
+          c.tx.fillStyle = 'rgba(0,0,0,.45)'; cut(c.tx, 0); cut(c.tx, 7 * dpr); c.tx.fillStyle = '#000'; cut(c.tx, 16 * dpr);
+        },
+        fade: t => t < .86 ? 1 : Math.max(0, 1 - (t - .86) / .12),
+        draw(g, t) {
+          if (t > .9) return;
+          hx.clearRect(0, 0, W, H); hx.globalCompositeOperation = 'source-over';
+          const gr = hx.createLinearGradient(fx - 22 * dpr, 0, fx + 4 * dpr, 0);
+          gr.addColorStop(0, 'rgba(255,255,255,0)'); gr.addColorStop(.8, 'rgba(255,255,255,.28)'); gr.addColorStop(1, 'rgba(255,255,255,.75)');
+          hx.fillStyle = gr; hx.beginPath(); hx.moveTo(fx + sl - 22 * dpr, y0 - 30); hx.lineTo(fx + sl + 4 * dpr, y0 - 30); hx.lineTo(fx - sl + 4 * dpr, y1 + 30); hx.lineTo(fx - sl - 22 * dpr, y1 + 30); hx.fill();
+          hx.globalCompositeOperation = 'destination-in'; hx.drawImage(m, 0, 0, W, H);
+          g.save(); g.globalCompositeOperation = 'lighter'; g.drawImage(hl, 0, 0); g.restore();
+        },
+      };
+    },
+    // Cepillo y limpiador: entra una mano con guante por abajo a la derecha, frota en círculos por la zona
+    // que cambia (con espuma), se va y la pieza destella
+    scrub(c, o = {}) {
+      const { W, H, dpr } = c, b = c.dm.box, sp = sprite('cepillo');
+      const x0 = b.x0 * W, x1 = b.x1 * W, y0 = b.y0 * H, y1 = b.y1 * H, bw = x1 - x0, bh = y1 - y0;
+      const r = Math.max(W * .075, Math.min(W * .15, Math.min(bw, bh) * .26));
+      const rows = Math.max(1, Math.min(4, Math.round(bh / (r * 1.45))));
+      const pts = [[W * 1.15, H * 1.02]];
+      for (let i = 0; i < rows; i++) {
+        const y = y0 + bh * (rows === 1 ? .5 : (i + .5) / rows), a = x0 + Math.min(r * .6, bw / 2), z = x1 - Math.min(r * .6, bw / 2);
+        pts.push(i % 2 ? [a, y] : [z, y], i % 2 ? [z, y] : [a, y]);
+      }
+      pts.push([W * 1.22, H * 1.06]);
+      const P = spline(pts), sOn = P.knot(1), sOff = P.knot(pts.length - 2), ta = .13, tb = .8;
+      const sAt = t => t < ta ? sOn * (1 - Math.pow(1 - t / ta, 2))
+        : t < tb ? sOn + (sOff - sOn) * trap((t - ta) / (tb - ta), .1)
+        : sOff + (1 - sOff) * Math.pow((t - tb) / (1 - tb), 1.6);
+      const k = W * .17 / BRU.bw, foam = particles(), spk = sparkPoints(c.dm, o.sparks ?? 3);
+      let prev = null, cur = pts[0], wig = 0;
+      return {
+        ms: o.ms || 2500, ready: sp.ready,
+        step(t, dt) {
+          const s = sAt(t), p = P(s), on = s > sOn - .002 && s < sOff + .002, w = performance.now() / 1000 * 6.2832 * 3.2;
+          const q2 = on ? [p[0] + Math.cos(w) * r * .42, p[1] + Math.sin(w) * r * .32] : p;
+          if (on) {
+            if (prev) {
+              const d = Math.hypot(q2[0] - prev[0], q2[1] - prev[1]), n = Math.max(1, Math.ceil(d / (r * .2)));
+              for (let i = 1; i <= n; i++) c.erase(prev[0] + (q2[0] - prev[0]) * i / n, prev[1] + (q2[1] - prev[1]) * i / n, r, r * .85, .26);
+            }
+            for (let i = 0; i < 2; i++) { const a = Math.random() * 6.28, d = Math.random() * r * .8; foam.add({ x: q2[0] + Math.cos(a) * d, y: q2[1] + Math.sin(a) * d * .7, life: 480 + Math.random() * 320, r: (1.2 + Math.random() * 2.8) * dpr }); }
+          }
+          wig = on ? Math.sin(w) * .07 : 0;
+          prev = on ? q2 : null; cur = q2; foam.tick(dt);
+        },
+        fade: t => t < .8 ? 1 : Math.max(0, 1 - (t - .8) / .14),
+        draw(g, t) {
+          foam.draw(g, (g, p, u) => {
+            const a = u < .15 ? u / .15 : 1 - (u - .15) / .85, y = p.y - 10 * dpr * u;
+            g.fillStyle = `rgba(255,255,255,${.3 * a})`; g.strokeStyle = `rgba(255,255,255,${.42 * a})`; g.lineWidth = .7 * dpr;
+            g.beginPath(); g.arc(p.x, y, p.r, 0, 6.2832); g.fill(); g.stroke();
+          });
+          const im = sp.i;
+          if (ok(im)) {
+            // sombra de las cerdas sobre la pieza y la mano con el cepillo
+            g.save(); g.translate(cur[0] + 4 * dpr, cur[1] + BRU.bw * k * .28); g.scale(1, .4);
+            const sh = g.createRadialGradient(0, 0, 0, 0, 0, BRU.bw * k * .6);
+            sh.addColorStop(0, 'rgba(0,0,0,.45)'); sh.addColorStop(1, 'rgba(0,0,0,0)');
+            g.fillStyle = sh; g.beginPath(); g.arc(0, 0, BRU.bw * k * .6, 0, 6.2832); g.fill(); g.restore();
+            g.save(); g.translate(cur[0], cur[1]); g.rotate(wig); g.scale(k, k); g.drawImage(im, -BRU.ax, -BRU.ay); g.restore();
+          }
+          spk.forEach(([x, y], i) => {
+            const u = (t - .78 - i * .06) / .18;
+            if (u > 0 && u < 1) twinkle(g, x * W, y * H, 13 * dpr, Math.sin(Math.PI * u));
+          });
+        },
+      };
+    },
+  };
+
+  // Una etapa: de la foto from a la to con la herramienta kind. Si el cliente toca otra cosa, se salta al final
+  async function fxStage(kind, from, to, my) {
+    const [A, B] = await Promise.all([loadPhoto(from), loadPhoto(to)]);
+    if (my !== token) return;
+    if (!A || !B || !FX[kind]) return doShow(to, shownFrame, 1, my);
+    sizeSeq();
+    const W = seq.width, H = seq.height, top = plate(A), under = plate(B), tx = top.getContext('2d');
+    tx.globalCompositeOperation = 'destination-out';
+    let dm, glare = null, gx = null;
+    try { dm = diffMap(A, B); } catch (e) { dm = { W: 1, H: 1, d: [0], L: [0], thr: 1, box: { x0: .15, y0: .3, x1: .85, y1: .75 } }; }
+    // erase: la herramienta pasa por (x, y) y deja a la vista la foto de después
+    const c = { W, H, top, tx, dpr: W / phone.clientWidth, dm, erase: (x, y, rx, ry, a) => { dab(tx, x, y, rx, ry, a); if (gx) dab(gx, x / 2, y / 2, rx / 2, ry / 2, a); } };
+    const E = FX[kind](c);
+    if (E.ready) await E.ready;
+    if (my !== token) return;
+    // Luz de inspección: lo que la herramienta va a quitar (remolinos, marcas) se ve más mientras trabaja,
+    // y la zona tratada, algo velada; así se nota bien la diferencia entre lo pulido y lo que falta
+    // (a media resolución: en un móvil lento leer los píxeles de la foto entera retrasaría el arranque)
+    if (E.glare) try {
+      const gw = Math.round(W / 2), gh = Math.round(H / 2);
+      glare = canvasOf(gw, gh); gx = glare.getContext('2d');
+      const tc = canvasOf(gw, gh), tt = tc.getContext('2d', { willReadFrequently: true }); tt.imageSmoothingEnabled = true;
+      const read = src => { tt.clearRect(0, 0, gw, gh); tt.drawImage(src, 0, 0, gw, gh); return tt.getImageData(0, 0, gw, gh).data; };
+      const a = read(top), b = read(under), m = read(maskOf(dm)), o = gx.createImageData(gw, gh), od = o.data, k = E.glare, hz = E.haze || 0;
+      for (let i = 0; i < a.length; i += 4) {
+        const v = Math.max(0, a[i] + a[i + 1] + a[i + 2] - b[i] - b[i + 1] - b[i + 2]) / 3 * k + hz * m[i + 3] / 255;
+        od[i] = od[i + 1] = od[i + 2] = v > 255 ? 255 : v; od[i + 3] = 255;
+      }
+      gx.putImageData(o, 0, 0); gx.globalCompositeOperation = 'destination-out';
+    } catch (e) { glare = gx = null; }
+    const draw = (t, dt) => {
+      if (dt !== undefined) E.step(t, dt);
+      sctx.globalCompositeOperation = 'source-over'; sctx.globalAlpha = 1;
+      sctx.drawImage(under, 0, 0);
+      const f = E.fade ? E.fade(t) : 1;
+      sctx.globalAlpha = f; sctx.drawImage(top, 0, 0);
+      if (glare) { sctx.globalCompositeOperation = 'lighter'; sctx.globalAlpha = f * E.glareAt(t); sctx.drawImage(glare, 0, 0, W, H); sctx.globalCompositeOperation = 'source-over'; }
+      sctx.globalAlpha = 1;
+      if (E.draw) E.draw(sctx, t);
+    };
+    draw(0); seq.style.opacity = 1;
+    await new Promise(res => {
+      const ms = E.ms * tempo, t0 = performance.now(); let last = t0;
+      const f = now => {
+        if (my !== token) return res();
+        const t = Math.min(1, (now - t0) / ms);
+        draw(t, Math.min(50, now - last) / tempo); last = now;
+        t < 1 ? requestAnimationFrame(f) : res();
+      };
+      requestAnimationFrame(f);
+    });
+    sctx.globalAlpha = 1; sctx.globalCompositeOperation = 'source-over'; sctx.drawImage(under, 0, 0);
+    back.src = img(to); try { await back.decode(); } catch (e) {}
+    shownSrc = to; lastDrawn = -1;
+    seq.style.opacity = 0;
+  }
+  async function runFx(stages, my) {
+    for (const [kind, to] of stages) { if (my !== token) return; await fxStage(kind, shownSrc, to, my); }
+  }
+  // Etapas que quedan desde la foto que se ve (de 1 paso a 2 pasos solo falta el acabado)
+  function fxFrom(O) {
+    if (!O.fx || reduce) return null;
+    const chain = [O.a, ...O.fx.map(s => s[1])], k = chain.indexOf(shownSrc);
+    if (k >= 0 && k < O.fx.length) return O.fx.slice(k);
+    return O.fxAny && shownFrame === O.frame && shownSrc !== O.b ? O.fx.slice(-1) : null;
+  }
+  // De lo que se ve al «después» de O: vídeo propio, animación por código o barrido
+  function animate(O, my, dir) {
+    if (my !== token) return;
+    const C = O.clip && CLIPS[O.clip];
+    if (VIDEO && C && clipReady(O.clip) && shownSrc === (C.start || O.a)) return bridge(0, 1, O.clip);
+    const st = fxFrom(O);
+    if (st) return runFx(st, my);
+    return doShow(O.b, O.frame, dir, my);
+  }
+
+  // ══ Tutorial guiado: como en un videojuego, la propia web enseña a usarla y luego te deja a ti ══
+  // Un dedo toca los botones de verdad y la cápsula de abajo cuenta qué pasa. Unos 12 s.
+  // Lo corta cualquier toque real, la rueda, Escape o «Saltar». Lo que toca no cuenta para el WhatsApp.
+  const island = $('island'), islT = $('isl-t'), islN = $('isl-n'), finger = $('finger');
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+  const EASE = 'cubic-bezier(.32,.72,0,1)';
+  const live = () => { if (!demo || demo.stop) throw new Error('tutorial cortado'); };
+  let fpx = null, fpy = null, islTimer = 0;
+  function say(t, k, n) {
+    clearTimeout(islTimer);
+    const first = island.hidden || island.classList.contains('out');
+    island.classList.remove('out');
+    island.classList.toggle('tip', !n);
+    island.hidden = false;
+    const w0 = first ? 0 : island.offsetWidth;
+    islT.textContent = t; islN.textContent = n ? `${k}/${n}` : '';
+    island.style.setProperty('--k', n ? k / n : 0);
+    islT.classList.remove('swap'); void islT.offsetWidth; islT.classList.add('swap');
+    if (w0 && !reduce) { const w1 = island.offsetWidth; if (w1 !== w0) island.animate([{ width: w0 + 'px' }, { width: w1 + 'px' }], { duration: 420, easing: EASE }); }
+  }
+  function hideIsland() {
+    if (island.hidden || island.classList.contains('out')) return;
+    island.classList.add('out');
+    clearTimeout(islTimer);
+    islTimer = setTimeout(() => { island.hidden = true; island.classList.remove('out'); }, 400);
+  }
+  const center = el => { const r = el.getBoundingClientRect(), p = phone.getBoundingClientRect(); return [r.left - p.left + r.width / 2, r.top - p.top + r.height / 2]; };
+  async function moveTo(el, ms = 560) {
+    live();
+    const [x, y] = center(el);
+    if (fpx === null) { fpx = phone.clientWidth * .62; fpy = phone.clientHeight + 60; }
+    finger.classList.add('on');
+    const a = finger.animate([{ transform: `translate(${fpx - 23}px, ${fpy - 23}px)` }, { transform: `translate(${x - 23}px, ${y - 23}px)` }], { duration: reduce ? 0 : ms, easing: EASE, fill: 'forwards' });
+    fpx = x; fpy = y;
+    await a.finished;
+    try { a.commitStyles(); } catch (e) { finger.style.transform = `translate(${x - 23}px, ${y - 23}px)`; }
+    a.cancel();
+    live();
+  }
+  async function tap(el, ms) {
+    await moveTo(el, ms);
+    finger.classList.remove('tap'); void finger.offsetWidth; finger.classList.add('tap');
+    const t = `translate(${fpx - 23}px, ${fpy - 23}px)`;
+    const a = finger.animate([{ transform: `${t} scale(1)` }, { transform: `${t} scale(.76)`, offset: .45 }, { transform: `${t} scale(1)` }], { duration: 300, easing: 'ease-out' });
+    await sleep(130); live();
+    el.click();
+    await a.finished; live();
+  }
+  async function until(f, max = 12000) {
+    const t0 = performance.now();
+    while (!f()) { live(); if (performance.now() - t0 > max) break; await sleep(60); }
+    live();
+  }
+  // Sale la primera vez que se abre la web en cada pestaña del navegador; ?demo la fuerza y ?nodemo la quita
+  function wantDemo() {
+    const s = location.search;
+    if (/[?&]demo\b/.test(s)) return true;
+    if (/[?&]nodemo\b/.test(s)) return false;
+    try { return !sessionStorage.getItem('td-demo'); } catch (e) { return true; }
+  }
+  function seenDemo() { try { sessionStorage.setItem('td-demo', '1'); } catch (e) {} }
+  // Con «reducir movimiento» activado no hay tutorial: solo una pista que se va sola
+  function hint() { say('Toca un servicio para verlo'); islTimer = setTimeout(hideIsland, 3800); seenDemo(); }
+  async function runDemo() {
+    if (demo || loading) return;
+    demo = { stop: false, t0: performance.now() }; tempo = .5;
+    const N = 5;
+    try {
+      if (sheet.classList.contains('open')) { closeSheet(); await sleep(450); }
+      if (cat !== null) { home(); await until(() => cat === null && !pending, 8000); }
+      say('Toca un servicio para verlo', 1, N);
+      await sleep(320);
+      await tap(document.querySelector('.side button[data-cat="pintura"]'));
+      await until(() => cat === 'pintura' && state === 'b', 9000);
+      say('Así trabaja la pulidora', 2, N);
+      await until(() => abReady && !pending, 12000);
+      say('Compara el antes y el después', 3, N);
+      await sleep(200);
+      await tap($('ab-a'), 460); await until(() => !pending, 4000);
+      say('Pide cita con lo que has visto', 4, N);
+      await moveTo($('cita'), 520);
+      $('cita').classList.add('pulse'); await sleep(850); live(); $('cita').classList.remove('pulse');
+      say('Precios y dudas, en el Taller', 5, N);
+      await tap($('back-btn'), 480); await until(() => cat === null, 3000); await sleep(520);   // el dedo va al Taller mientras la cámara se aleja
+      await moveTo($('taller-btn'), 460);
+      $('taller-btn').classList.add('pulse'); await sleep(900); live();
+      say('Ahora te toca a ti');
+      finger.classList.remove('on');
+      await sleep(1100); live();
+    } catch (e) { /* lo ha cortado el cliente */ }
+    endDemo();
+  }
+  function endDemo() {
+    if (!demo) return;
+    demo.stop = true; demo = null; tempo = 1;
+    finger.classList.remove('on', 'tap'); fpx = fpy = null;
+    $('cita').classList.remove('pulse'); $('taller-btn').classList.remove('pulse');
+    hideIsland(); seenDemo();
+  }
+  $('isl-x').onclick = endDemo;
+  phone.addEventListener('pointerdown', e => { if (demo && e.isTrusted && !e.target.closest('#isl-x')) endDemo(); }, true);
+  // La rueda también lo corta, salvo la inercia del gesto con el que se ha entrado
+  addEventListener('wheel', e => { if (demo && e.isTrusted && performance.now() > demo.t0 + 1600) endDemo(); }, { passive: true });
+  $('demo-btn').onclick = () => { closeSheet(); setTimeout(runDemo, 500); };
+
   // ── Pantalla de inicio: cuando todo está cargado se pide deslizar hacia arriba (o tocar) para empezar ──
   let introLock = 0;
   function ready2start() {
@@ -1534,6 +2156,7 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
       phone.classList.remove('loading');
       loading = false;
       paintInfo();
+      setTimeout(() => { if (wantDemo()) (reduce ? hint() : runDemo()); }, 850);
       phone.removeEventListener('touchstart', ts); phone.removeEventListener('touchmove', tm);
       removeEventListener('wheel', wh); removeEventListener('keydown', kd);
     };
@@ -1559,6 +2182,7 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
   // Los fotogramas de los clips se bajan después de las fotos, sin retrasar la bienvenida:
   // primero uno de cada 8 de cada clip, luego los intermedios, de 6 en 6
   function loadClips() {
+    sprite('pulidora'); sprite('pulidora-acabado'); sprite('cepillo');   // las herramientas de las animaciones, listas antes de que hagan falta
     if (!VIDEO) return;
     const todo = [], seen = new Set();
     for (const step of [8, 4, 2, 1])
