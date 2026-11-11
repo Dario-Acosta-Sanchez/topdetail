@@ -831,6 +831,16 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
 .contact .off { opacity: .55; }
 .tab-p > .hero + section, .tab-p > section:first-child { border-top: 0; }
 .tab-p > section:first-child { padding-top: 6px; }
+/* En un móvil la web ocupa SIEMPRE todo el ancho. Antes el ancho se limitaba a la mitad del alto, y con la barra
+   del navegador (o en móviles más anchos) quedaban franjas negras a los lados. */
+@media (max-width: 600px), (pointer: coarse) and (orientation: portrait) { .phone { width: 100%; } }
+/* Pantallas bajas (la foto ya no cabe entera): la foto sube para que el coche no quede bajo la ficha, y la ficha se compacta */
+@media (max-width: 600px), (pointer: coarse) and (orientation: portrait) {
+  .layer, .seq { top: max(-9cqh, min(calc((100cqh - var(--img-h)) * 1.6), calc((100cqh - var(--img-h)) * .3))); }
+}
+@media (min-aspect-ratio: 9/16) and (max-width: 600px) {
+  #phone h1 { font-size: 27px; } #phone .desc { font-size: 14px; line-height: 1.4; } #phone .spec li:not(.hot) { display: none; }
+}
 </style>
 </head>
 <body>
