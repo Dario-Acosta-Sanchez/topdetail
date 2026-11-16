@@ -3,6 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script id="td-version">
+// Una sola dirección para todo: en ordenador o tablet se carga la versión de ordenador (pc/, generada con mkpc.py).
+// Es móvil si la ventana es estrecha y vertical, o si es una pantalla táctil pequeña (un móvil girado sigue siendo móvil).
+// ?movil fuerza la del móvil y ?pc la de ordenador (para probar).
+(function () {
+  var q = location.search, movil = (innerWidth < 700 && innerHeight > innerWidth) || (matchMedia('(pointer: coarse)').matches && Math.min(screen.width, screen.height) < 600);
+  if (/[?&]pc\b/.test(q) || (!movil && !/[?&]movil\b/.test(q))) location.replace('pc/' + q + location.hash);
+})();
+</script>
 <meta name="description" content="Top Detail Garage, detailing en Fernán Núñez (Córdoba): limpieza, tintado, pulido, cerámico y extras. Míralo en acción.">
 <meta name="theme-color" content="#060708">
 <meta name="robots" content="noindex">
