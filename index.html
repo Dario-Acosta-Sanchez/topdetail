@@ -797,6 +797,10 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
 }
 #phone .side.l .dock button.star svg { width: 24px; height: 24px; }
 #phone .side.s .dock button { width: 76px; }
+#phone .side.s .dock:has(> :nth-child(5)) button { width: 66px; font-size: 9.5px; letter-spacing: .06em; }
+#phone .side.s .dock button.soon { position: relative; }
+#phone .side.s .dock .pronto { position: absolute; top: -7px; left: 50%; translate: -50% 0; padding: 2px 6px 1px; border-radius: 999px; background: #fff; color: #111;
+  font: 800 7.5px/1.2 var(--ui); letter-spacing: .12em; text-transform: uppercase; font-style: normal; white-space: nowrap; pointer-events: none; }
 #phone .side.s .dock button[aria-current="true"] { background: var(--red); color: #fff; }
 #phone .side.s > p { display: none; }
 /* Los apartados de información, debajo y en píldoras con su nombre completo */
@@ -1190,6 +1194,51 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
 .xp.stories button i { width: 42px; height: 42px; }
 
 #phone h1 { }
+
+/* ══ Servicios y precios · «Elige tu nivel» (propuesta 4 de topdetail-variantes/info, elegida por Javi el 16-11) ══ */
+.sv-host { padding-top: 12px !important; }
+.v4-c { margin: 0 0 16px; border-radius: 22px; overflow: hidden; background: linear-gradient(170deg, rgba(255,255,255,.07), rgba(255,255,255,.02) 60%); border: 1px solid rgba(255,255,255,.1);
+  box-shadow: 0 16px 34px rgba(0,0,0,.45); opacity: 0; transform: translateY(24px) scale(.98); transition: opacity .55s, transform .65s cubic-bezier(.2,.8,.2,1); }
+.v4-c.in { opacity: 1; transform: none; }
+.v4-ph { position: relative; height: 160px; overflow: hidden; background: #111; }
+.v4-ph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 58%; opacity: 0; transform: scale(1.08); transition: opacity .6s, transform 1.4s cubic-bezier(.2,.8,.2,1); }
+.v4-ph img.on { opacity: 1; transform: none; }
+.v4-ph::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(14,11,11,.95), rgba(6,5,5,0) 60%); }
+.v4-t { position: absolute; z-index: 1; left: 14px; bottom: 10px; display: flex; align-items: center; gap: 9px; font: 600 28px/1 var(--display); color: #fff; }
+.v4-t svg { width: 20px; height: 20px; padding: 7px; box-sizing: content-box; border-radius: 50%; background: rgba(232,25,44,.6); fill: none; stroke: #fff; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+.v4-seg { position: relative; display: flex; margin: 12px 12px 0; padding: 4px; border-radius: 14px; background: rgba(0,0,0,.45); border: 1px solid rgba(255,255,255,.08); overflow-x: auto; scrollbar-width: none; isolation: isolate; }
+.v4-seg::-webkit-scrollbar { display: none; }
+.v4-seg button { flex: 1 0 auto; position: relative; z-index: 1; height: 38px; padding: 0 12px; border: 0; background: none; color: rgba(255,255,255,.62); font: 700 14px/1 var(--ui); white-space: nowrap; cursor: pointer; transition: color .3s; }
+.v4-seg button[aria-checked="true"] { color: #fff; }
+.v4-knob { position: absolute; z-index: 0; left: 0; top: 4px; height: 38px; border-radius: 10px; background: var(--red); box-shadow: 0 6px 16px rgba(232,25,44,.45); transition: transform .45s cubic-bezier(.3,1.3,.5,1), width .35s; }
+.v4-info { padding: 14px 16px 16px; }
+.v4-info.anim > * { animation: v4in .45s both cubic-bezier(.2,.8,.2,1); }
+.v4-info.anim > :nth-child(2) { animation-delay: .06s; } .v4-info.anim > :nth-child(3) { animation-delay: .12s; }
+@keyframes v4in { from { opacity: 0; transform: translateY(10px); } }
+.v4-row { display: flex; align-items: flex-start; gap: 12px; }
+.v4-row > div { flex: 1; min-width: 0; }
+.v4-row > div > b { display: block; font: 700 19px/1.15 var(--ui); color: #fff; }
+.v4-row b i { font-style: normal; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; padding: 2px 6px; border-radius: 6px; background: var(--red); vertical-align: 3px; }
+.v4-row > div > span { display: block; margin-top: 3px; font-size: 14px; line-height: 1.3; color: rgba(255,255,255,.68); }
+.v4-row .pr { flex: none; text-align: right; font: 800 26px/1 var(--ui); color: #fff; white-space: nowrap; }
+.v4-row .pr small { display: block; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--red-ink); margin-bottom: 3px; }
+.v4-row .pr.ask { font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: #ffc2c7; padding-top: 4px; }
+.v4-feat { list-style: none; margin: 12px 0 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.v4-feat li { display: flex; align-items: center; gap: 7px; font-size: 13px; line-height: 1.2; color: rgba(255,255,255,.85); }
+.v4-feat li::before { content: "✓"; flex: none; width: 20px; height: 20px; display: grid; place-items: center; border-radius: 50%; font-size: 11px; font-weight: 800; background: var(--red); color: #fff;
+  animation: v4tick .4s var(--d) both cubic-bezier(.3,1.6,.5,1); }
+.v4-feat li.v4n { color: rgba(255,255,255,.35); text-decoration: line-through; }
+.v4-feat li.v4n::before { content: "–"; background: rgba(255,255,255,.1); color: rgba(255,255,255,.4); }
+@keyframes v4tick { from { transform: scale(0); } }
+.v4-yrs { margin-top: 12px; }
+.v4-yrs::before { content: ""; display: block; height: 8px; border-radius: 99px; background: rgba(255,255,255,.1); }
+.v4-yrs span { display: block; height: 8px; margin-top: -8px; border-radius: 99px; background: linear-gradient(90deg, #8a0f1b, var(--red), #ff6b78); width: var(--w); animation: v4bar .8s both cubic-bezier(.2,.8,.2,1); }
+@keyframes v4bar { from { width: 0; } }
+.v4-yrs small { display: block; margin-top: 6px; font-size: 12px; color: rgba(255,255,255,.6); }
+.v4-yrs b { color: #fff; }
+.v4-info .go { width: 100%; margin-top: 14px; min-height: 44px; font-size: 12px; }
+.v4-seg[hidden] { display: none; }
+.sv b i, .sv i[class$="tag"] { white-space: nowrap; }
 </style>
 </head>
 <body>
@@ -1228,6 +1277,7 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
         <button data-cat="pulido"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>Pulido</button>
         <button data-cat="ceramico"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5.5c0 4.3-3 7.7-7 9.5-4-1.8-7-5.2-7-9.5V6z"/><path d="M9 12l2.2 2.2L15.5 10"/></svg>Cerámico</button>
         <button data-cat="extras"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="6.5" height="6.5"/><rect x="13.5" y="4" width="6.5" height="6.5"/><rect x="4" y="13.5" width="6.5" height="6.5"/><path d="M16.75 14v5.5M14 16.75h5.5"/></svg>Extras</button>
+        <button data-cat="barniz" class="soon"><svg viewBox="0 0 24 24"><path d="M4 15.5c2.5-1.6 5.5-2.4 8-2.4s5.5.8 8 2.4"/><path d="M6.5 11.2c1.7-.9 3.6-1.4 5.5-1.4s3.8.5 5.5 1.4" opacity=".55"/><path d="M12 3.5v3M8.5 4.5l1 2.5M15.5 4.5l-1 2.5"/><path d="M4 19h16"/></svg>Barniz<i class="pronto" aria-hidden="true">Pronto</i></button>
       </div>
     </nav>
 
@@ -1436,10 +1486,9 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
         <ul class="contact">
           <li><a href="tel:+34643182964"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg><span><small>Teléfono y WhatsApp</small>643 182 964</span></a></li>
           <li><a href="https://www.instagram.com/topdetail.garage/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".6"/></svg><span><small>Instagram</small>@topdetail.garage</span></a></li>
-          <li><span class="off"><svg viewBox="0 0 24 24"><path d="M14 8h3V4.5h-3A4 4 0 0 0 10 8.5V11H7.5v3.5H10V21h3.5v-6.5H16.5l.5-3.5h-3.5V9a1 1 0 0 1 1-1z"/></svg><span><small>Facebook</small>Muy pronto</span></span></li>
-          <li><span class="off"><svg viewBox="0 0 24 24"><path d="M14 3v11.5a3.5 3.5 0 1 1-3.5-3.5"/><path d="M14 3c.5 2.6 2.4 4.4 5 4.6"/></svg><span><small>TikTok</small>Muy pronto</span></span></li>
+          <li><a href="https://www.facebook.com/TopDetail.Garage/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M14 8h3V4.5h-3A4 4 0 0 0 10 8.5V11H7.5v3.5H10V21h3.5v-6.5H16.5l.5-3.5h-3.5V9a1 1 0 0 1 1-1z"/></svg><span><small>Facebook</small>TopDetail.Garage</span></a></li>
+          <li><a href="https://www.tiktok.com/@topdetail.garage" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M14 3v11.5a3.5 3.5 0 1 1-3.5-3.5"/><path d="M14 3c.5 2.6 2.4 4.4 5 4.6"/></svg><span><small>TikTok</small>@topdetail.garage</span></a></li>
         </ul>
-        <span class="pending">Pendiente: enlaces de Facebook y TikTok</span>
       </section>
       <section data-tab="ubicacion" data-o="1">
         <h3 class="reveal"><small>Fernán Núñez · Córdoba</small>Dónde <b>estamos.</b></h3>
@@ -1488,7 +1537,7 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
 <script>
 (() => {
   // IMGV: súbelo cada vez que cambien fotos con el mismo nombre, para que el navegador no enseñe las viejas de su caché
-  const IMGV = 3;
+  const IMGV = 4;
   const img = n => `img/${n}.webp?v=${IMGV}`;
   const W = 'https://wa.me/34643182964?text=';
   const SUCIO = '01-intro_porsche_sucio', LIMPIO = '00-base_porsche_limpio';
@@ -1523,11 +1572,18 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
       ...[[3, 'Gloss'], [5, 'G-Finity CNT'], [7, 'G-Finity CNT+']].map(([y, m]) => o(`Cerámico ${y} años`, `${y} años`, 'Recubrimiento que *repele* el agua, la suciedad y los rayos UV.', '03-correccion_pintura_2pasos', '04-ceramica_perlado', 'macro', { la: 'Sin proteger', lb: 'Con cerámico', clip: 'ceramico', years: y, model: m })),
     ]},
     extras: { label: 'Extras', groups: ['Interior', 'Exterior', 'Si hace falta'], serv: true, clip: 'extras', opts: [] },
+    // Próximamente (17-11): se ve en acción, pero sin precio ni «A mi cita»
+    barniz: { label: 'Restauración del barniz', head: 'Proceso', evo: true, serv: true, soon: true, opts: [
+      o('Barniz quemado', 'Inicio', 'El sol y los años *queman el barniz*: se cuartea, se pela y la pintura pierde su color.', '07-barniz_quemado', '07-barniz_quemado', 'barniz', { still: true }),
+      o('Lijado', 'Lijado', 'Lijamos hasta dejar una base *lisa y uniforme*, sin placas sueltas ni bordes.', '07-barniz_quemado', '07-barniz_lijado', 'barniz', { la: 'Quemado', lb: 'Lijado', fx: [['polish', '07-barniz_lijado']] }),
+      o('Barniz nuevo', 'Barniz', 'Aplicamos *barniz nuevo* en capas finas: vuelve la profundidad del negro.', '07-barniz_lijado', '07-barniz_producto', 'barniz', { la: 'Lijado', lb: 'Barnizado', tr: 'curtain' }),
+      o('Acabado final', 'Acabado', 'Pulido final: *brillo espejo* y la pintura protegida como el primer día.', '07-barniz_producto', '07-barniz_nuevo', 'barniz', { la: 'Barnizado', lb: 'Acabado', tr: 'shine' }),
+    ]},
   };
   // Premium e integral: después del exterior, la animación sigue por el interior (cada paso, su antes y su después)
   const INT = n => ({ n: n[0].toUpperCase() + n.slice(1), a: `06-limpieza_int_${n}_antes`, b: `06-limpieza_int_${n}_despues`, frame: 'int-' + n });
   CATS.limpieza.opts.forEach((x, k) => { if (k) x.tour = [{ n: 'Exterior', a: x.a, b: x.b, frame: x.frame }, ...(k === 1 ? ['asientos', 'puertas'] : ['asientos', 'puertas', 'suelo', 'techo']).map(INT)]; });
-  CATS.limpieza.page = 'detallado'; CATS.pulido.page = 'pulido'; CATS.ceramico.page = 'ceramico'; CATS.extras.page = 'precios'; CATS.tintado.page = 'precios';
+  CATS.limpieza.page = 'detallado'; CATS.pulido.page = 'pulido'; CATS.ceramico.page = 'ceramico'; CATS.extras.page = 'precios'; CATS.tintado.page = 'precios'; CATS.barniz.page = 'precios';
   const ZONA = { interior: 'Interior', cristales: 'Cristales', motor: 'Motor', ruedas: 'Ruedas', carroceria: 'Carrocería' };
   // fam: opciones que van juntas en un solo botón (Cuero: nutrición y coating; Hidratación: neumáticos, pasos de rueda y gomas)
   const FAM = { cuero: 'Cuero', hidra: 'Hidratación' };
@@ -1588,6 +1644,7 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
     'suciedad-extrema': ['Aspirado industrial', 'Inyección-extracción', 'Con suplemento'], 'pelo-de-perro': ['Cepillo de goma', 'Aspirado', 'Con suplemento'],
   };
   CATS.extras.opts.forEach(x => { const n = x.frame; if (XSPEC[n]) x.spec = XSPEC[n]; });
+  CATS.barniz.opts.forEach(x => { x.price = '*Próximamente* · pregúntanos por WhatsApp'; });
   // Lista sencilla de servicios del taller; go = sección e índice para verlo en acción (null: aún sin fotos)
   const xi = n => CATS.extras.opts.findIndex(x => x.frame === n);
   const SVC = [
@@ -1622,6 +1679,7 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
       ['Pulido de negro piano', 'Pilares, molduras y consola, sin hologramas.', ['extras', xi('negro-piano')]],
       ['Cera rápida', 'Brillo húmedo y repelencia en minutos.', ['extras', xi('cera-rapida')]],
     ]],
+    ['Restauración del barniz', [['Restauración del barniz', 'Barniz quemado o pelado: lijado, barniz nuevo y pulido final.', ['barniz', 1], 'Próximamente']]],
     ['Top Detail Report™', [['Informe y seguimiento', 'Incluido en pulidos y cerámicos; en las limpiezas, opcional.', 'report', '+10 €'], ['Bonos de mantenimiento', 'Visitas periódicas con su registro en el informe.', 'packs']]],
   ];
   const $ = id => document.getElementById(id);
@@ -1819,7 +1877,7 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
   }
   function paintAdd() {
     const b = $('add'), on = cat !== null && seen.includes(`${cat}:${opt}`);
-    b.hidden = cat === null || !!(CATS[cat].opts[opt] || {}).still; b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on));
+    b.hidden = cat === null || !!CATS[cat].soon || !!(CATS[cat].opts[opt] || {}).still; b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on));
     b.lastChild.textContent = on ? 'En tu cita' : 'A mi cita';
     b.setAttribute('aria-label', on ? 'Quitar de mi cita' : 'Añadir a mi cita');
   }
@@ -2164,6 +2222,7 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
     'Cerámico': '<path d="M12 3l7 3v5.5c0 4.3-3 7.7-7 9.5-4-1.8-7-5.2-7-9.5V6z"/><path d="M9 12l2.2 2.2L15.5 10"/>',
     'Tintado de lunas': '<path d="M3 16l3-7h9l5 7z"/><path d="M8 16l2-5M12 16l1.5-5" opacity=".55"/>',
     'Top Detail Report™': '<path d="M6 3.5h9l3 3V20.5H6z"/><path d="M9 10h6M9 13.5h6M9 17h4"/>',
+    'Restauración del barniz': '<path d="M4 15.5c2.5-1.6 5.5-2.4 8-2.4s5.5.8 8 2.4"/><path d="M6.5 11.2c1.7-.9 3.6-1.4 5.5-1.4s3.8.5 5.5 1.4" opacity=".55"/><path d="M12 3.5v3M8.5 4.5l1 2.5M15.5 4.5l-1 2.5"/><path d="M4 19h16"/>',
   };
   const EXTRA = '<rect x="4" y="4" width="6.5" height="6.5"/><rect x="13.5" y="4" width="6.5" height="6.5"/><rect x="4" y="13.5" width="6.5" height="6.5"/><path d="M16.75 14v5.5M14 16.75h5.5"/>';
   $('svc-list').innerHTML = SVC.map(([g, items]) => `<div class="svc-c"><p class="svc-g">${SVG(ICON[g] || EXTRA)}<span>${esc(g)}</span></p><ul class="svc">${items.map(([n, d, go, pr]) =>
@@ -2939,7 +2998,7 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
     all.forEach(n => { const i = new Image(); i.onload = i.onerror = () => { if (++loaded === all.length) loadClips(); }; i.src = img(n); photos[n] = i; });
     front.src = img(LIMPIO);
     ready(front).then(() => {
-      front.style.opacity = 1; sweep.style.opacity = 1;
+      front.style.opacity = 0;   // 16-11: sin barrido; el coche limpio aparece fundido sobre el sucio mientras se enfoca
       let shown = 0;
       const tick = now => {
         const real = loaded / all.length;
@@ -2947,12 +3006,10 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
         const target = Math.min(real, time);
         shown += (target - shown) * (reduce ? 1 : .09);
         if (target === 1 && shown > .996) shown = 1;
-        const w = phone.clientWidth;
-        front.style.clipPath = `inset(0 ${(1 - shown) * 100}% 0 0)`;
+        front.style.opacity = shown.toFixed(3);
         // el coche llega desenfocado y se va enfocando con la carga
         const bl = reduce ? '' : `blur(${((1 - shown) ** 1.5 * 16).toFixed(1)}px)`;
         back.style.filter = front.style.filter = bl ? `contrast(1.06) saturate(.88) brightness(.94) ${bl}` : '';
-        sweep.style.transform = `translateX(${shown * w}px)`;
         $('bar').style.transform = `scaleX(${shown})`;
         $('pct').textContent = Math.round(shown * 100) + ' %';
         if (shown < 1) return requestAnimationFrame(tick);
@@ -3048,6 +3105,107 @@ h1 { font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: .01em;
   }
   // ?x: abre directamente los Extras (para las capturas del comparador)
   if (/[?&]x\b/.test(location.search)) { const iv = setInterval(() => { if (!$('start').hidden) { clearInterval(iv); $('start').click(); setTimeout(() => { if (xopen) xbox.classList.add('closed'); play('extras', 0); }, 900); } }, 150); }
+
+  // ══ Servicios y precios · «Elige tu nivel» (propuesta 4, elegida por Javi el 16-11; datos en SV, más abajo) ══
+
+  // ══ Servicios (13-11): datos comunes a las 5 propuestas, con el texto recortado ══
+  // go: 'cat:i' cierra la hoja y lo enseña en acción; 'packs' / 'report' abre esa página (lo maneja el listener de #svc-list)
+  const SV = (() => {
+    const e = k => 'extras:' + xi(k);
+    return [
+      { k: 'limpieza', t: 'Limpieza', ic: ICON['Limpieza'], ph: '06-limpieza_premium', lead: 'Las tres, por dentro y por fuera.', it: [
+        { n: 'Básica', d: 'Interior y exterior al detalle. Sin tapicería.', p: 70, pre: 'desde', go: 'limpieza:0', ph: '06-limpieza_basico', inc: [1, 1, 0, 0] },
+        { n: 'Premium', tag: 'Top ventas', d: 'Lo de la básica + tapicería de los asientos.', p: 100, pre: 'desde', go: 'limpieza:1', ph: '06-limpieza_premium', inc: [1, 1, 1, 0] },
+        { n: 'Integral', d: 'Lo de la premium + moqueta y techo.', p: 130, pre: 'desde', go: 'limpieza:2', ph: '06-limpieza_integral', inc: [1, 1, 1, 1] },
+      ], feats: ['Exterior al detalle', 'Interior al detalle', 'Tapicería de asientos', 'Moqueta y techo'] },
+      { k: 'pulido', t: 'Pulido', ic: ICON['Pulido'], ph: '03-correccion_pintura_2pasos', lead: 'Fuera remolinos y microarañazos.', it: [
+        { n: '1 paso', d: 'Swirls ligeros fuera. Más brillo.', p: 220, p2: 300, go: 'pulido:1', ph: '03-correccion_pintura_1paso' },
+        { n: '2 pasos', tag: 'Acabado espejo', d: 'Defectos medios y fuertes. Acabado espejo.', p: 350, p2: 450, go: 'pulido:2', ph: '03-correccion_pintura_2pasos' },
+      ] },
+      { k: 'ceramico', t: 'Cerámico', ic: ICON['Cerámico'], ph: '04-ceramica_perlado', lead: 'Sella la pintura y el agua resbala.', it: [
+        { n: '3 años', d: 'FX Protect Gloss · cerámico', p: 150, pre: 'desde', go: 'ceramico:0', ph: '04-ceramica_perlado', y: 3 },
+        { n: '5 años', d: 'G-Finity CNT · grafeno', p: 150, pre: 'desde', go: 'ceramico:1', ph: '04-ceramica_perlado', y: 5 },
+        { n: '7 años', tag: 'Máxima', d: 'G-Finity CNT+ · grafeno', p: 150, pre: 'desde', go: 'ceramico:2', ph: '04-ceramica_perlado', y: 7 },
+        { n: 'Mantenimiento', d: 'Lavado exterior al mes + booster.', p: 20, suf: '/ lavado', go: 'packs', ph: '04-ceramica_mantenimiento' },
+      ] },
+      { k: 'tintado', t: 'Tintado', ic: ICON['Tintado de lunas'], ph: '02-tintado_lunas_30', lead: 'Lunas traseras, a tu gusto.', it: [
+        { n: 'Lunas traseras', d: 'Lámina del 50, 30 o 5 %.', go: 'tintado:0', ph: '02-tintado_lunas_30' },
+      ] },
+      { k: 'extras', t: 'Extras', ic: EXTRA, ph: '05-extras_interior_cuero_despues', lead: 'El toque final, dentro y fuera.', it: [
+        { n: 'Tapicería', g: 'Interior', d: 'Inyección-extracción de asientos, moqueta y techo.', ph: '05-extras_interior_suciedad-extrema_despues' },
+        { n: 'Ozono', g: 'Interior', d: 'Adiós a los malos olores.' },
+        { n: 'Cuero', g: 'Interior', d: 'Nutrición y coating antimanchas.', go: e('cuero'), ph: '05-extras_interior_cuero_despues' },
+        { n: 'Cinturones', g: 'Interior', d: 'Limpios y con su color original.', go: e('cinturones'), ph: '05-extras_interior_cinturones_despues' },
+        { n: 'Plásticos', g: 'Interior', d: 'Hidratados: negro profundo y protegidos del sol.', go: e('plasticos'), ph: '05-extras_interior_plasticos_despues' },
+        { n: 'Llantas', g: 'Exterior', d: 'Descontaminado, limpieza a fondo y sellado.', ph: '05-extras_ruedas_pasos-de-rueda_despues' },
+        { n: 'Motor', g: 'Exterior', d: 'Desengrasado y protegido.', go: e('vano-motor'), ph: '05-extras_motor_vano-motor_despues' },
+        { n: 'Neumáticos y gomas', g: 'Exterior', d: 'Hidratados (la limpieza ya va incluida).', go: e('neumaticos'), ph: '05-extras_ruedas_neumaticos_despues' },
+        { n: 'Cristales', g: 'Exterior', d: 'Pulidos: fuera cal y arañazos.', go: e('pulido-cristales'), ph: '05-extras_cristales_pulido-cristales_despues' },
+        { n: 'Negro piano', g: 'Exterior', d: 'Pulido, sin hologramas.', go: e('negro-piano'), ph: '05-extras_carroceria_negro-piano_despues' },
+        { n: 'Cera rápida', g: 'Exterior', d: 'Brillo húmedo en minutos.', go: e('cera-rapida'), ph: '05-extras_carroceria_cera-rapida_despues' },
+      ] },
+      { k: 'barniz', t: 'Barniz', ic: ICON['Restauración del barniz'], ph: '07-barniz_nuevo', lead: 'Barniz quemado o pelado, como nuevo.', soon: true, it: [
+        { n: 'Restauración', d: 'Lijado, barniz nuevo y pulido final.', go: 'barniz:1', ph: '07-barniz_nuevo', soon: true },
+      ] },
+      { k: 'report', t: 'Report™', ic: ICON['Top Detail Report™'], ph: '03-correccion_pintura_swirls', lead: 'El historial de tu coche, por escrito.', it: [
+        { n: 'Informe y seguimiento', d: 'Incluido en pulidos y cerámicos. En limpiezas, opcional.', p: 10, pre: '+', go: 'report' },
+        { n: 'Bonos de mantenimiento', d: 'Visitas periódicas, registradas en el informe.', go: 'packs' },
+      ] },
+    ];
+  })();
+  const svImg = n => n ? img(n) : '';
+  // Precio: «desde 70 €», «220–300 €», «20 € / lavado», «+10 €» o «Consúltanos»
+  const svPrice = (it, cls = 'pr') => it.soon ? `<span class="${cls} ask">Próximamente</span>` : it.p == null ? `<span class="${cls} ask">Consúltanos</span>` :
+    `<span class="${cls}">${it.pre && it.pre !== '+' ? `<small>${it.pre}</small> ` : ''}<b data-n="${it.p}">${it.pre === '+' ? '+' : ''}${it.p}</b>${it.p2 ? `–<b data-n="${it.p2}">${it.p2}</b>` : ''}&nbsp;€${it.suf ? ` <small>${it.suf}</small>` : ''}</span>`;
+  const svFrom = c => { if (c.soon) return 'Próximamente'; const ps = c.it.filter(i => i.p != null && i.pre !== '+' && !i.suf).map(i => i.p); const add = c.it.find(i => i.pre === '+');
+    return ps.length ? `desde ${Math.min(...ps)} €` : add ? `+${add.p} €` : 'Consúltanos'; };
+  const svGo = (it, label = 'Ver') => it.go ? `<button class="btn go" data-go="${it.go}" type="button">${label}</button>` : '';
+  // Cuenta de 0 al precio cuando aparece (los <b data-n>)
+  const svCount = root => root.querySelectorAll('b[data-n]').forEach(b => {
+    const to = +b.dataset.n, t0 = performance.now(), pre = b.textContent.startsWith('+') ? '+' : '';
+    const step = t => { const k = Math.min(1, (t - t0) / 700); b.textContent = pre + Math.round(to * (1 - Math.pow(1 - k, 3))); if (k < 1) requestAnimationFrame(step); };
+    requestAnimationFrame(step);
+  });
+  // Texto que sobra en la página: el título repetido y la nota del IVA (ya lo dice la cabecera con foto)
+  { const tp = $('tp-precios'); const s1 = tp && tp.querySelector('section'); if (s1) { s1.classList.add('sv-host'); s1.querySelectorAll(':scope > h3, :scope > .note').forEach(n => n.remove()); }
+    const h = tp && tp.querySelector('.hero > span'); if (h) h.textContent = 'Toca un servicio para verlo en acción'; }
+  const svList = $('svc-list');
+  svList.className = 'sv';
+  // ══ 4 · Elige tu nivel: una tarjeta por servicio con selector; cambia la foto, el precio sube y se marca lo que incluye ══
+  {
+    const MAXY = 7;
+    svList.innerHTML = SV.map((c, ci) => `<article class="v4-c" data-c="${ci}">
+      <div class="v4-ph">${[...new Set(c.it.map(it => it.ph || c.ph))].map(p => `<img src="${svImg(p)}" data-p="${p}" alt="" loading="lazy">`).join('')}
+        <span class="v4-t">${SVG(c.ic)}${c.t}</span></div>
+      <div class="v4-seg${c.it.length > 4 ? ' many' : ''}"${c.it.length < 2 ? ' hidden' : ''} role="radiogroup">${c.it.map((it, k) => `<button role="radio" data-k="${k}" aria-checked="${!k}">${it.n}</button>`).join('')}<i class="v4-knob"></i></div>
+      <div class="v4-info" aria-live="polite"></div>
+    </article>`).join('');
+    const paint = (card, k, first) => {
+      const c = SV[+card.dataset.c], it = c.it[k], ph = it.ph || c.ph;
+      card.querySelectorAll('.v4-ph img').forEach(im => im.classList.toggle('on', im.dataset.p === ph));
+      const bs = [...card.querySelectorAll('.v4-seg button')], b = bs[k], kn = card.querySelector('.v4-knob');
+      bs.forEach((x, j) => x.setAttribute('aria-checked', j === k));
+      kn.style.width = b.offsetWidth + 'px'; kn.style.transform = `translateX(${b.offsetLeft}px)`;
+      if (!first) b.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
+      const extra = c.feats ? `<ul class="v4-feat">${c.feats.map((f, j) => `<li class="${it.inc[j] ? 'v4y' : 'v4n'}" style="--d:${j * 70}ms">${f}</li>`).join('')}</ul>` :
+        it.y ? `<div class="v4-yrs"><span style="--w:${it.y / MAXY * 100}%"></span><small>Garantía de <b>${it.y} años</b></small></div>` : '';
+      const info = card.querySelector('.v4-info');
+      info.innerHTML = `<div class="v4-row"><div><b>${it.n}${it.tag ? ` <i>${it.tag}</i>` : ''}</b><span>${it.d}</span></div>${svPrice(it)}</div>${extra}${it.go ? svGo(it, 'Verlo en acción ▶') : ''}`;
+      info.classList.remove('anim'); void info.offsetWidth; info.classList.add('anim');
+      svCount(info);
+    };
+    const cards = [...svList.querySelectorAll('.v4-c')];
+    svList.addEventListener('click', e => { const b = e.target.closest('.v4-seg button'); if (b) paint(b.closest('.v4-c'), +b.dataset.k); });
+    // Cada tarjeta se pinta al verse; la primera, al poco, pasa sola a Premium (el más pedido) para que se vea que se mueve.
+    // En el móvil, al cerrar la hoja se olvida, y al volver a abrirla se repite.
+    const io = new IntersectionObserver(es => es.forEach(e => {
+      if (!e.isIntersecting) return; const cd = e.target; cd.classList.add('in');
+      if (!cd.dataset.on) { cd.dataset.on = 1; paint(cd, 0, true); if (cd === cards[0]) setTimeout(() => paint(cd, 1), 1100); }
+    }), { threshold: .2 });
+    cards.forEach(c => io.observe(c));
+    new MutationObserver(() => { if ($('tp-precios').hidden) cards.forEach(cd => { delete cd.dataset.on; cd.classList.remove('in'); }); }).observe($('tp-precios'), { attributes: true, attributeFilter: ['hidden'] });
+    addEventListener('resize', () => cards.forEach(cd => { if (cd.dataset.on) paint(cd, +cd.querySelector('[aria-checked="true"]').dataset.k, true); }));
+  }
 })();
 </script>
 
